@@ -8,21 +8,21 @@ public class MyCompressorOutputStream extends OutputStream
 {
 
 	private OutputStream out;
-	
+
 
 	public MyCompressorOutputStream(OutputStream out)
 	{
 		super();
 		this.out = new DataOutputStream(out);
 	}
-	
+
 
 	@Override
 	public void write(int b) throws IOException 
 	{
 		((DataOutputStream) out).writeInt(b);
 	}
-	
+
 	@Override
 	public void write(byte [] b) throws IOException
 	{
