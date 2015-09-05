@@ -71,7 +71,7 @@ public class Demo
 		System.out.print("Astar (Manhatten) algorithm has developed: ");
 		System.out.print(sManhatan.getNumberOfNodesEvaluated());
 		System.out.println(" states.");
-		System.out.print("Aster (Euclidean) algorithm has developed: ");
+		System.out.print("Astar (Euclidean) algorithm has developed: ");
 		System.out.print(sEuc.getNumberOfNodesEvaluated());
 		System.out.println(" states.");
 	}
