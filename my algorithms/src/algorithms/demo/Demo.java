@@ -54,7 +54,7 @@ public class Demo
 			} 
 			catch (Exception e) 
 			{
-				System.out.println("Ftl Erssrorr wiz maze printaion");
+				System.out.println("Ftl Erssrorr wizz maze printaion");
 			}
 		}
 		Searchable sm = new SearchableMaze(myMaze);
