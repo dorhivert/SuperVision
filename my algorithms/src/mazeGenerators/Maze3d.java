@@ -814,7 +814,7 @@ public class Maze3d
 	 * 				Start Position x, Start Position y, Start position z  
 	 * 				Finish Position x, Finish Position y, Finish position z  
 	 * 				X Value, Y Value, Z Value	
-	 * 				The Maze Values (no seperation)
+	 * 				The Maze Values (no separation)
 	 */
 	public byte[] toByteArray ()
 	{
