@@ -806,4 +806,54 @@ public class Maze3d
 		}
 		return true;
 	}
+	
+	/**
+	 * converts the maze into Byte Array
+	 *
+	 * @return the Byte Array order:
+	 * 				Start Position x, Start Position y, Start position z  
+	 * 				Finish Position x, Finish Position y, Finish position z  
+	 * 				X Value, Y Value, Z Value	
+	 * 				The Maze Values
+	 */
+	public byte[] toByteArray ()
+	{
+		int index = 0;
+		final int additionSpace = 9;
+		byte[] byteArr = new byte[(((getMaxX()+1)*(getMaxY()+1)*(getMaxZ())+1) + additionSpace)];
+		
+		byteArr[index] = (byte) this.getStartPosition().getX();
+		index++;
+		byteArr[index] = (byte) this.getStartPosition().getY();
+		index++;
+		byteArr[index] = (byte) this.getStartPosition().getZ();
+		index++;
+		byteArr[index] = (byte) this.getFinishPosition().getX();
+		index++;
+		byteArr[index] = (byte) this.getFinishPosition().getY();
+		index++;
+		byteArr[index] = (byte) this.getFinishPosition().getZ();
+		index++;
+		byteArr[index] = (byte) (this.getMaxX()+1);
+		index++;
+		byteArr[index] = (byte) (this.getMaxY()+1);
+		index++;
+		byteArr[index] = (byte) (this.getMaxZ()+1);
+		index++;
+		
+		for (int x = 0; x <= getMaxX(); x++) 
+		{
+			for (int y = 0; y <= getMaxY(); y++) 
+			{
+				for (int z = 0; z < getMaxZ(); z++) 
+				{
+					byteArr[index] = (byte) this.maze[x][y][z];
+					index++;
+				}
+			}
+		}
+		return byteArr;
+	}
 }
+
+
