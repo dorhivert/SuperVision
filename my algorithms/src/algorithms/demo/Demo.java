@@ -73,6 +73,7 @@ public class Demo
 		System.out.println(" states.");
 		System.out.print("Astar (Euclidean) algorithm has developed: ");
 		System.out.print(sEuc.getNumberOfNodesEvaluated());
-		System.out.println(" states.");
+		System.out.println(" States.");
+		
 	}
 }
