@@ -206,7 +206,7 @@ public class Maze3d
 	 *
 	 * @return the maze
 	 */
-	protected int[][][] getMaze()
+	public int[][][] getMaze()
 	{
 		return maze;
 	}
@@ -814,7 +814,9 @@ public class Maze3d
 	 */
 	public Maze3d(byte[] byteArr)
 	{
-		startPosition = new Position((int)byteArr[0], (int)byteArr[1], (int)byteArr[2]);
+	
+//		startPosition = new Position((int)byteArr[0], (int)byteArr[1], (int)byteArr[2]);
+		setStartPosition(byteArr[0], byteArr[1], byteArr[2]);
 		correntPosition = new Position(startPosition);
 		finishPosition = new Position((int)byteArr[3], (int)byteArr[4], (int)byteArr[5]);
 		setMaxX((int)byteArr[6]);
@@ -822,9 +824,9 @@ public class Maze3d
 		setMaxZ((int)byteArr[8]);
 		int index = 9;
 		maze = new int[(int)byteArr[6]][(int)byteArr[7]][(int)byteArr[8]];
-		for (int x = 0; x < byteArr.length; x++) {
-			for (int y = 0; y < byteArr.length; y++) {
-				for (int z = 0; z < byteArr.length; z++) {
+		for (int x = 0; x < (getMaxX()+1); x++) {
+			for (int y = 0; y < (getMaxY()+1); y++) {
+				for (int z = 0; z < (getMaxZ()+1); z++) {
 					setCellValue(x, y, z, byteArr[index]);
 					index++;
 				}
