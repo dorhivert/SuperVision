@@ -54,7 +54,7 @@ public class Demo
 			} 
 			catch (Exception e) 
 			{
-				System.out.println("Ftl ErRror with maze printaion");
+				System.out.println("Ftl Er with maze printaion");
 			}
 		}
 		Searchable sm = new SearchableMaze(myMaze);
