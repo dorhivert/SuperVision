@@ -11,6 +11,7 @@ public class MyServer
 	int port;
 	ServerSocket server;
 	volatile boolean stop;
+	Thread theMainServerThread;
 
 	public MyServer(int port)
 	{
