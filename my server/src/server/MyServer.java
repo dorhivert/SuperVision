@@ -1,6 +1,7 @@
 package server;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -24,25 +25,30 @@ public class MyServer
 		server = new ServerSocket(port);
 		while (!stop)
 		{
-			ServerSocket server = new ServerSocket(5400);
-			Socket someClient = server.accept();
-			//		someClient.getInputStream()
-			BufferedReader inFromClient = new BufferedReader(
-					new InputStreamReader(someClient.getInputStream()));
-			PrintWriter outToClient = new PrintWriter(
-					someClient.getOutputStream());
-			String line;
-			while (!(line = inFromClient.readLine()).equals("exit")) {
-				StringBuilder sb = new StringBuilder(line);
-				outToClient.println(sb.reverse().toString());
+			try 
+			{
+				ServerSocket server = new ServerSocket(5400);
+				Socket someClient = server.accept();
+				//		someClient.getInputStream()
+				BufferedReader inFromClient = new BufferedReader(
+						new InputStreamReader(someClient.getInputStream()));
+				PrintWriter outToClient = new PrintWriter(
+						someClient.getOutputStream());
+				String line;
+				while (!(line = inFromClient.readLine()).equals("exit")) {
+					StringBuilder sb = new StringBuilder(line);
+					outToClient.println(sb.reverse().toString());
+					outToClient.flush();
+				}
+				outToClient.println("bye");
 				outToClient.flush();
+				inFromClient.close();
+				outToClient.close();
+				someClient.close();
+
+			} catch(IOException e) 
+			{
 			}
-			outToClient.println("bye");
-			outToClient.flush();
-			inFromClient.close();
-			outToClient.close();
-			someClient.close();
-			server.close();
 		}
 	}
 	public void close() throws Exception
@@ -50,11 +56,18 @@ public class MyServer
 		stop = true;
 		server.close();
 	}
-	
+
 	public static void main (String[] args) throws Exception
 	{
+		System.out.println("SERVER SIDE");
+		System.out.println("type \"close the server\" to close" );
 		MyServer server = new MyServer(5400);
 		server.start();
-		server.close();
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		String line;
+		while (! (in.readLine()).equals("close the server"));
+		{
+			server.close();
+		}
 	}
 }
