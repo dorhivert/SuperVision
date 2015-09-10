@@ -36,7 +36,7 @@ public class Run
 		outToServer.close();
 		theServer.close();
 		{
-			
+			System.out.println("i");
 		}
 	}
 }
