@@ -15,7 +15,7 @@ public class MyServer
 	public MyServer(int port)
 	{
 		this.port = port;
-
+		stop = false;
 	}
 
 	public void start() throws Exception
@@ -47,6 +47,13 @@ public class MyServer
 	public void close() throws Exception
 	{
 		stop = true;
+		server.close();
+	}
+	
+	public static void main (String[] args) throws Exception
+	{
+		MyServer server = new MyServer(5400);
+		server.start();
 		server.close();
 	}
 }
