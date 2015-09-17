@@ -5,6 +5,7 @@ package mazeGenerators;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import states.State;
 import states.MazeState;
 
@@ -48,6 +49,54 @@ public class Maze3d
 		this.startPosition = new Position(_copyMaze.startPosition);
 		this.correntPosition = new Position(_copyMaze.correntPosition);
 		this.maze = _copyMaze.maze;
+	}
+
+	/**
+	 * Instantiates a new Maze3d with a given array of bytes
+	 *
+	 * @param byteArr an array of bytes in which a maze3d has been saved
+	 */
+	public Maze3d(byte[] byteArr)
+	{
+		int index = 0 ;
+		int startX = byteArr[index];
+		index++;
+		int startY = byteArr[index];
+		index++;
+		int startZ = byteArr[index];
+		index++;
+		startPosition = new Position(startX, startY, startZ);
+		int finishX = byteArr[index];
+		index++;
+		int finishY = byteArr[index];
+		index++;
+		int finishZ = byteArr[index];
+		index++;
+		finishPosition = new Position(finishX, finishY, finishZ);
+		correntPosition = new Position(startPosition);
+		int bigMaxX = byteArr[index];
+		index++;
+		int bigMaxY = byteArr[index];
+		index++;
+		int bigMaxZ = byteArr[index];
+		index++;
+		setMaxX(bigMaxX);
+		setMaxY(bigMaxY);
+		setMaxZ(bigMaxZ);
+		maze = new int[bigMaxX][bigMaxY][bigMaxZ];
+
+		for (int x = 0; x < bigMaxX; x++)
+		{
+			for (int y = 0; y < bigMaxY; y++) 
+			{
+				for (int z = 0; z < bigMaxZ-1; z++)
+				{
+					int tempValue = byteArr[index];
+					this.maze[x][y][z] = tempValue;
+					index++;
+				}
+			}
+		}
 	}
 
 	/**
@@ -250,7 +299,7 @@ public class Maze3d
 	 * @param z the z
 	 * @return the cell value
 	 */
-	protected int getCellValue(int x, int y, int z)
+	public int getCellValue(int x, int y, int z)
 	{
 		return this.maze[x][y][z];
 	}
@@ -317,7 +366,7 @@ public class Maze3d
 		if (isMoveLegal(6))
 			this.correntPosition.setZ(this.correntPosition.getZ()-1);
 	}
-	
+
 	/**
 	 * private method to ensure in bounds only moves
 	 * Checks if is in bounds
@@ -582,7 +631,7 @@ public class Maze3d
 			return true;
 		else return false;
 	}
-	
+
 	/**
 	 * Builds the all walls.
 	 */
@@ -807,36 +856,7 @@ public class Maze3d
 		return true;
 	}
 
-	/**
-	 * Instantiates a new Maze3d with a given array of bytes
-	 *
-	 * @param byteArr an array of bytes in which a maze3d has been saved
-	 */
-	public Maze3d(byte[] byteArr)
-	{
-	
-//		startPosition = new Position((int)byteArr[0], (int)byteArr[1], (int)byteArr[2]);
-		setStartPosition(byteArr[0], byteArr[1], byteArr[2]);
-		correntPosition = new Position(startPosition);
-		finishPosition = new Position((int)byteArr[3], (int)byteArr[4], (int)byteArr[5]);
-		setMaxX((int)byteArr[6]);
-		setMaxY((int)byteArr[7]);
-		setMaxZ((int)byteArr[8]);
-		int index = 9;
-		maze = new int[(int)byteArr[6]][(int)byteArr[7]][(int)byteArr[8]];
-		for (int x = 0; x < (getMaxX()+1); x++) {
-			for (int y = 0; y < (getMaxY()+1); y++) {
-				for (int z = 0; z < (getMaxZ()+1); z++) {
-					setCellValue(x, y, z, byteArr[index]);
-					index++;
-				}
-			}
-		}
-		
-	}
 
-
-	
 	/**
 	 * converts the maze into Byte Array
 	 *
@@ -851,7 +871,7 @@ public class Maze3d
 		int index = 0;
 		final int additionSpace = 9;
 		byte[] byteArr = new byte[(((getMaxX()+1)*(getMaxY()+1)*(getMaxZ())+1) + additionSpace)];
-		
+
 		byteArr[index] = (byte) this.getStartPosition().getX();
 		index++;
 		byteArr[index] = (byte) this.getStartPosition().getY();
@@ -870,7 +890,7 @@ public class Maze3d
 		index++;
 		byteArr[index] = (byte) (this.getMaxZ()+1);
 		index++;
-		
+
 		for (int x = 0; x <= getMaxX(); x++) 
 		{
 			for (int y = 0; y <= getMaxY(); y++) 
@@ -883,6 +903,39 @@ public class Maze3d
 			}
 		}
 		return byteArr;
+	}
+
+	/**
+	 * checks if two mazes are equal
+	 *
+	 */
+	public boolean equals(Maze3d IsEqual)
+	{
+		if (this == IsEqual)
+			return true;
+		if (IsEqual == null)
+			return false;
+		if (getClass() != IsEqual.getClass())
+			return false;
+		if ((this.getMaxX() != IsEqual.getMaxX()) || (this.getMaxY() != IsEqual.getMaxY()) || (this.getMaxZ() != IsEqual.getMaxZ()) ) 
+		{
+			return false;
+		}
+		 boolean flag = true;
+		  for (int x = 0; x < this.getMaxX(); x++) 
+		  {
+			for (int y = 0; y < this.getMaxY(); y++)
+			{
+				for (int z = 0; z < this.getMaxZ(); z++)
+				{
+					if ((this.getCellValue(x, y, z)) != (IsEqual.getCellValue(x, y, z))) 
+					{
+						flag = false;
+					}
+				}
+			}
+		  }
+		  return flag;
 	}
 }
 

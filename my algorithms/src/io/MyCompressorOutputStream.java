@@ -22,6 +22,7 @@ public class MyCompressorOutputStream extends OutputStream
 	{
 		((DataOutputStream) out).writeInt(b);
 	}
+	
 
 	@Override
 	public void write(byte [] b) throws IOException
@@ -40,7 +41,7 @@ public class MyCompressorOutputStream extends OutputStream
 			{
 				out.write(previousByte);
 				out.write(counter);
-				out.write(',');
+			//	out.write(',');
 				counter = 1;
 				previousByte = b[i];
 			}
