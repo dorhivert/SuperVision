@@ -84,9 +84,9 @@ public class MyServer
 		MyServer server = new MyServer(5400, new MyClientHandler(), 10);
 		server.start();
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		while (! (in.readLine()).equals("close the server"));
-		{
-			server.close();
-		}
+//		while (! (in.readLine()).equals("close the server"));
+//		{
+//		}
+//		server.close();
 	}
 }
