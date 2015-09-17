@@ -87,34 +87,21 @@ public class Demo
 		  Maze3d maze = mg.generate(15, 15, 15) ; 
 		  // save it to a file
 		  OutputStream out=new MyCompressorOutputStream( new FileOutputStream("1.maz"));
+		//  OutputStream out= new FileOutputStream("1.maz");
 		  out.write(maze.toByteArray());
 		  out.flush();
 		  out.close();
 		  InputStream in=new MyDecompressorInputStream( new FileInputStream("1.maz"));
-		  byte b[]=new byte[maze.toByteArray().length];
+		//  InputStream in=new FileInputStream("1.maz");
+		  byte[] b=new byte[maze.toByteArray().length];
 		  in.read(b);
 		  in.close();  
+		//  Maze3d loaded2=new Maze3d(b);
 		  Maze3d loaded=new Maze3d(b);
-		  System.out.println(loaded.equals(maze));
-//		  boolean flag = true;
-//		  for (int x = 0; x < maze.getMaze().length; x++) 
-//		  {
-//			for (int y = 0; y < maze.getMaze()[x].length; y++)
-//			{
-//				for (int z = 0; z < maze.getMaze()[x][y].length; z++)
-//				{
-//					if (maze.getMaze()[x][y][z]!=loaded.getMaze()[x][y][z]) 
-//					{
-//						flag = false;
-//					}
-//				}
-//			}
-//		  }
-//		  System.out.println(flag);
-
+//		  System.out.println(loaded.equals(maze));
+		 boolean flag = true;
+		 flag = maze.equals(loaded);
+		  System.out.println(flag);
 	}
-
-
-
 }
 

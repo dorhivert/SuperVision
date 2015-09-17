@@ -5,7 +5,9 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class MyDecompressorInputStream extends InputStream {
+public class MyDecompressorInputStream extends InputStream 
+{
+	
 
 	InputStream in;
 	
@@ -28,7 +30,7 @@ public class MyDecompressorInputStream extends InputStream {
 	{
 		int length = in.available();
 		int value, number,total_index = 0;
-		while(in.available()<4)
+		while(in.available() > 4)
 		{
 			value = in.read(); // the current value to add
 			number = in.read(); // the number of values to add
