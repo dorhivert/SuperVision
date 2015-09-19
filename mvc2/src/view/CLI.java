@@ -7,13 +7,28 @@ import java.util.HashMap;
 
 import controller.Command;
 
+/**
+ * The Class CLI.
+ */
 public class CLI extends Thread
 {
 
+	/** The in. */
 	BufferedReader in;
+	
+	/** The out. */
 	PrintWriter out;
+	
+	/** The command map. */
 	HashMap<String,Command> commandMap;
 
+	/**
+	 * Instantiates a new cli.
+	 *
+	 * @param _in the _in
+	 * @param _out the _out
+	 * @param _cm the _cm
+	 */
 	public CLI (BufferedReader _in, PrintWriter _out, HashMap<String,Command> _cm)
 	{
 		this.in = _in;
@@ -21,6 +36,9 @@ public class CLI extends Thread
 		this.commandMap = _cm;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Thread#start()
+	 */
 	public void start()
 	{
 		new Thread(new Runnable()

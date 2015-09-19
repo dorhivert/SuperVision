@@ -7,8 +7,18 @@ import view.View;
 import controller.Controller;
 import controller.MyController;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Run.
+ */
 public class Run 
 {
+	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) 
 	{
 		Controller controller = new MyController();

@@ -8,29 +8,47 @@ import solution.Solution;
 import mazeGenerators.Maze3d;
 import controller.Controller;
 
+/**
+ * The Class MyView.
+ */
 public class MyView extends CommonView 
 {
 
+	/** The cli. */
 	CLI cli;
 	
+	/**
+	 * Instantiates a new my view.
+	 *
+	 * @param controller the controller
+	 */
 	public MyView(Controller controller)
 	{
 		super(controller);
 		this.cli = new CLI(new BufferedReader(new InputStreamReader(System.in)), new PrintWriter(System.out), this.getController().getMap());
 	}
 
+	/* (non-Javadoc)
+	 * @see view.View#start()
+	 */
 	@Override
 	public void start()
 	{
 		this.cli.start();
 	}
 
+	/* (non-Javadoc)
+	 * @see view.View#writeToConsole(java.lang.String)
+	 */
 	@Override
 	public void writeToConsole(String userInput)
 	{
 		System.out.println(userInput);
 	}
 	
+	/* (non-Javadoc)
+	 * @see view.View#displayCrossSection(int[][])
+	 */
 	@Override
 	public void displayCrossSection (int[][] crossSection)
 	{
@@ -53,6 +71,9 @@ public class MyView extends CommonView
 		System.out.println();
 	}
 	
+	/* (non-Javadoc)
+	 * @see view.View#displayMazeSize(java.lang.String, double)
+	 */
 	@Override
 	public void displayMazeSize(String name, double mazeSize)
 	{
@@ -62,6 +83,9 @@ public class MyView extends CommonView
 		System.out.println(mazeSize);
 	}
 	
+	/* (non-Javadoc)
+	 * @see view.View#displayFileSize(java.lang.String, double)
+	 */
 	@Override
 	public void displayFileSize(String name, double fileSize)
 	{
@@ -72,12 +96,18 @@ public class MyView extends CommonView
 	}
 	
 
+	/* (non-Javadoc)
+	 * @see view.View#displaySolution(solution.Solution)
+	 */
 	@Override
 	public void displaySolution(Solution s)
 	{
 		s.print();
 	}
 
+	/* (non-Javadoc)
+	 * @see view.View#displayDirectory(java.lang.String[])
+	 */
 	@Override
 	public void displayDirectory(String[] path) 
 	{
@@ -88,6 +118,9 @@ public class MyView extends CommonView
 		}	
 	}
 
+	/* (non-Javadoc)
+	 * @see view.View#displayMaze(mazeGenerators.Maze3d)
+	 */
 	@Override
 	public void displayMaze(Maze3d maze)
 	{
