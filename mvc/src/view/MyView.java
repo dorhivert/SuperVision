@@ -9,11 +9,37 @@ import mazeGenerators.Maze3d;
 import solution.Solution;
 
 public class MyView extends CommonView {
-
+	CLI cli;
+	
+	
+	
+	
 	public MyView(Controller controller, CLI cli) {
 		super(controller, cli);
 		this.cli = new CLI(new BufferedReader(new InputStreamReader(System.in)),new PrintWriter(System.out), this.getController().getMap());
 	}
+	
+	
+	public void setCLI(CLI cli)
+	{
+		this.cli = cli;
+	}
+	public CLI getCLI()
+	{
+		return cli;
+	}
+	
+	@Override
+	public void start() {
+		cli.start();
+	}
+
+	@Override
+	public void writeToConsole(String s) {
+		cli.out.println(s);
+		System.out.println(s);
+	}
+
 	@Override
 	public void displayCrossSection(int[][] crossSection)
 	{
