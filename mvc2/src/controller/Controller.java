@@ -19,10 +19,11 @@ public interface Controller
 	
 	public void displayMaze (String name);
 	
-	public void displayCrossSection (String name, int index, int level);
+	public void getCrossSection (String name, int index, char xyz);
 	
 	public void displayMazeSize(String name);
 	
 	public void displayFileSize(String name);
+
 	
 }
