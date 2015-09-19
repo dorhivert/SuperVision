@@ -19,6 +19,7 @@ import mazeGenerators.MyMaze3dGenerator;
 import controller.Controller;
 import controller.MyController;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class MyModel.
  */
@@ -35,6 +36,9 @@ public class MyModel extends CommonModel
 		super(controller);
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Model#getFilesInDirectory(java.lang.String)
+	 */
 	@Override
 	public String[] getFilesInDirectory(String path)
 	{
@@ -48,6 +52,9 @@ public class MyModel extends CommonModel
 		return fileNames;
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Model#generate3dMaze(java.lang.String, int)
+	 */
 	@Override
 	public void generate3dMaze(String name, int size)
 	{
@@ -66,6 +73,9 @@ public class MyModel extends CommonModel
 
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Model#getCrossSection(char, int, java.lang.String)
+	 */
 	@Override
 	public int[][] getCrossSection(char xyz, int index, String name)
 	{
@@ -97,6 +107,9 @@ public class MyModel extends CommonModel
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Model#saveMaze(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void saveMaze(String mazeName, String fileName) 
 	{
@@ -111,11 +124,13 @@ public class MyModel extends CommonModel
 		} 
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Model#loadMaze(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public Maze3d loadMaze(String mazeName, String fileName)
 	{
@@ -139,18 +154,27 @@ public class MyModel extends CommonModel
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Model#calcMazeSize(java.lang.String)
+	 */
 	@Override
 	public double calcMazeSize(String name) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Model#calcFileSize(java.lang.String)
+	 */
 	@Override
 	public double calcFileSize(String name) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Model#solve(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void solve(String name, String algo) {
 		// TODO Auto-generated method stub
