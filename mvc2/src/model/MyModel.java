@@ -1,7 +1,17 @@
 
 package model;
 
+import io.MyCompressorOutputStream;
+import io.MyDecompressorInputStream;
+
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
+import org.apache.commons.io.IOUtils;
 
 import mazeGenerators.Maze3d;
 import mazeGenerators.Maze3dGenerator;
@@ -90,13 +100,42 @@ public class MyModel extends CommonModel
 	@Override
 	public void saveMaze(String mazeName, String fileName) 
 	{
-		// TODO Auto-generated method stub
 
+		Maze3d myMaze = new Maze3d(((MyController) controller).getMazeCollection().get(mazeName+".maze"));
+		try 
+		{
+			OutputStream out=new MyCompressorOutputStream( new FileOutputStream(fileName));
+			out.write(myMaze.toByteArray());
+			out.flush();
+			out.close();
+		} 
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public Maze3d loadMaze(String mazeName, String fileName) {
-		// TODO Auto-generated method stub
+	public Maze3d loadMaze(String mazeName, String fileName)
+	{
+		try 
+		{
+			MyDecompressorInputStream in = new MyDecompressorInputStream(new FileInputStream(fileName+".maze"));
+			byte [] b = IOUtils.toByteArray(in);
+			in.read(b);
+			in.close();
+			return (new Maze3d(b));
+		}
+		catch (FileNotFoundException e) 
+		{
+
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+
+			e.printStackTrace();
+		}
 		return null;
 	}
 
