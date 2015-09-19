@@ -5,7 +5,6 @@ import java.util.HashMap;
 import model.Model;
 import view.View;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CommonController.
  */
@@ -70,7 +69,7 @@ public abstract class CommonController implements Controller
 	}
 	
 	/**
-	 * Inits the commands.
+	 * Initializes the commands.
 	 *
 	 * @param map the map
 	 */

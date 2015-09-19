@@ -8,7 +8,6 @@ import solution.Solution;
 import mazeGenerators.Maze3d;
 import controller.Controller;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class MyView.
  */

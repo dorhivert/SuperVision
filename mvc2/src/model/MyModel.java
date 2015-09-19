@@ -19,7 +19,6 @@ import mazeGenerators.MyMaze3dGenerator;
 import controller.Controller;
 import controller.MyController;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class MyModel.
  */

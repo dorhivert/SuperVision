@@ -7,7 +7,6 @@ import java.util.HashMap;
 
 import controller.Command;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CLI.
  */

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import model.Model;
 import view.View;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface Controller.
  */
