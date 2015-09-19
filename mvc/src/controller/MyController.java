@@ -68,9 +68,15 @@ public class MyController extends CommonController {
 	}
 
 	@Override
-	public void displaySolution(String name, Searcher algorithm) {
-		// TODO Auto-generated method stub
-		
+	public void displaySolution(String name) {
+		if(solutionCollection.containsKey(name))
+		{
+			view.displaySolution(solutionCollection.get(name));
+		}
+		else
+		{
+			view.writeToConsole("No solution exists for your request!, please try again");
+		}
 	}
 
 	@Override

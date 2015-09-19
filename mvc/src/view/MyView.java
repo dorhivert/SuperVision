@@ -77,16 +77,7 @@ public class MyView extends CommonView {
 
 	@Override
 	public void displayMaze(Maze3d maze) {
-//		for (int i = 0; i < maze.getMaze().length; i++) {
-//			for (int j = 0; j < maze.getMaze()[0].length; j++) {
-//				for (int k = 0; k < maze.getMaze()[0][0].length; k++) {
-//					System.out.print(maze.getCellValue(i, j, k));
-//					System.out.print(",");
-//				}
-//				System.out.println();
-//			}
-//			
-//		}System.out.println("=========================================");
+
 		System.out.print("printing the maze by : ");
 		System.out.print(maze.getMaze()[0][0].length);
 		System.out.println(" Z levels:");
@@ -100,7 +91,6 @@ public class MyView extends CommonView {
 	@Override
 	public void displaySolution(Solution solution) {
 		solution.print();
-		
 	}
 
 	@Override

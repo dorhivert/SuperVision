@@ -24,7 +24,7 @@ public interface Controller {
 	
 	public void displayFileSize(String name);
 	
-	public void displaySolution(String name,Searcher algorithm);
+	public void displaySolution(String name);
 	
 	public HashMap<String,Command> getMap();
 
