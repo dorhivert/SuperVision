@@ -1,6 +1,8 @@
 
 package model;
 
+import heuristics.MazeEuclideanDistance;
+import heuristics.MazeManhattanDistance;
 import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
 
@@ -11,11 +13,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.apache.commons.io.IOUtils;
-
 import mazeGenerators.Maze3d;
 import mazeGenerators.Maze3dGenerator;
 import mazeGenerators.MyMaze3dGenerator;
+
+import org.apache.commons.io.IOUtils;
+
+import solution.Solution;
+import algorithms.search.AStar;
+import algorithms.search.BFS;
+import algorithms.search.CommonSearcher;
+import algorithms.search.SearchableMaze;
 import controller.Controller;
 import controller.MyController;
 
@@ -113,7 +121,7 @@ public class MyModel extends CommonModel
 	public void saveMaze(String mazeName, String fileName) 
 	{
 
-		Maze3d myMaze = new Maze3d(((MyController) controller).getMazeCollection().get(mazeName+".maze"));
+		Maze3d myMaze = new Maze3d(((MyController) controller).getMazeCollection().get(mazeName));
 		try 
 		{
 			OutputStream out=new MyCompressorOutputStream( new FileOutputStream(fileName));
@@ -135,7 +143,7 @@ public class MyModel extends CommonModel
 	{
 		try 
 		{
-			MyDecompressorInputStream in = new MyDecompressorInputStream(new FileInputStream(fileName+".maze"));
+			MyDecompressorInputStream in = new MyDecompressorInputStream(new FileInputStream(fileName));
 			byte [] b = IOUtils.toByteArray(in);
 			in.read(b);
 			in.close();
@@ -157,32 +165,73 @@ public class MyModel extends CommonModel
 	 * @see model.Model#calcMazeSize(java.lang.String)
 	 */
 	@Override
-	public double calcMazeSize(String name) {
-		// TODO Auto-generated method stub
-		return 0;
+	public double calcMazeSize(String name)
+	{
+		double size =-5;
+		if(((MyController) controller).getMazeCollection().containsKey(name))
+		{
+			Maze3d myMaze = new Maze3d(((MyController) controller).getMazeCollection().get(name));
+			size = myMaze.toByteArray().length;
+			return size;
+		}
+		else
+		{
+			((MyController) controller).notifyView("Bad Maze Name (m.calcmazesize)" );
+			return size;
+		}
 	}
 
 	/* (non-Javadoc)
 	 * @see model.Model#calcFileSize(java.lang.String)
 	 */
 	@Override
-	public double calcFileSize(String name) {
-		// TODO Auto-generated method stub
-		return 0;
+	public double calcFileSize(String name)
+	{
+		File f = new File(name);
+		return f.length();
 	}
 
 	/* (non-Javadoc)
 	 * @see model.Model#solve(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void solve(String name, String algo) {
-		// TODO Auto-generated method stub
+	public void solve(String name, String algo) 
+	{
+		new Thread(new Runnable() 
+		{
 
+			@Override
+			public void run() 
+			{
+				if (((MyController) controller).getMazeCollection().containsKey(name))
+				{
+					SearchableMaze sMaze = new SearchableMaze(new Maze3d(((MyController) controller).getMazeCollection().get(name)));
+					CommonSearcher searcher;
+					Solution sol = new Solution();
+
+					if (algo.equalsIgnoreCase("astarman"))
+					{
+						searcher = new AStar(new MazeManhattanDistance());
+						sol = searcher.search(sMaze);
+					}
+					if (algo.equalsIgnoreCase("astarair"))
+					{
+						searcher = new AStar(new MazeEuclideanDistance());
+						sol = searcher.search(sMaze);
+					}
+					if (algo.equalsIgnoreCase("bfs"))
+					{
+						searcher = new BFS();
+						sol = searcher.search(sMaze);
+					}
+					((MyController) controller).getSolutionCollection().put(name, sol);
+					((MyController) controller).notifyView("Done solving maze: "+name);
+
+				} else 
+				{
+					((MyController) controller).notifyView("Bad Maze Name (m.solve)");
+				}
+			}
+		}).start();
 	}
-
-
-
-
-
-
 }

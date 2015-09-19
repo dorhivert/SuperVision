@@ -86,5 +86,6 @@ public interface Controller
 	 */
 	public void displayFileSize(String name);
 
+	public void displaySolution(String name);
 	
 }

@@ -131,4 +131,17 @@ public class MyController extends CommonController
 		this.view.writeToConsole(msg);
 	}
 
+	@Override
+	public void displaySolution(String name)
+	{
+		if (this.getSolutionCollection().containsKey(name))
+		{
+			view.displaySolution(this.solutionCollection.get(name));
+		} 
+		else 
+		{
+			this.notifyView("No Solution for this maze (c.displaySolution)");
+		}
+	}
+
 }
