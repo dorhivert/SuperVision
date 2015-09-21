@@ -114,8 +114,8 @@ public class MyModel extends CommonModel {
 	{
 		try{
 		  MyDecompressorInputStream in=new MyDecompressorInputStream( new FileInputStream(fileName));
-		  
 		  byte[] b= IOUtils.toByteArray(in);
+
 		  in.read(b);//check if needed
 		  in.close();
 		  return new Maze3d(b);

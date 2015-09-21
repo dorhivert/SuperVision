@@ -82,34 +82,7 @@ public class MyController extends CommonController {
 					}
 					break;
 				}
-//				if(args[1].equals("cross"))
-//				{
-//					char xyz = args[3].charAt(0);
-//					int index = Integer.parseInt(args[4]);
-//					getCrossSection(args[5], index, xyz);
-//				}
-//				if(args[1].equals("solution"))
-//				{
-//					if(solutionCollection.get(args[2])!=null)
-//					{
-//						view.displaySolution(solutionCollection.get(args[2]));
-//					}
-//					else
-//					{
-//						notifyView("No solution exists for this maze, please create one.");
-//					}
-//				}
-//				else
-//				{
-//					if(mazeCollection.get(args[1])!=null)
-//					{
-//						view.displayMaze(mazeCollection.get(args[1]));
-//					}
-//					else
-//					{
-//						notifyView("No maze exists by this name, please create one.");
-//					}
-//				}
+
 			}
 			
 		});
@@ -124,7 +97,7 @@ public class MyController extends CommonController {
 			
 			@Override
 			public void doCommand(String[] args) {
-				model.loadMaze(args[2], args[3]);
+				mazeCollection.put(args[3], model.loadMaze(args[2], args[3]));
 			}
 		});
 	}

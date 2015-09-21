@@ -1,7 +1,6 @@
 package view;
 
 import controller.Controller;
-import mazeGenerators.Maze3d;
 
 public abstract class CommonView implements View{
 
