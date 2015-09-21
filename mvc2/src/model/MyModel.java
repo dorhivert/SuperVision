@@ -6,19 +6,18 @@ import heuristics.MazeManhattanDistance;
 import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import mazeGenerators.Maze3d;
 import mazeGenerators.Maze3dGenerator;
 import mazeGenerators.MyMaze3dGenerator;
-
-import org.apache.commons.io.IOUtils;
-
 import solution.Solution;
 import algorithms.search.AStar;
 import algorithms.search.BFS;
@@ -67,7 +66,6 @@ public class MyModel extends CommonModel
 	{
 		new Thread(new Runnable()
 		{
-
 			@Override
 			public void run() 
 			{
@@ -77,7 +75,6 @@ public class MyModel extends CommonModel
 				((MyController) controller).notifyView("Maze "+name+" is ready" );;
 			}
 		}).start();
-
 	}
 
 	/* (non-Javadoc)
@@ -141,14 +138,47 @@ public class MyModel extends CommonModel
 	@Override
 	public Maze3d loadMaze(String mazeName, String fileName)
 	{
-		try 
+		try
 		{
-			MyDecompressorInputStream in = new MyDecompressorInputStream(new FileInputStream(fileName));
-			byte [] b = IOUtils.toByteArray(in);
-			in.read(b);
+			System.out.println("1");
+			InputStream in=new MyDecompressorInputStream( new FileInputStream(fileName));
+			System.out.println("2");
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
+			System.out.println("3");
+			byte[] buffer = new byte[1024];
+			System.out.println("4");
+			int line = 0;
+			    System.out.println("5");
+			    while ((line = in.read(buffer)) != -1) 
+			    {
+			        // Writes bytes from byte array (buffer) into output stream.
+			        os.write(buffer, 0, line);
+			    }
+
+			System.out.println("6");
 			in.close();
-			return (new Maze3d(b));
+			os.flush();
+			os.close();
+			System.out.println("7");
+			byte[] result = os.toByteArray();
+			System.out.println("8");
+			
+			return (new Maze3d(result));
+//			ByteArrayOutputStream bs = new ByteArrayOutputStream();
+//			System.out.println("1");
+//			InputStream in=new MyDecompressorInputStream( new FileInputStream(fileName));
+//			System.out.println("2");
+////			List<Byte> list = new ArrayList<Byte>();
+////			in.rea
+////			ArrayList<byte> b = new ArrayList<E>();
+//			byte[] b= ByteStreams.
+//			System.out.println("3");
+//			in.read(b);//check if needed
+//			System.out.println("4");
+//			in.close();
+//			return new Maze3d(b);
 		}
+
 		catch (FileNotFoundException e) 
 		{
 
@@ -188,6 +218,11 @@ public class MyModel extends CommonModel
 	public double calcFileSize(String name)
 	{
 		File f = new File(name);
+		if (f.length() == 0L)
+		{
+			this.saveMaze(name, "tempFileName");
+			f = new File("tempFileName");
+		}
 		return f.length();
 	}
 

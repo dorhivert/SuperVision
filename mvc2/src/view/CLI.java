@@ -46,25 +46,25 @@ public class CLI extends Thread
 			@Override
 			public void run() 
 			{
-				String line;
-				Command specificCommand;
-				
+					
 				try 
 				{
+				String line;	
+				System.out.println("You can start writing commands");
 					while (!(line = in.readLine()).equals("exit")) 
 					{
-						if (commandMap.containsKey(line)) 
+						String [] splittedLine = line.split(" ");
+						if (commandMap.containsKey(splittedLine[0])) 
 						{
-							System.out.println("Command" + line + "is OK");
-							out.println("Command" + line + "is OK");
+							System.out.println("--- Command '" + line + "' is OK --- ");
+							System.out.println();
 							out.flush();
-							specificCommand = commandMap.get(line);
-							specificCommand.doCommand();
+							commandMap.get(splittedLine[0]).doCommand(splittedLine);
+							
 						}
 						else
 						{
-							System.out.println("You have givven me a bad command: "+line);
-							out.println("You have givven me a bad command: "+line);
+							System.out.println("You have given me a bad command: "+line);
 							out.flush();
 						}
 					}
@@ -73,6 +73,9 @@ public class CLI extends Thread
 				{
 					e.printStackTrace();
 				}
+				System.out.println("Good-Bye!!");
+				out.flush();
+				out.close();
 			}
 		}).start();
 	}

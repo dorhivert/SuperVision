@@ -9,5 +9,5 @@ public interface Command
 	/**
 	 * Do command.
 	 */
-	void doCommand ();
+	void doCommand (String [] args);
 }
