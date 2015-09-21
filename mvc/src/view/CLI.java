@@ -28,12 +28,13 @@ public class CLI extends Thread{
 				try {
 					String line;
 
-					while((line = in.readLine())!=("exit"))
+					while(!(line = in.readLine()).equals("exit"))
 					{
-						if(map.containsKey(line))
+						String[] splittedLine = line.split(" ");
+						if(map.containsKey(splittedLine[0]))
 						{
 							System.out.println("calling command:" + line);
-							map.get(line).doCommand();
+							map.get(splittedLine[0]).doCommand(splittedLine);
 						}
 						else
 						{
@@ -42,10 +43,13 @@ public class CLI extends Thread{
 							out.flush();
 						}
 					}
-				}catch (IOException e) {
+				}catch (IOException e)
+				{
 					e.printStackTrace();
 
 				}
+				out.println("Goodbye");
+				out.close();
 
 			}
 		}).start();

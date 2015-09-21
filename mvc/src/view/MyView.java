@@ -14,8 +14,8 @@ public class MyView extends CommonView {
 	
 	
 	
-	public MyView(Controller controller, CLI cli) {
-		super(controller, cli);
+	public MyView(Controller controller) {
+		super(controller);
 		this.cli = new CLI(new BufferedReader(new InputStreamReader(System.in)),new PrintWriter(System.out), this.getController().getMap());
 	}
 	

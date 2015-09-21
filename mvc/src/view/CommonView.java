@@ -7,7 +7,7 @@ public abstract class CommonView implements View{
 
 	Controller controller;
 	
-	public CommonView(Controller controller,CLI cli)
+	public CommonView(Controller controller)
 	{
 		this.controller = controller;
 	}

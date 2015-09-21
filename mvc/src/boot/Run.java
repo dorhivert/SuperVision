@@ -1,10 +1,33 @@
 package boot;
 
-public class Run {
+import model.Model;
+import model.MyModel;
+import view.MyView;
+import view.View;
+import controller.Controller;
+import controller.MyController;
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Run.
+ */
+public class Run 
+{
+	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
+	public static void main(String[] args) 
+	{
+		Controller controller = new MyController();
+		Model model = new MyModel(controller);
+		View view = new MyView(controller);
 
+		controller.setModel(model);
+		controller.setView(view);
+
+		view.start();
 	}
-
 }

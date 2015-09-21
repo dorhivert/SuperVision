@@ -2,7 +2,6 @@ package controller;
 
 import java.util.HashMap;
 
-import algorithms.search.Searcher;
 import model.Model;
 import view.View;
 
@@ -11,9 +10,7 @@ public interface Controller {
 	public void setView(View view);
 	
 	public void setModel(Model model);
-	
-	public void displayDirectory(String path);
-	
+		
 	public void generate3dMaze(String name,int size);
 	
 	public void displayMaze(String name);

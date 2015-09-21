@@ -2,7 +2,6 @@ package controller;
 
 import java.util.HashMap;
 
-import algorithms.search.Searcher;
 import mazeGenerators.Maze3d;
 import solution.Solution;
 
@@ -11,6 +10,12 @@ public class MyController extends CommonController {
 	private HashMap<String,Maze3d> mazeCollection = new HashMap<String,Maze3d>();
 	private HashMap<String,Solution> solutionCollection = new HashMap<String,Solution>();
 	
+	public MyController()
+	{
+		super();
+		this.map = new HashMap<String, Command>();
+		initCommands(map);
+	}
 	
 	public HashMap<String, Maze3d> getMazeCollection() {
 		return mazeCollection;
@@ -27,27 +32,122 @@ public class MyController extends CommonController {
 		map.put("dir", new Command() {
 
 			@Override
-			public void doCommand() {
+			public void doCommand(String[] args) {
+				
+				getFilesInDirectory(args[1]);
 				
 		        }
+		});
+		map.put("generate", new Command() {
+
+			@Override
+			public void doCommand(String[] args) {
+				int size = Integer.parseInt(args[4]);
+				generate3dMaze(args[3],size);
+			}
+			
+		});
+		map.put("display", new Command() {
+
+			@Override
+			public void doCommand(String[] args) {
+				switch (args[1]) {
+				case "cross":
+				{
+					char xyz = args[3].charAt(0);
+					int index = Integer.parseInt(args[4]);
+					getCrossSection(args[5], index, xyz);
+				}
+					break;
+				case "solution":
+				{
+					if(solutionCollection.get(args[2])!=null)
+					{
+						view.displaySolution(solutionCollection.get(args[2]));
+					}
+					else
+					{
+						notifyView("No solution exists for this maze, please create one.");
+					}
+				}
+
+				default:
+					if(mazeCollection.get(args[1])!=null)
+					{
+						view.displayMaze(mazeCollection.get(args[1]));
+					}
+					else
+					{
+						notifyView("No maze exists by this name, please create one.");
+					}
+					break;
+				}
+//				if(args[1].equals("cross"))
+//				{
+//					char xyz = args[3].charAt(0);
+//					int index = Integer.parseInt(args[4]);
+//					getCrossSection(args[5], index, xyz);
+//				}
+//				if(args[1].equals("solution"))
+//				{
+//					if(solutionCollection.get(args[2])!=null)
+//					{
+//						view.displaySolution(solutionCollection.get(args[2]));
+//					}
+//					else
+//					{
+//						notifyView("No solution exists for this maze, please create one.");
+//					}
+//				}
+//				else
+//				{
+//					if(mazeCollection.get(args[1])!=null)
+//					{
+//						view.displayMaze(mazeCollection.get(args[1]));
+//					}
+//					else
+//					{
+//						notifyView("No maze exists by this name, please create one.");
+//					}
+//				}
+			}
+			
+		});
+		map.put("save", new Command() {
+			
+			@Override
+			public void doCommand(String[] args) {
+				model.saveMaze(args[3], args[2]);
+			}
+		});
+		map.put("load", new Command() {
+			
+			@Override
+			public void doCommand(String[] args) {
+				model.loadMaze(args[2], args[3]);
+			}
 		});
 	}
 
 	@Override
 	public void getFilesInDirectory(String path) {
+		this.view.displayDirectory(this.model.getFilesInDirectory(path));
 		
 	}
 
 	@Override
 	public void generate3dMaze(String name, int size) {
-		// TODO Auto-generated method stub
+		this.model.generate3dMaze(name, size);
 		
 	}
 
 	@Override
 	public void displayMaze(String name) {
-		// TODO Auto-generated method stub
-		
+		Maze3d maze = this.mazeCollection.get(name);
+		if(maze!=null)
+			this.view.displayMaze(maze);
+		else
+			notifyView("no maze by that name here");
 	}
 
 	@Override
@@ -57,13 +157,13 @@ public class MyController extends CommonController {
 
 	@Override
 	public void displayMazeSize(String name) {
-		// TODO Auto-generated method stub
+		this.view.displayFileSize(name, this.model.calculateMazeSize(name));
 		
 	}
 
 	@Override
 	public void displayFileSize(String name) {
-		// TODO Auto-generated method stub
+		this.view.displayFileSize(name, this.model.calculateFileSize(name));
 		
 	}
 
@@ -79,11 +179,6 @@ public class MyController extends CommonController {
 		}
 	}
 
-	@Override
-	public void displayDirectory(String path) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	public void notifyView(String message) {
 		view.writeToConsole(message);

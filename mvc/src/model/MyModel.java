@@ -145,6 +145,11 @@ public class MyModel extends CommonModel {
 	@Override
 	public double calculateFileSize(String name) {
 		File tmpFile = new File(name);
+		if(tmpFile.length()==0L) //if the file doesn't exist
+		{
+			saveMaze("TempFileName", name);
+			tmpFile = new File("TempFileName");
+		}
 		return tmpFile.length();
 		
 	}
