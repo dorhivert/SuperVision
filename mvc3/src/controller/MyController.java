@@ -116,7 +116,7 @@ public class MyController extends CommonController
 			@Override
 			public void doCommand(String [] args) 
 			{
-				mazeCollection.put(args[2], model.loadMaze(args[1], args[2]));
+				mazeCollection.put(args[3], model.loadMaze(args[3], args[2]));
 				notifyView("Maze "+args[2]+" has been loaded");
 			}
 		});
