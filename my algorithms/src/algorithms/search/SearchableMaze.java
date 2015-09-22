@@ -8,6 +8,7 @@ import mazeGenerators.Maze3d;
 import states.MazeState;
 import states.State;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class SearchableMaze.
  */

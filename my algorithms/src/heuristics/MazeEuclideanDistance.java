@@ -6,6 +6,7 @@ package heuristics;
 import mazeGenerators.Position;
 import states.State;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class MazeEuclideanDistance.
  */

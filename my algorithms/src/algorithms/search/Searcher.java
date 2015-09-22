@@ -5,6 +5,7 @@ package algorithms.search;
 
 import solution.Solution;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface Searcher.
  */

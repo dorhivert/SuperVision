@@ -3,6 +3,7 @@
  */
 package mazeGenerators;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class Position.
  */
@@ -43,7 +44,8 @@ public class Position
 	}
 
 	/**
-	 * copy CTOR
+	 * copy CTOR.
+	 *
 	 * @param p the p
 	 */
 	public Position(Position p)
@@ -74,7 +76,9 @@ public class Position
 	}
 
 	/**
-	 * returns String from this Position
+	 * returns String from this Position.
+	 *
+	 * @return the string
 	 */
 	public String toString ()
 	{
@@ -151,7 +155,7 @@ public class Position
 	}
 	
 	/**
-	 * Checks if position p is equal to this position
+	 * Checks if position p is equal to this position.
 	 *
 	 * @param p the p
 	 * @return true, if is equal
@@ -166,7 +170,7 @@ public class Position
 	}
 	
 	/**
-	 * makes moves by numbers
+	 * makes moves by numbers.
 	 *
 	 * @param move the move
 	 */

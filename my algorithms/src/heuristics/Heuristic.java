@@ -5,6 +5,7 @@ package heuristics;
 
 import states.State;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface Heuristic.
  */

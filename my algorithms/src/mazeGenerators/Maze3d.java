@@ -9,6 +9,7 @@ import java.util.Iterator;
 import states.State;
 import states.MazeState;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class Maze3d.
  */
@@ -26,13 +27,13 @@ public class Maze3d
 	/** The finish position. */
 	private Position finishPosition;
 
-	/** private data-member used for quick-access to (x-1) value */
+	/**  private data-member used for quick-access to (x-1) value. */
 	private int maxX;
 
-	/** private data-member used for quick-access to (y-1) value */
+	/**  private data-member used for quick-access to (y-1) value. */
 	private int maxY;
 
-	/** private data-member used for quick-access to (z-1) value */
+	/**  private data-member used for quick-access to (z-1) value. */
 	private int maxZ;
 
 	/**
@@ -52,7 +53,7 @@ public class Maze3d
 	}
 
 	/**
-	 * Instantiates a new Maze3d with a given array of bytes
+	 * Instantiates a new Maze3d with a given array of bytes.
 	 *
 	 * @param byteArr an array of bytes in which a maze3d has been saved
 	 */
@@ -89,7 +90,7 @@ public class Maze3d
 		{
 			for (int y = 0; y < bigMaxY; y++) 
 			{
-				for (int z = 0; z < bigMaxZ-1; z++)
+				for (int z = 0; z < bigMaxZ; z++)
 				{
 					int tempValue = byteArr[index];
 					this.maze[x][y][z] = tempValue;
@@ -284,7 +285,10 @@ public class Maze3d
 	}
 
 	/**
-	 *same as above only by position
+	 * same as above only by position.
+	 *
+	 * @param p the p
+	 * @param value the value
 	 */
 	protected void setCellValueByPosition(Position p,int value)
 	{
@@ -305,7 +309,10 @@ public class Maze3d
 	}
 
 	/**
-	 *same as above only by position
+	 * same as above only by position.
+	 *
+	 * @param p the p
+	 * @return the cell value by position
 	 */
 	protected int getCellValueByPosition(Position p)
 	{
@@ -369,7 +376,7 @@ public class Maze3d
 
 	/**
 	 * private method to ensure in bounds only moves
-	 * Checks if is in bounds
+	 * Checks if is in bounds.
 	 *
 	 * @param move the move
 	 * @return true, if move is legal (simpleMazeGenerator related)
@@ -422,7 +429,7 @@ public class Maze3d
 	}
 
 	/**
-	 * translates moves numbers into string
+	 * translates moves numbers into string.
 	 *
 	 * @param move the move
 	 * @param p the p
@@ -620,9 +627,7 @@ public class Maze3d
 	/**
 	 * Checks if cell is in maze.
 	 *
-	 * @param x the x
-	 * @param y the y
-	 * @param z the z
+	 * @param p the p
 	 * @return true, if is cell in maze
 	 */
 	private boolean isCellInMaze(Position p)
@@ -714,7 +719,7 @@ public class Maze3d
 
 
 	/**
-	 * gets two states and connect them with 0's
+	 * gets two states and connect them with 0's.
 	 *
 	 * @param s1 the s1
 	 * @param s2 the s2
@@ -734,7 +739,7 @@ public class Maze3d
 	}
 
 	/**
-	 * method to calculate average value
+	 * method to calculate average value.
 	 *
 	 * @param num1 the num1
 	 * @param num2 the num2
@@ -801,9 +806,10 @@ public class Maze3d
 	}
 
 	/**
-	 * Checks if move is in bound + if the next move is walkable (0)
+	 * Checks if move is in bound + if the next move is walkable (0).
 	 *
 	 * @param move the move
+	 * @param p the p
 	 * @return true, if is move really legal
 	 */
 	private boolean isMoveRealyLegal2(int move, Position p)
@@ -858,7 +864,7 @@ public class Maze3d
 
 
 	/**
-	 * converts the maze into Byte Array
+	 * converts the maze into Byte Array.
 	 *
 	 * @return the Byte Array order:
 	 * 				Start Position x, Start Position y, Start position z  
@@ -870,7 +876,7 @@ public class Maze3d
 	{
 		int index = 0;
 		final int additionSpace = 9;
-		byte[] byteArr = new byte[(((getMaxX()+1)*(getMaxY()+1)*(getMaxZ())+1) + additionSpace)];
+		byte[] byteArr = new byte[(((getMaxX()+2)*(getMaxY()+2)*(getMaxZ())+2) + additionSpace)];
 
 		byteArr[index] = (byte) this.getStartPosition().getX();
 		index++;
@@ -895,7 +901,7 @@ public class Maze3d
 		{
 			for (int y = 0; y <= getMaxY(); y++) 
 			{
-				for (int z = 0; z < getMaxZ(); z++) 
+				for (int z = 0; z <= getMaxZ(); z++) 
 				{
 					byteArr[index] = (byte) this.maze[x][y][z];
 					index++;
@@ -906,8 +912,10 @@ public class Maze3d
 	}
 
 	/**
-	 * checks if two mazes are equal
+	 * checks if two mazes are equal.
 	 *
+	 * @param IsEqual the is equal
+	 * @return true, if successful
 	 */
 	public boolean equals(Maze3d IsEqual)
 	{
@@ -922,11 +930,11 @@ public class Maze3d
 			return false;
 		}
 		 boolean flag = true;
-		  for (int x = 0; x < this.getMaxX(); x++) 
+		  for (int x = 0; x <= this.getMaxX(); x++) 
 		  {
-			for (int y = 0; y < this.getMaxY(); y++)
+			for (int y = 0; y <= this.getMaxY(); y++)
 			{
-				for (int z = 0; z < this.getMaxZ(); z++)
+				for (int z = 0; z <= this.getMaxZ(); z++)
 				{
 					if ((this.getCellValue(x, y, z)) != (IsEqual.getCellValue(x, y, z))) 
 					{
@@ -936,6 +944,31 @@ public class Maze3d
 			}
 		  }
 		  return flag;
+	}
+	
+	/**
+	 * Display maze.
+	 *
+	 * @param maze the maze
+	 */
+	public void displayMaze(Maze3d maze) //prints the entire maze
+	{
+		int bound = maze.getMaxZ();
+		System.out.print("Printing the maze by ");
+		System.out.print((bound+1));
+		System.out.println(" Z levels: ");
+		for (int i = 0; i <= bound; i++)
+		{
+			try
+			{
+				int[][] maze2dZ = maze.getCrossSectionByZ(i);
+				maze.print2dMazeCleanByZ(maze2dZ, i);
+			} 
+			catch (Exception e) 
+			{
+				System.out.println("Fatal Error with maze printaion");
+			}
+		}	
 	}
 }
 

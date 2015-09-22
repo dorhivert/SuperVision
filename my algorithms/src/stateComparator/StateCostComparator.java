@@ -5,6 +5,7 @@ package stateComparator;
 
 import states.State;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class StateCostComparator.
  */

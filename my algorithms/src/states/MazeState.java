@@ -8,17 +8,18 @@ import java.util.Iterator;
 import mazeGenerators.Position;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class MazeState.
  */
 public class MazeState extends State
 {
 
-	/** The position */
+	/**  The position. */
 	private Position p;
 
 	/**
-	 * C'tor
+	 * C'tor.
 	 *
 	 * @param p the position
 	 */
@@ -30,7 +31,7 @@ public class MazeState extends State
 	}
 	
 	/**
-	 * copy C'TOR
+	 * copy C'TOR.
 	 *
 	 * @param s the state
 	 */
@@ -56,7 +57,7 @@ public class MazeState extends State
 	}
 	
 	/**
-	 * converts MazeState to string
+	 * converts MazeState to string.
 	 *
 	 * @return the p
 	 */

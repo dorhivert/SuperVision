@@ -6,6 +6,7 @@ package solution;
 import java.util.ArrayList;
 import java.util.Collections;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class Solution.
  */
@@ -36,7 +37,7 @@ public class Solution
 	}
 
 	/**
-	 * reverses the order of the array
+	 * reverses the order of the array.
 	 */
 	public void sortback()
 	{

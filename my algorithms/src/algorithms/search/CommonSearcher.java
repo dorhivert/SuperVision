@@ -11,6 +11,7 @@ import stateComparator.StateComparator;
 import stateComparator.StateCostComparator;
 import states.State;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class CommonSearcher.
  */
@@ -36,7 +37,7 @@ public abstract class CommonSearcher implements Searcher
 	}
 
 	/**
-	 * CTOR
+	 * CTOR.
 	 *
 	 * @param sc the state comparator
 	 */

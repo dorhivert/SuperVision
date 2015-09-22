@@ -8,6 +8,7 @@ import java.util.Iterator;
 
 import mazeGenerators.Position;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class State.
  */
@@ -23,11 +24,11 @@ public class State
 	/** The cost calculated by g+h (called f in AStar algorithm. */
 	private double cost;   		
 
-	/** The g and h are numbers to calculate cost */
+	/**  The g and h are numbers to calculate cost. */
 	private double g,h;					
 
 	/**
-	 * default CTOR
+	 * default CTOR.
 	 */
 	public State() 
 	{
@@ -38,7 +39,7 @@ public class State
 	}
 
 	/**
-	 * Not default C'TOR
+	 * Not default C'TOR.
 	 *
 	 * @param state the state
 	 */
@@ -48,7 +49,7 @@ public class State
 	}
 
 	/**
-	 * copy CTOR
+	 * copy CTOR.
 	 *
 	 * @param s1 the state to be copied
 	 */
@@ -63,8 +64,10 @@ public class State
 	}
 	
 	/**
-	 * overrides equals method
+	 * overrides equals method.
 	 *
+	 * @param obj the obj
+	 * @return true, if successful
 	 */
 	@Override
 	public boolean equals(Object obj)
@@ -155,7 +158,7 @@ public class State
 	
 	/**
 	 * EXCACLY THE SAME
-	 * used to perfectly fit into Eli's main code
+	 * used to perfectly fit into Eli's main code.
 	 *
 	 * @param n the new previous state
 	 */
@@ -195,7 +198,7 @@ public class State
 
 	/**
 	 * String array to state array
-	 * help method to convert string arrays to state arrays
+	 * help method to convert string arrays to state arrays.
 	 *
 	 * @param pArray the array of strings
 	 * @return the array of states
@@ -214,7 +217,7 @@ public class State
 	}
 
 	/**
-	 * gets string and turns it into position
+	 * gets string and turns it into position.
 	 *
 	 * @param posInString the position in string
 	 * @return the position
