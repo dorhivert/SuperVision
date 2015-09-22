@@ -151,7 +151,7 @@ public class MyView extends CommonView
 		System.out.println("  file size <name>");
 		System.out.println("  solve <name> <algorithm (BFS / ASTARAIR / ASTARMAN>");
 		System.out.println("  display solution <name>");
-		System.out.println("  manu");
+		System.out.println("  menu");
 		System.out.println("  exit");
 	}
 }
