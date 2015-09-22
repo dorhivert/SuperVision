@@ -82,6 +82,7 @@ public class MyController extends CommonController {
 					}
 					break;
 				}
+				
 
 			}
 			
@@ -98,6 +99,31 @@ public class MyController extends CommonController {
 			@Override
 			public void doCommand(String[] args) {
 				mazeCollection.put(args[3], model.loadMaze(args[2], args[3]));
+			}
+		});
+		map.put("maze", new Command() {
+			
+			@Override
+			public void doCommand(String[] args) {
+				
+				displayMazeSize(args[2]);
+				
+			}
+		});
+		
+		map.put("file", new Command() {
+			
+			@Override
+			public void doCommand(String[] args) {
+				displayFileSize(args[2]);
+				
+			}
+		});
+		map.put("solve", new Command() {
+			
+			@Override
+			public void doCommand(String[] args) {
+				model.Solve(args[1], args[2]);
 			}
 		});
 	}
@@ -130,7 +156,7 @@ public class MyController extends CommonController {
 
 	@Override
 	public void displayMazeSize(String name) {
-		this.view.displayFileSize(name, this.model.calculateMazeSize(name));
+		this.view.displayMazeSize(name, this.model.calculateMazeSize(name));
 		
 	}
 
