@@ -3,11 +3,13 @@ package view;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 
-import solution.Solution;
 import mazeGenerators.Maze3d;
+import solution.Solution;
 import controller.Controller;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class MyView.
  */
@@ -77,10 +79,12 @@ public class MyView extends CommonView
 	@Override
 	public void displayMazeSize(String name, double mazeSize)
 	{
-		System.out.print("For Maze:");
-		System.out.print(name);
-		System.out.print(", the size is: ");
-		System.out.println(mazeSize);
+		DecimalFormat df = new DecimalFormat("#.##");
+		String newValue = new String(df.format(mazeSize));
+		System.out.print("For Maze: ");
+		System.out.print("'"+name+"'");
+		System.out.print(" - the MAZE size is: ");
+		System.out.println(newValue+" Bytes.");
 	}
 	
 	/* (non-Javadoc)
@@ -89,10 +93,12 @@ public class MyView extends CommonView
 	@Override
 	public void displayFileSize(String name, double fileSize)
 	{
-		System.out.print("For Maze:");
-		System.out.print(name);
-		System.out.print(", the file size is: ");
-		System.out.println(fileSize);
+		DecimalFormat df = new DecimalFormat("#.##");
+		String newValue = new String(df.format(fileSize));
+		System.out.print("For Maze: ");
+		System.out.print("'"+name+"'");
+		System.out.print(" - the FILE size is: ");
+		System.out.println(newValue+" Bytes.");
 	}
 	
 
@@ -124,21 +130,28 @@ public class MyView extends CommonView
 	@Override
 	public void displayMaze(Maze3d maze)
 	{
-		int bound = maze.getMaxZ();
-		System.out.print("Printing the maze by ");
-		System.out.print((bound+1));
-		System.out.println(" Z levels: ");
-		for (int i = 0; i <= bound; i++)
-		{
-			try
-			{
-				int[][] maze2dZ = maze.getCrossSectionByZ(i);
-				maze.print2dMazeCleanByZ(maze2dZ, i);
-			} 
-			catch (Exception e) 
-			{
-				System.out.println("Fatal Error with maze printaion");
-			}
-		}	
+		maze.displayMaze(maze);
+	}
+
+	/* (non-Javadoc)
+	 * @see view.View#displayCommandManu()
+	 */
+	@Override
+	public void displayCommandManu() 
+	{
+		System.out.println("=== Commands available: ===");
+		System.out.println("Please make sure to write commands correctly");
+		System.out.println("  dir <path>");
+		System.out.println("  generate 3d maze <name> <size>");
+		System.out.println("  display <name>");
+		System.out.println("  display cross section by <x/y/z> <index> for <name>");
+		System.out.println("  save maze <name> <file name>");
+		System.out.println("  load maze <file name> <file>");
+		System.out.println("  maze size <name>");
+		System.out.println("  file size <name>");
+		System.out.println("  solve <name> <algorithm (BFS / ASTARAIR / ASTARMAN>");
+		System.out.println("  display solution <name>");
+		System.out.println("  manu");
+		System.out.println("  exit");
 	}
 }

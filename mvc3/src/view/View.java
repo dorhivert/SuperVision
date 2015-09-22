@@ -3,6 +3,7 @@ package view;
 import mazeGenerators.Maze3d;
 import solution.Solution;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface View.
  */
@@ -64,4 +65,9 @@ public interface View
 	 * @param path the path
 	 */
 	public void displayDirectory(String[] path);
+
+	/**
+	 * Display command manu.
+	 */
+	public void displayCommandManu();
 }

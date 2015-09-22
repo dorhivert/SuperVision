@@ -5,6 +5,7 @@ import java.util.HashMap;
 import mazeGenerators.Maze3d;
 import solution.Solution;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class MyController.
  */
@@ -72,9 +73,9 @@ public class MyController extends CommonController
 				{
 				case "cross":
 				{
-					char xyz = args[3].charAt(0);
-					int index = Integer.parseInt(args[4]);
-					getCrossSection(args[5], index, xyz);
+					char xyz = args[4].charAt(0);
+					int index = Integer.parseInt(args[5]);
+					getCrossSection(args[7], index, xyz);
 				}
 				break;
 				case "solution":
@@ -87,7 +88,7 @@ public class MyController extends CommonController
 					{
 						notifyView("No solution exists for this maze, please create one.");
 					}
-				}
+				} break;
 				default:
 					if(mazeCollection.get(args[1])!=null)
 					{
@@ -125,7 +126,7 @@ public class MyController extends CommonController
 			@Override
 			public void doCommand(String [] args) 
 			{
-			 displayMazeSize(args[2]);
+				displayMazeSize(args[2]);
 			}
 		});
 		map.put("file", new Command() 
@@ -133,7 +134,7 @@ public class MyController extends CommonController
 			@Override
 			public void doCommand(String [] args) 
 			{
-			 displayFileSize(args[2]);
+				displayFileSize(args[2]);
 			}
 		});
 		map.put("solve", new Command() 
@@ -141,10 +142,18 @@ public class MyController extends CommonController
 			@Override
 			public void doCommand(String [] args) 
 			{
-			 String defaultAlg = new String("astarair");
-			 if (args.length >= 3)
-				 defaultAlg = new String(args[2]);
-			 model.solve(args[1], defaultAlg);
+				String defaultAlg = new String("astarair");
+				if (args.length >= 3)
+					defaultAlg = new String(args[2]);
+				model.solve(args[1], defaultAlg);
+			}
+		});
+		map.put("manu", new Command() 
+		{
+			@Override
+			public void doCommand(String [] args) 
+			{
+				commandManu();
 			}
 		});
 	}
@@ -222,9 +231,12 @@ public class MyController extends CommonController
 	 */
 	public void notifyView(String msg) 
 	{
-		this.view.writeToConsole(msg);
+		this.view.writeToConsole("*** CPU Notification: "+msg);
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.Controller#displaySolution(java.lang.String)
+	 */
 	@Override
 	public void displaySolution(String name)
 	{
@@ -236,6 +248,16 @@ public class MyController extends CommonController
 		{
 			this.notifyView("No Solution for this maze (c.displaySolution)");
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see controller.Controller#commandManu()
+	 */
+	@Override
+	public void commandManu() 
+	{
+		view.displayCommandManu();
+
 	}
 
 }

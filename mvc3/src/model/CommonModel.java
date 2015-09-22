@@ -2,6 +2,7 @@ package model;
 
 import controller.Controller;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class CommonModel.
  */

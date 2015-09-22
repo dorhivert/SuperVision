@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import controller.Command;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class CLI.
  */
@@ -51,20 +52,20 @@ public class CLI extends Thread
 				{
 				String line;	
 				System.out.println("You can start writing commands");
+				System.out.println("Type manu to see syntax");
 					while (!(line = in.readLine()).equals("exit")) 
 					{
 						String [] splittedLine = line.split(" ");
 						if (commandMap.containsKey(splittedLine[0])) 
 						{
 							System.out.println("--- Command '" + line + "' is OK --- ");
-							System.out.println();
 							out.flush();
 							commandMap.get(splittedLine[0]).doCommand(splittedLine);
 							
 						}
 						else
 						{
-							System.out.println("You have given me a bad command: "+line);
+							System.out.println("ERROR: Wrong command: "+line);
 							out.flush();
 						}
 					}

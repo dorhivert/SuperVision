@@ -2,6 +2,7 @@ package view;
 
 import controller.Controller;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class CommonView.
  */

@@ -25,6 +25,7 @@ import algorithms.search.SearchableMaze;
 import controller.Controller;
 import controller.MyController;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class MyModel.
  */

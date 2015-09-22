@@ -5,6 +5,7 @@ import java.util.HashMap;
 import model.Model;
 import view.View;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface Controller.
  */
@@ -86,6 +87,16 @@ public interface Controller
 	 */
 	public void displayFileSize(String name);
 
+	/**
+	 * Display solution.
+	 *
+	 * @param name the name
+	 */
 	public void displaySolution(String name);
+	
+	/**
+	 * Command manu.
+	 */
+	public void commandManu();
 	
 }
