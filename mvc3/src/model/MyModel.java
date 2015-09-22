@@ -139,41 +139,9 @@ public class MyModel extends CommonModel
 	{
 		try
 		{
-//			System.out.println("1");
-//			InputStream in=new MyDecompressorInputStream( new FileInputStream(fileName));
-//			System.out.println("2");
-//			ByteArrayOutputStream os = new ByteArrayOutputStream();
-//			System.out.println("3");
-//			byte[] buffer = new byte[1024];
-//			System.out.println("4");
-//			int line = 0;
-//			    System.out.println("5");
-//			    while ((line = in.read(buffer)) != -1) 
-//			    {
-//			        // Writes bytes from byte array (buffer) into output stream.
-//			        os.write(buffer, 0, line);
-//			    }
-//
-//			System.out.println("6");
-//			in.close();
-//			os.flush();
-//			os.close();
-//			System.out.println("7");
-//			byte[] result = os.toByteArray();
-//			System.out.println("8");
-			
-		//	return (new Maze3d(result));
-			
-			System.out.println("1");
 			InputStream in=new MyDecompressorInputStream( new FileInputStream(fileName));
-			System.out.println("2");
-//			List<Byte> list = new ArrayList<Byte>();
-//			in.rea
-//			ArrayList<byte> b = new ArrayList<E>();
-			byte[] b = new byte[16386];
-			System.out.println("3");
-			in.read(b);//check if needed
-			System.out.println("4");
+			byte[] b = new byte[((MyDecompressorInputStream) in).getLength()];
+			in.read(b);
 			in.close();
 			return new Maze3d(b);
 		}

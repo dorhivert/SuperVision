@@ -120,6 +120,33 @@ public class MyController extends CommonController
 				notifyView("Maze "+args[2]+" has been loaded");
 			}
 		});
+		map.put("maze", new Command() 
+		{
+			@Override
+			public void doCommand(String [] args) 
+			{
+			 displayMazeSize(args[2]);
+			}
+		});
+		map.put("file", new Command() 
+		{
+			@Override
+			public void doCommand(String [] args) 
+			{
+			 displayFileSize(args[2]);
+			}
+		});
+		map.put("solve", new Command() 
+		{
+			@Override
+			public void doCommand(String [] args) 
+			{
+			 String defaultAlg = new String("astarair");
+			 if (args.length >= 3)
+				 defaultAlg = new String(args[2]);
+			 model.solve(args[1], defaultAlg);
+			}
+		});
 	}
 
 	/* (non-Javadoc)
