@@ -5,5 +5,7 @@
 	<classpathentry kind="lib" path="lib/org.apache.commons.io_2.2.0.v201405211200.jar" sourcepath="lib/org.apache.commons.io_2.2.0.v201405211200.jar"/>
 	<classpathentry kind="lib" path="lib/NewAlgorithms.jar"/>
 	<classpathentry kind="lib" path="lib/my algorithms.jar"/>
+	<classpathentry kind="lib" path="lib/myalgorithms.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.apache.commons.io_2.0.1.v201105210651.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
