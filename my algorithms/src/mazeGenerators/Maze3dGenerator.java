@@ -3,6 +3,7 @@
  */
 package mazeGenerators;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface Maze3dGenerator.
  */
@@ -10,7 +11,7 @@ public interface Maze3dGenerator
 {
 
 	/**
-	 * Generates a maze
+	 * Generates a maze.
 	 *
 	 * @param x the width
 	 * @param y the height

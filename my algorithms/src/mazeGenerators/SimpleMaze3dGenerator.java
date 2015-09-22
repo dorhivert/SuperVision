@@ -3,12 +3,16 @@
  */
 package mazeGenerators;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class SimpleMaze3dGenerator.
  */
 public class SimpleMaze3dGenerator extends CommonMaze3dGenerator 
 {
 
+	/* (non-Javadoc)
+	 * @see mazeGenerators.CommonMaze3dGenerator#generate(int, int, int)
+	 */
 	@Override
 	public Maze3d generate(int x, int y, int z)
 	{

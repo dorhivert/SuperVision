@@ -5,6 +5,7 @@ package mazeGenerators;
 
 import java.util.Random;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class CommonMaze3dGenerator.
  */
