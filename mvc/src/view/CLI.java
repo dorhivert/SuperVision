@@ -20,10 +20,12 @@ public class CLI extends Thread{
 		this.map = map;
 	}
 
+	@Override
 	public void start()
 	{
 		new Thread(new Runnable(){
 
+			@Override
 			public void run(){
 				try {
 					String line;
