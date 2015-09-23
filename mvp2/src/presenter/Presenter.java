@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
-import controller.Command;
 import model.Model;
 import view.View;
 
@@ -52,9 +51,9 @@ public class Presenter implements Observer{
 				break;
 				case "solution":
 				{
-					if(solutionCollection.get(args[2])!=null)
+					if(model.getSolutionCollection().get(args[2])!=null)
 					{
-						view.displaySolution(solutionCollection.get(args[2]));
+						view.displaySolution(model.getSolutionCollection().get(args[2]));
 					}
 					else
 					{
@@ -62,9 +61,9 @@ public class Presenter implements Observer{
 					}
 				} break;
 				default:
-					if(mazeCollection.get(args[1])!=null)
+					if(model.getMazeCollection().get(args[1])!=null)
 					{
-						view.displayMaze(mazeCollection.get(args[1]));
+						view.displayMaze(model.getMazeCollection().get(args[1]));
 					}
 					else
 					{
@@ -89,7 +88,7 @@ public class Presenter implements Observer{
 			@Override
 			public void doCommand(String [] args) 
 			{
-				mazeCollection.put(args[3], model.loadMaze(args[3], args[2]));
+				model.getMazeCollection().put(args[3], model.loadMaze(args[3], args[2]));
 				notifyView("Maze "+args[2]+" has been loaded");
 			}
 		});
@@ -157,9 +156,9 @@ public class Presenter implements Observer{
 	 */
 	public void displayMaze(String name)
 	{
-		if ((this.getMazeCollection().get(name)) !=null)
+		if ((model.getMazeCollection().get(name)) !=null)
 		{
-			this.view.displayMaze(this.getMazeCollection().get(name));
+			this.view.displayMaze(model.getMazeCollection().get(name));
 		}
 	}
 
@@ -210,9 +209,9 @@ public class Presenter implements Observer{
 	 */
 	public void displaySolution(String name)
 	{
-		if (this.getSolutionCollection().containsKey(name))
+		if (this.model.getSolutionCollection().containsKey(name))
 		{
-			view.displaySolution(this.solutionCollection.get(name));
+			view.displaySolution(model.getSolutionCollection().get(name));
 		} 
 		else 
 		{

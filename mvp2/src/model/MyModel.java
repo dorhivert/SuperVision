@@ -66,4 +66,16 @@ public class MyModel extends ObservableModel {
 
 	}
 
+	@Override
+	public HashMap<String, Maze3d> getMazeCollection()
+	{
+		return this.mazeCollection;
+	}
+
+	@Override
+	public HashMap<Maze3d, Solution> getSolutionCollection() 
+	{
+		return this.solutionCollection;
+	}
+
 }
