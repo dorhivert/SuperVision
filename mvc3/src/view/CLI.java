@@ -52,7 +52,7 @@ public class CLI extends Thread
 				{
 				String line;	
 				System.out.println("You can start writing commands");
-				System.out.println("Type manu to see syntax");
+				System.out.println("Type menu to see syntax");
 					while (!(line = in.readLine()).equals("exit")) 
 					{
 						String [] splittedLine = line.split(" ");

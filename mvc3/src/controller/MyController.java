@@ -148,7 +148,7 @@ public class MyController extends CommonController
 				model.solve(args[1], defaultAlg);
 			}
 		});
-		map.put("manu", new Command() 
+		map.put("menu", new Command() 
 		{
 			@Override
 			public void doCommand(String [] args) 
