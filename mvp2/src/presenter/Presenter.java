@@ -7,14 +7,23 @@ import java.util.Observer;
 import model.Model;
 import view.View;
 
-public class Presenter implements Observer{
+public class Presenter implements Observer
+{
 
 	Model model;
-	
+
 	View view;
-	
+
 	HashMap<String,Command> commandMap;
-	
+
+	public Presenter(Model model, View view) 
+	{
+		this.model = model;
+		this.view = view;
+		this.commandMap = new HashMap<String, Command>();
+		this.initCommands(commandMap);
+	}
+
 	public void initCommands(HashMap<String, Command> map) 
 	{
 		map.put("dir", new Command() 
@@ -128,11 +137,12 @@ public class Presenter implements Observer{
 			}
 		});
 	}
-	
+
 	@Override
-	public void update(Observable arg0, Object arg1) {
+	public void update(Observable arg0, Object arg1)
+	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/* (non-Javadoc)
