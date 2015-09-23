@@ -27,7 +27,7 @@ public interface View
 	 *
 	 * @param crossed the crossed
 	 */
-	public void displayCrossSection (int[][] crossed);
+	public void displayCrossSection (int[][] crossSection);
 	
 	/**
 	 * Display maze size.
@@ -69,5 +69,5 @@ public interface View
 	/**
 	 * Display command manu.
 	 */
-	public void displayCommandManu();
+	public void displayCommandMenu();
 }

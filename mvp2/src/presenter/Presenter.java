@@ -133,7 +133,7 @@ public class Presenter implements Observer
 			@Override
 			public void doCommand(String [] args) 
 			{
-				commandManu();
+				commandMenu();
 			}
 		});
 	}
@@ -232,9 +232,9 @@ public class Presenter implements Observer
 	/* (non-Javadoc)
 	 * @see controller.Controller#commandManu()
 	 */
-	public void commandManu() 
+	public void commandMenu() 
 	{
-		view.displayCommandManu();
+		view.displayCommandMenu();
 
 	}
 
