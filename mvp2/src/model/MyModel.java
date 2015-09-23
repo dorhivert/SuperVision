@@ -61,7 +61,8 @@ public class MyModel extends ObservableModel {
 	}
 
 	@Override
-	public void solve(String name, String algo) {
+	public void solve(String name, String algo) 
+	{
 		// TODO Auto-generated method stub
 
 	}

@@ -141,8 +141,24 @@ public class Presenter implements Observer
 	@Override
 	public void update(Observable arg0, Object arg1)
 	{
-		// TODO Auto-generated method stub
-
+		if (arg0 == this.model)
+		{
+			String data = ((String) arg1);
+		}
+		else
+		{
+			if (arg0 == this.view)
+			{
+				Command data = ((Command) arg1);
+			}
+			else
+			{
+				System.out.println("FATAL ERROR:  UPDATE FROM SPACE (Presenter.update)");
+				return;
+			}
+		}
+		System.out.println("FATAL ERROR:  UPDATE FROM SPACE (Presenter.update)");
+		return;
 	}
 
 	/* (non-Javadoc)
