@@ -1,6 +1,9 @@
 package model;
 
+import java.util.HashMap;
+
 import mazeGenerators.Maze3d;
+import solution.Solution;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -75,4 +78,8 @@ public interface Model
 	 * @param algo the algo
 	 */
 	public void solve(String name, String algo);
+	
+	public HashMap<String,Maze3d> getMazeCollection();
+	
+	public HashMap<Maze3d,Solution> getSolutionCollection();
 }
