@@ -7,9 +7,14 @@ public class MyView extends ObservableView
 {
 	CLI cli;
 
+	public void setCli(CLI cli)
+	{
+		this.cli = cli;
+	}
 	@Override
-	public void start() {
-		// TODO Auto-generated method stub
+	public void start()
+	{
+		this.cli.start();
 
 	}
 

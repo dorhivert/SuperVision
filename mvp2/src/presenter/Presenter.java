@@ -238,4 +238,9 @@ public class Presenter implements Observer
 
 	}
 
+	public HashMap<String, Command> getCommandMap() 
+	{
+		return this.commandMap;
+	}
+
 }

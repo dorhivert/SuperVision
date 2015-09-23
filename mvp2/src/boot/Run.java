@@ -13,22 +13,18 @@ import view.View;
 
 public class Run 
 {
-
 	public static void main(String[] args) 
 	{
-
 		Model model = new MyModel();
 		View view = new MyView();
 
 		Presenter presenter = new Presenter(model, view);
 		
-		view.setCli(new CLI(new BufferedReader(new InputStreamReader(System.in)), new PrintWriter(System.out), presenter.getCommandMap()));
+		((MyView) view).setCli(new CLI(new BufferedReader(new InputStreamReader(System.in)), new PrintWriter(System.out), presenter.getCommandMap()));
 
-		v.addObserver(p);
-		m.addObserver(p);
+		((MyView) view).addObserver(presenter);
+		((MyModel) model).addObserver(presenter);
 		
-		v.start();
-
+		view.start();
 	}
-
 }
