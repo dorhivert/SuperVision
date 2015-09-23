@@ -2,6 +2,7 @@ package model;
 
 import mazeGenerators.Maze3d;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface Model.
  */
