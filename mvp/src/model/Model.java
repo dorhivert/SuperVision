@@ -18,7 +18,7 @@ public interface Model
 	 * @param path the path
 	 * @return the files in directory
 	 */
-	public String[] getFilesInDirectory(String path);
+	public void getFilesInDirectory(String path);
 	
 	/**
 	 * Generate3d maze.
@@ -36,7 +36,7 @@ public interface Model
 	 * @param name the name
 	 * @return the cross section
 	 */
-	public int[][] getCrossSection (char xyz, int index, String name);
+	public void getCrossSection (char xyz, int index, String name);
 	
 	/**
 	 * Save maze.
@@ -53,7 +53,7 @@ public interface Model
 	 * @param fileName the file name
 	 * @return the maze3d
 	 */
-	public Maze3d loadMaze (String mazeName, String fileName);
+	public void loadMaze (String mazeName, String fileName);
 	
 	/**
 	 * Calc maze size.
@@ -61,7 +61,7 @@ public interface Model
 	 * @param name the name
 	 * @return the double
 	 */
-	public double calcMazeSize(String name);
+	public void calcMazeSize(String name);
 	
 	/**
 	 * Calc file size.
@@ -69,7 +69,7 @@ public interface Model
 	 * @param name the name
 	 * @return the double
 	 */
-	public double calcFileSize(String name);
+	public void calcFileSize(String name);
 	
 	/**
 	 * Solve.
@@ -82,4 +82,6 @@ public interface Model
 	public HashMap<String,Maze3d> getMazeCollection();
 	
 	public HashMap<Maze3d,Solution> getSolutionCollection();
+	
+	public HashMap<String,Object> getCommandData();
 }

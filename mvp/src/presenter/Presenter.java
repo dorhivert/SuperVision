@@ -16,6 +16,14 @@ public class Presenter implements Observer{
 	
 	HashMap<String,Command> commandMap;
 	
+	public Presenter(Model model, View view)
+	{
+		this.model = model;
+		this.view = view;
+		commandMap = new HashMap<String,Command>();
+		initCommands(commandMap);
+	}
+	
 	public void initCommands(HashMap<String, Command> map) 
 	{
 		map.put("dir", new Command() 
@@ -89,7 +97,7 @@ public class Presenter implements Observer{
 			@Override
 			public void doCommand(String [] args) 
 			{
-				model.getMazeCollection().put(args[3], model.loadMaze(args[3], args[2]));
+				model.loadMaze(args[3], args[2]);
 				notifyView("Maze "+args[2]+" has been loaded");
 			}
 		});
@@ -131,11 +139,32 @@ public class Presenter implements Observer{
 	}
 	
 	@Override
-	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void update(Observable arg0, Object arg1)
+	{
+		if (arg0 == this.model)
+		{
+			String data = ((String) arg1);
+			if(data.equals("dir"))
+			{
+				
+			}
+		}
+		else
+		{
+			if (arg0 == this.view)
+			{
+				String[] command = (String[])arg1;
+				Command data = commandMap.get(command[0]);
+				data.doCommand(command);
+			}
+			else
+			{
+				System.out.println("FATAL ERROR:  UPDATE FROM SPACE (Presenter.update)");
+				return;
+			}
+		}
 
+	}
 	/* (non-Javadoc)
 	 * @see controller.Controller#displayDirectory(java.lang.String[])
 	 */
@@ -225,8 +254,13 @@ public class Presenter implements Observer{
 	 */
 	public void commandManu() 
 	{
-		view.displayCommandManu();
+		view.displayCommandMenu();
 
+	}
+
+	public HashMap<String, Command> getCommandMap() {
+		
+		return commandMap;
 	}
 
 }

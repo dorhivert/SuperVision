@@ -9,6 +9,7 @@ import solution.Solution;
  */
 public interface View 
 {
+	
 
 	/**
 	 * Start.
@@ -41,7 +42,7 @@ public interface View
 	 * Display file size.
 	 *
 	 * @param name the name
-	 * @param fileSize the file size
+	 * @param fileSize the	 file size
 	 */
 	public void displayFileSize(String name, double fileSize);
 	
@@ -66,8 +67,7 @@ public interface View
 	 */
 	public void displayDirectory(String[] path);
 
-	/**
-	 * Display command manu.
-	 */
-	public void displayCommandManu();
+	public void displayCommandMenu();
+
+
 }

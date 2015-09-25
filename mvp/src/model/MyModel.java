@@ -1,8 +1,13 @@
 package model;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 
+import io.MyDecompressorInputStream;
 import mazeGenerators.Maze3d;
 import solution.Solution;
 
@@ -15,13 +20,29 @@ public class MyModel extends ObservableModel {
 
 	/** The solution collection. */
 	private HashMap<Maze3d, Solution> solutionCollection = new HashMap<Maze3d, Solution>();
+	
+	private HashMap<String,Object> commandData = new HashMap<String,Object>();
 
 	
+	@Override
+	public HashMap<String,Object> getCommandData()
+	{
+		return commandData;
+	}
+	
+	public void changeAndNotify(String command,Object obj)
+	{
+		if(obj != null)
+			commandData.put(command, obj);
+		setChanged();
+		notifyObservers(command);
+		changeAndNotify("",345.0);
+	}
 	
 	@Override
-	public String[] getFilesInDirectory(String path) {
+	public void getFilesInDirectory(String path) {
 		// TODO Auto-generated method stub
-		return null;
+
 	}
 
 	@Override
@@ -31,9 +52,8 @@ public class MyModel extends ObservableModel {
 	}
 
 	@Override
-	public int[][] getCrossSection(char xyz, int index, String name) {
+	public void getCrossSection(char xyz, int index, String name) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -43,21 +63,38 @@ public class MyModel extends ObservableModel {
 	}
 
 	@Override
-	public Maze3d loadMaze(String mazeName, String fileName) {
-		// TODO Auto-generated method stub
+	public void loadMaze(String mazeName, String fileName) 
+	{
+		try
+		{
+			InputStream in=new MyDecompressorInputStream( new FileInputStream(fileName));
+			byte[] b = new byte[((MyDecompressorInputStream) in).getLength()];
+			in.read(b);
+			in.close();
+			return new Maze3d(b);
+		}
+
+		catch (FileNotFoundException e) 
+		{
+
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 
 	@Override
-	public double calcMazeSize(String name) {
+	public void calcMazeSize(String name) {
 		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override
-	public double calcFileSize(String name) {
+	public void calcFileSize(String name) {
 		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override
