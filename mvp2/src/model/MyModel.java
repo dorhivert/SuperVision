@@ -9,23 +9,26 @@ import solution.Solution;
 public class MyModel extends ObservableModel {
 
 	ExecutorService threadPool;
-	
+
 	/** The maze collection. */
 	private HashMap<String, Maze3d> mazeCollection = new HashMap<String, Maze3d>();
 
 	/** The solution collection. */
 	private HashMap<Maze3d, Solution> solutionCollection = new HashMap<Maze3d, Solution>();
 
-	
-	
+
+
 	@Override
-	public String[] getFilesInDirectory(String path) {
+	public String[] getFilesInDirectory(String path) 
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void generate3dMaze(String name, int size) {
+	public void generate3dMaze(String name, int size)
+	{
+
 		// TODO Auto-generated method stub
 
 	}
