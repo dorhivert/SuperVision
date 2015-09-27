@@ -103,14 +103,17 @@ public class MyModel extends ObservableModel {
 			if (xyz == 'x' || xyz == 'X') 
 			{
 				changeAndNotify("crossed", myMaze.getCrossSectionByX(index));
+				return;
 			}
 			if (xyz == 'y' || xyz == 'Y') 
 			{
 				changeAndNotify("crossed", myMaze.getCrossSectionByY(index));
+				return;
 			}
 			if (xyz == 'z' || xyz == 'Z') 
 			{
 				changeAndNotify("crossed", myMaze.getCrossSectionByZ(index));
+				return;
 			}
 			else 
 			{
@@ -226,7 +229,7 @@ public class MyModel extends ObservableModel {
 						searcher = new BFS();
 						sol = searcher.search(sMaze);
 					}
-					getSolutionCollection().put(new Maze3d(getMazeCollection().get(name)), sol);
+					getSolutionCollection().put(getMazeCollection().get(name), sol);
 					changeAndNotify("solved",name);
 
 				} else 

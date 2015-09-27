@@ -60,15 +60,16 @@ public class Presenter implements Observer{
 				break;
 				case "solution":
 				{
-					if(model.getSolutionCollection().get(args[2])!=null)
+					if(model.getSolutionCollection().get(model.getMazeCollection().get(args[2]))!=null)
 					{
-						view.displaySolution(model.getSolutionCollection().get(args[2]));
+						view.displaySolution(model.getSolutionCollection().get(model.getMazeCollection().get(args[2])));
 					}
 					else
 					{
 						notifyView("No solution exists for this maze, please create one.");
 					}
-				} break;
+				}
+				break;
 				default:
 					if(model.getMazeCollection().get(args[1])!=null)
 					{
@@ -154,6 +155,11 @@ public class Presenter implements Observer{
 		{
 			String data = ((String) arg1);
 			switch (data) {
+			case "notify":
+			{
+				notifyView((String) model.getCommandData().get("notify"));
+			}
+			break;
 			case "dir":
 			{
 				
@@ -167,7 +173,7 @@ public class Presenter implements Observer{
 			break;
 			case "crossed":
 			{
-				view.displayCrossSection((int[][]) model.getCommandData().get("crossed"));
+			//	view.displayCrossSection((int[][]) model.getCommandData().get("crossed"));
 			}
 			break;
 //			case "solution":
