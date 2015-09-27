@@ -8,6 +8,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import algorithms.search.AStar;
 import algorithms.search.BFS;
@@ -24,7 +29,7 @@ import solution.Solution;
 
 public class MyModel extends ObservableModel {
 
-	//ExecutorService threadPool;
+	ExecutorService threadPool;
 	
 	/** The maze collection. */
 	private HashMap<String, Maze3d> mazeCollection = new HashMap<String, Maze3d>();
@@ -38,7 +43,8 @@ public class MyModel extends ObservableModel {
 	
 	public MyModel()
 	{
-		
+		super();
+		threadPool = Executors.newCachedThreadPool();
 	}
 	
 	@Override
@@ -81,18 +87,23 @@ public class MyModel extends ObservableModel {
 
 	@Override
 	public void generate3dMaze(String name, int size) {
-		new Thread(new Runnable()
-		{
+		Future<Maze3d> f = threadPool.submit(new Callable<Maze3d>() {
+
 			@Override
-			public void run() 
-			{
+			public Maze3d call() throws Exception {
 				Maze3dGenerator mg = new MyMaze3dGenerator();
 				Maze3d myMaze = mg.generate(size, size, size);
-				getMazeCollection().put(name, myMaze);
-				changeAndNotify("generated", name);
+				return myMaze;
 			}
-		}).start();
-
+		});
+		try {
+			Maze3d myMaze = f.get();
+			getMazeCollection().put(name, myMaze);
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
+		changeAndNotify("generated", name);
+		
 	}
 
 	@Override
