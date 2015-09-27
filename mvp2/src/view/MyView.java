@@ -1,5 +1,6 @@
 package view;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 import mazeGenerators.Maze3d;
@@ -16,8 +17,45 @@ public class MyView extends ObservableView
 	@Override
 	public void start()
 	{
-		this.cli.start();
+		new Thread(new Runnable()
+		{
+			@Override
+			public void run() 
+			{
 
+				try 
+				{
+					String line;	
+					System.out.println("You can start writing commands");
+					System.out.println("Type menu to see syntax");
+					while (!(line = cli.in.readLine()).equals("exit")) 
+					{
+						String [] splittedLine = line.split(" ");
+						if (cli.commandMap.containsKey(splittedLine[0])) 
+						{
+							System.out.println("--- Command '" + line + "' is OK --- ");
+							cli.out.flush();
+//							cli.commandMap.get(splittedLine[0]).doCommand(splittedLine);
+							setChanged();
+							notifyObservers(splittedLine);
+
+						}
+						else
+						{
+							System.out.println("ERROR: Wrong command: "+line);
+							cli.out.flush();
+						}
+					}
+				}
+				catch (IOException e) 
+				{
+					e.printStackTrace();
+				}
+				System.out.println("Good-Bye!!");
+				cli.out.flush();
+				cli.out.close();
+			}
+		}).start();
 	}
 
 	@Override
