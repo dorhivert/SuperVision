@@ -1,19 +1,30 @@
 package model;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
-import java.util.concurrent.ExecutorService;
 
+import algorithms.search.AStar;
+import algorithms.search.BFS;
+import algorithms.search.CommonSearcher;
+import algorithms.search.SearchableMaze;
+import heuristics.MazeEuclideanDistance;
+import heuristics.MazeManhattanDistance;
+import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
 import mazeGenerators.Maze3d;
+import mazeGenerators.Maze3dGenerator;
+import mazeGenerators.MyMaze3dGenerator;
 import solution.Solution;
 
 public class MyModel extends ObservableModel {
 
-	ExecutorService threadPool;
+	//ExecutorService threadPool;
 	
 	/** The maze collection. */
 	private HashMap<String, Maze3d> mazeCollection = new HashMap<String, Maze3d>();
@@ -23,6 +34,12 @@ public class MyModel extends ObservableModel {
 	
 	private HashMap<String,Object> commandData = new HashMap<String,Object>();
 
+	
+	
+	public MyModel()
+	{
+		
+	}
 	
 	@Override
 	public HashMap<String,Object> getCommandData()
@@ -36,29 +53,92 @@ public class MyModel extends ObservableModel {
 			commandData.put(command, obj);
 		setChanged();
 		notifyObservers(command);
-		changeAndNotify("",345.0);
 	}
 	
 	@Override
 	public void getFilesInDirectory(String path) {
-		// TODO Auto-generated method stub
-
+		File f = new File(path);
+		File[] fList = f.listFiles();
+		f.list();
+		if (f.length()==0)
+		{
+			changeAndNotify("notify", "No files in directory");
+			return;
+		}
+		if (!f.isDirectory())
+		{
+			changeAndNotify("notify", "This is not a directory!");
+			return;
+		}
+		String[] fileNames = new String[fList.length];
+		
+		for (int i = 0; i < fList.length; i++)
+		{
+			fileNames[i] = fList[i].getName();	
+		}
+		changeAndNotify("dir", fileNames);
 	}
 
 	@Override
 	public void generate3dMaze(String name, int size) {
-		// TODO Auto-generated method stub
+		new Thread(new Runnable()
+		{
+			@Override
+			public void run() 
+			{
+				Maze3dGenerator mg = new MyMaze3dGenerator();
+				Maze3d myMaze = mg.generate(size, size, size);
+				getMazeCollection().put(name, myMaze);
+				changeAndNotify("generated", name);
+			}
+		}).start();
 
 	}
 
 	@Override
 	public void getCrossSection(char xyz, int index, String name) {
-		// TODO Auto-generated method stub
+		if((getMazeCollection().containsKey(name)))
+		{
+			Maze3d myMaze = new Maze3d((getMazeCollection().get(name)));
+			if (xyz == 'x' || xyz == 'X') 
+			{
+				changeAndNotify("crossed", myMaze.getCrossSectionByX(index));
+			}
+			if (xyz == 'y' || xyz == 'Y') 
+			{
+				changeAndNotify("crossed", myMaze.getCrossSectionByY(index));
+			}
+			if (xyz == 'z' || xyz == 'Z') 
+			{
+				changeAndNotify("crossed", myMaze.getCrossSectionByZ(index));
+			}
+			else 
+			{
+				changeAndNotify("notify", "bad X/Y/Z cord");
+			}
+		}
+		else
+		{
+			changeAndNotify("notify", "Bad Maze Name (m.getcross)" );
+		}
 	}
 
 	@Override
 	public void saveMaze(String mazeName, String fileName) {
-		// TODO Auto-generated method stub
+		Maze3d myMaze = new Maze3d(getMazeCollection().get(mazeName));
+		try 
+		{
+			OutputStream out=new MyCompressorOutputStream( new FileOutputStream(fileName));
+			out.write(myMaze.toByteArray());
+			out.flush();
+			out.close();
+			changeAndNotify("saved", mazeName);
+		} 
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	
 
 	}
 
@@ -71,7 +151,8 @@ public class MyModel extends ObservableModel {
 			byte[] b = new byte[((MyDecompressorInputStream) in).getLength()];
 			in.read(b);
 			in.close();
-			return new Maze3d(b);
+			mazeCollection.put(mazeName, new Maze3d(b));
+			changeAndNotify("loaded", mazeName);
 		}
 
 		catch (FileNotFoundException e) 
@@ -83,25 +164,81 @@ public class MyModel extends ObservableModel {
 
 			e.printStackTrace();
 		}
-		
-		return null;
 	}
 
 	@Override
 	public void calcMazeSize(String name) {
-		// TODO Auto-generated method stub
+		double size =-5;
+		if(getMazeCollection().containsKey(name))
+		{
+			Maze3d myMaze = new Maze3d(getMazeCollection().get(name));
+			size = myMaze.toByteArray().length;
+			commandData.put("maze", name);
+			changeAndNotify("calcedmazesize", size);
+		}
+		else
+		{
+			changeAndNotify("notify", "Bad Maze Name (m.calcmazesize)");
+		}
+		
 	}
 
 	@Override
 	public void calcFileSize(String name) {
-		// TODO Auto-generated method stub
+		File f = new File(name);
+		if (f.length() == 0L)
+		{
+			this.saveMaze(name, "tempFileName");
+			f = new File("tempFileName");
+		}
+		commandData.put("maze", name);
+		changeAndNotify("calcedfilesize", f.length());
 	}
+
 
 	@Override
-	public void solve(String name, String algo) {
-		// TODO Auto-generated method stub
+	public void solve(String name, String algo) 
+	{
+		new Thread(new Runnable() 
+		{
 
+			@Override
+			public void run() 
+			{
+				if (getMazeCollection().containsKey(name))
+				{
+					SearchableMaze sMaze = new SearchableMaze(new Maze3d(getMazeCollection().get(name)));
+					CommonSearcher searcher;
+					Solution sol = new Solution();
+
+					if (algo.equalsIgnoreCase("astarman"))
+					{
+						searcher = new AStar(new MazeManhattanDistance());
+						sol = searcher.search(sMaze);
+					}
+					if (algo.equalsIgnoreCase("astarair"))
+					{
+						searcher = new AStar(new MazeEuclideanDistance());
+						sol = searcher.search(sMaze);
+					}
+					if (algo.equalsIgnoreCase("bfs"))
+					{
+						searcher = new BFS();
+						sol = searcher.search(sMaze);
+					}
+					getSolutionCollection().put(new Maze3d(getMazeCollection().get(name)), sol);
+					changeAndNotify("solved",name);
+
+				} else 
+				{
+					changeAndNotify("notify", "No maze by this name");
+				}
+			}
+		}).start();
 	}
+	
+
+	
 
 	@Override
 	public HashMap<String, Maze3d> getMazeCollection() {

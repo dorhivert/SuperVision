@@ -35,13 +35,13 @@ public class MyView extends ObservableView
 					while (!(line = cli.in.readLine()).equals("exit")) 
 					{
 						String [] splittedLine = line.split(" ");
-						if (commandMap.containsKey(splittedLine[0])) 
+						if (cli.commandMap.containsKey(splittedLine[0])) 
 						{
 							System.out.println("--- Command '" + line + "' is OK --- ");
 							cli.out.flush();
 							//commandMap.get(splittedLine[0]).doCommand(splittedLine);
 							setChanged();
-							notifyObservers(commandMap.get(splittedLine));
+							notifyObservers(splittedLine);
 						}
 						else
 						{
@@ -99,6 +99,7 @@ public class MyView extends ObservableView
 		System.out.print("'"+name+"'");
 		System.out.print(" - the MAZE size is: ");
 		System.out.println(newValue+" Bytes.");
+		
 	}
 
 	@Override

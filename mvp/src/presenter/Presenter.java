@@ -87,9 +87,16 @@ public class Presenter implements Observer{
 			@Override
 			public void doCommand(String [] args) 
 			{
-				model.saveMaze(args[2], args[3]);
-				notifyView("Maze "+args[2]+" has been saved under the path:");
-				notifyView(args[3]);
+				if(model.getMazeCollection().containsKey(args[2]))
+				{
+					model.saveMaze(args[2], args[3]);
+					notifyView("Maze "+args[2]+" has been saved under the path:"+args[3]);
+				}
+				else
+				{
+					notifyView ("No maze exists by this name");
+				}
+				
 			}
 		});
 		map.put("load", new Command() 
@@ -133,7 +140,7 @@ public class Presenter implements Observer{
 			@Override
 			public void doCommand(String [] args) 
 			{
-				commandManu();
+				commandMenu();
 			}
 		});
 	}
@@ -141,13 +148,67 @@ public class Presenter implements Observer{
 	@Override
 	public void update(Observable arg0, Object arg1)
 	{
+	
+		
 		if (arg0 == this.model)
 		{
 			String data = ((String) arg1);
-			if(data.equals("dir"))
+			switch (data) {
+			case "dir":
 			{
 				
+				view.displayDirectory((String[])model.getCommandData().get("dir"));
 			}
+				break;
+			case "generated":
+			{
+				notifyView("Maze "+model.getCommandData().get("generated")+ "is ready.");
+			}
+			break;
+			case "crossed":
+			{
+				view.displayCrossSection((int[][]) model.getCommandData().get("crossed"));
+			}
+			break;
+//			case "solution":
+//			{
+//				view.displaySolution(model.getSolutionCollection().get(model.getCommandData().get("solution")));
+//			}
+//			break;
+//			case "displaymaze":
+//			{
+//				view.displayMaze(model.getMazeCollection().get(model.getCommandData().get("maze")));
+//			}
+//			break;
+			case "calcedmazesize":
+			{
+				view.displayMazeSize((String)model.getCommandData().get("maze"), (int)model.getCommandData().get("calcedmazesize"));
+			}
+			break;
+			case "calcedfilesize":
+			{
+				view.displayFileSize((String)model.getCommandData().get("maze"), (int)model.getCommandData().get("calcedfilesize"));
+			}
+			case "loaded":
+			{
+				notifyView("Maze named "+model.getCommandData().get("loaded")+" has been loaded");
+			}
+			break;
+			case "saved":
+			{
+			//	notifyView("Maze named "+model.getCommandData().get("saved")+" has been saved");
+			}
+			break;
+			case "solved":
+			{
+				notifyView("Maze named " + model.getCommandData().get("solved")+" is ready");
+			}
+			break;
+			default:
+				notifyView("Model is going crazy!(presenter.update.default)");
+				break;
+			}
+
 		}
 		else
 		{
@@ -197,7 +258,8 @@ public class Presenter implements Observer{
 	 */
 	public void getCrossSection(String name, int index, char xyz)
 	{
-		this.view.displayCrossSection(this.model.getCrossSection(xyz, index, name));
+		model.getCrossSection(xyz, index, name);
+		this.view.displayCrossSection((int[][])this.model.getCommandData().get("crossed"));
 	}
 
 	/* (non-Javadoc)
@@ -205,7 +267,8 @@ public class Presenter implements Observer{
 	 */
 	public void displayMazeSize(String name) 
 	{
-		this.view.displayMazeSize(name, this.model.calcMazeSize(name));
+		model.calcMazeSize(name);
+		this.view.displayMazeSize(name, (double) this.model.getCommandData().get("crossed"));
 	}
 
 	/* (non-Javadoc)
@@ -213,7 +276,8 @@ public class Presenter implements Observer{
 	 */
 	public void displayFileSize(String name)
 	{
-		this.view.displayFileSize(name, this.model.calcFileSize(name));
+		model.calcFileSize(name);
+		this.view.displayFileSize(name, (double) this.model.getCommandData().get("crossed"));
 	}
 
 	/* (non-Javadoc)
@@ -221,7 +285,9 @@ public class Presenter implements Observer{
 	 */
 	public void getFilesInDirectory(String path) 
 	{
-		this.view.displayDirectory(this.model.getFilesInDirectory(path));
+		model.getFilesInDirectory(path);
+		if(this.model.getCommandData().get("crossed")!=null)
+			this.view.displayDirectory((String[]) this.model.getCommandData().get("crossed"));
 	}
 
 	/**
@@ -252,7 +318,7 @@ public class Presenter implements Observer{
 	/* (non-Javadoc)
 	 * @see controller.Controller#commandManu()
 	 */
-	public void commandManu() 
+	public void commandMenu() 
 	{
 		view.displayCommandMenu();
 
