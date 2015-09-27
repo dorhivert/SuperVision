@@ -60,9 +60,10 @@ public class Presenter implements Observer
 				break;
 				case "solution":
 				{
-					if(model.getSolutionCollection().get(args[2])!=null)
+				
+					if((model.getSolutionCollection().get(model.getMazeCollection().get(args[2])))!=null)
 					{
-						view.displaySolution(model.getSolutionCollection().get(args[2]));
+						view.displaySolution((model.getSolutionCollection().get(model.getMazeCollection().get(args[2]))));
 					}
 					else
 					{
@@ -87,9 +88,16 @@ public class Presenter implements Observer
 			@Override
 			public void doCommand(String [] args) 
 			{
-				model.saveMaze(args[2], args[3]);
-				notifyView("Maze "+args[2]+" has been saved under the path:");
-				notifyView(args[3]);
+				if(model.getMazeCollection().containsKey(args[2]))
+				{
+					model.saveMaze(args[2], args[3]);
+					notifyView("Maze "+args[2]+" has been saved under the path:"+args[3]);
+				}
+				else
+				{
+					notifyView ("No maze exists by this name");
+				}
+				
 			}
 		});
 		map.put("load", new Command() 
@@ -97,8 +105,8 @@ public class Presenter implements Observer
 			@Override
 			public void doCommand(String [] args) 
 			{
-				model.getMazeCollection().put(args[3], model.loadMaze(args[3], args[2]));
-				notifyView("Maze "+args[2]+" has been loaded");
+				model.loadMaze(args[3], args[2]);
+				notifyView("File "+args[2]+" has been loaded");
 			}
 		});
 		map.put("maze", new Command() 
@@ -141,15 +149,57 @@ public class Presenter implements Observer
 	@Override
 	public void update(Observable arg0, Object arg1)
 	{
-		if (arg0 == this.model)
+		if (arg0 instanceof Model)
 		{
 			String data = ((String) arg1);
+			switch (data)
+			{
+			case "dir":
+			{
+				view.displayDirectory((String[]) model.getCommandData().get("dir"));
+			} 	break;
+			case "generated":
+			{
+				notifyView("Maze "+model.getCommandData().get("generated")+" is ready" );
+			}	break;
+			case "crossed":
+			{
+				view.displayCrossSection((int[][]) model.getCommandData().get("crossed"));
+			}	break;
+			case "calcedMazeSize":
+			{
+				view.displayMazeSize((String) model.getCommandData().get("maze"), (double) model.getCommandData().get("calcedMazeSize"));
+			}	break;
+			case "loaded":
+			{
+			//	notifyView("Maze: "+model.getCommandData().get("loaded")+" has been loaded");
+			}	break;
+			case "saved":
+			{
+				//notifyView("Maze: "+model.getCommandData().get("saved")+" has been saved");
+			}	break;
+			case "solved":
+			{
+				notifyView("Solution for maze: "+model.getCommandData().get("solved")+" is ready");
+			}	break;
+			case "notify":
+			{
+				notifyView((String) model.getCommandData().get("notify"));
+			}	break;
+				
+
+			default:
+				notifyView("Model is going crazy (presenter.update.default)");
+				break;
+			}
 		}
 		else
 		{
-			if (arg0 == this.view)
+			if (arg0 instanceof View)
 			{
-				Command data = ((Command) arg1);
+				String[] myData = ((String[]) arg1);
+				Command cData = commandMap.get(myData[0]);
+				cData.doCommand(myData);
 			}
 			else
 			{
@@ -157,8 +207,6 @@ public class Presenter implements Observer
 				return;
 			}
 		}
-		System.out.println("FATAL ERROR:  UPDATE FROM SPACE (Presenter.update)");
-		return;
 	}
 
 	/* (non-Javadoc)
@@ -193,7 +241,8 @@ public class Presenter implements Observer
 	 */
 	public void getCrossSection(String name, int index, char xyz)
 	{
-		this.view.displayCrossSection(this.model.getCrossSection(xyz, index, name));
+		this.model.getCrossSection(xyz, index, name);
+	//	this.view.displayCrossSection((int[][]) this.model.getCommandData().get(name));
 	}
 
 	/* (non-Javadoc)
@@ -201,7 +250,8 @@ public class Presenter implements Observer
 	 */
 	public void displayMazeSize(String name) 
 	{
-		this.view.displayMazeSize(name, this.model.calcMazeSize(name));
+		this.model.calcMazeSize(name);
+		this.view.displayMazeSize(name, (double) this.model.getCommandData().get(name));
 	}
 
 	/* (non-Javadoc)
@@ -209,7 +259,8 @@ public class Presenter implements Observer
 	 */
 	public void displayFileSize(String name)
 	{
-		this.view.displayFileSize(name, this.model.calcFileSize(name));
+		this.model.calcFileSize(name);
+		this.view.displayFileSize(name, (double) this.model.getCommandData().get(name));
 	}
 
 	/* (non-Javadoc)
@@ -217,7 +268,8 @@ public class Presenter implements Observer
 	 */
 	public void getFilesInDirectory(String path) 
 	{
-		this.view.displayDirectory(this.model.getFilesInDirectory(path));
+		this.model.getFilesInDirectory(path);
+		//this.view.displayDirectory((String[]) this.model.getCommandData().get(path));
 	}
 
 	/**
