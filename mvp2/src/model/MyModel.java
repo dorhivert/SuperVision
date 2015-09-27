@@ -7,13 +7,16 @@ import io.MyDecompressorInputStream;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import mazeGenerators.Maze3d;
 import mazeGenerators.Maze3dGenerator;
@@ -38,37 +41,41 @@ public class MyModel extends ObservableModel
 	private HashMap<String, Object> commandData = new HashMap<String, Object>();
 
 
-	@Override
-	public void generate3dMaze(String name, int size)
-	{
-
-		new Thread(new Runnable()
-		{
-			@Override
-			public void run() 
-			{
-				Maze3dGenerator mg = new MyMaze3dGenerator();
-				Maze3d myMaze = mg.generate(size, size, size);
-				getMazeCollection().put(name, myMaze);
-				changeAndNotify("generated", name);
-			}
-		}).start();
-
-	}
-
 	public MyModel()
 	{
 		super();
-		this.commandData = new HashMap<String, Object>();
-		this.mazeCollection = new HashMap<String, Maze3d>();
-		this.solutionCollection = new HashMap<Maze3d, Solution>();
+		threadPool = Executors.newCachedThreadPool();
+	}
+
+	@Override
+	public void generate3dMaze(String name, int size)
+	{
+		Future<Maze3d> myMaze = threadPool.submit(new Callable<Maze3d>()
+				{
+			@Override
+			public Maze3d call() throws Exception
+			{
+				Maze3dGenerator mg = new MyMaze3dGenerator();
+				Maze3d myMaze = mg.generate(size, size, size);
+				return myMaze;
+			}
+				});
+		try 
+		{
+			getMazeCollection().put(name, myMaze.get());
+		}
+		catch (InterruptedException | ExecutionException e) 
+		{
+
+			e.printStackTrace();
+		}
+		changeAndNotify("generated", name);
 	}
 
 
 	@Override
 	public void saveMaze(String mazeName, String fileName) 
 	{
-
 		Maze3d myMaze = new Maze3d(getMazeCollection().get(mazeName));
 		try 
 		{
@@ -82,27 +89,24 @@ public class MyModel extends ObservableModel
 			e.printStackTrace();
 		}
 		changeAndNotify("saved", mazeName);
-
 	}
-
-
-
 
 	@Override
 	public void solve(String name, String algo) 
 	{
-		new Thread(new Runnable() 
+		if (getMazeCollection().containsKey(name))
 		{
+			Future<Solution> mySolution = threadPool.submit(new Callable<Solution>()
+					{
 
-			@Override
-			public void run() 
-			{
-				if (getMazeCollection().containsKey(name))
+				@Override
+				public Solution call() throws Exception 
 				{
 					Maze3d myMaze = new Maze3d(getMazeCollection().get(name));
 					SearchableMaze sMaze = new SearchableMaze(myMaze);
 					CommonSearcher searcher;
 					Solution sol = new Solution();
+
 
 					if (algo.equalsIgnoreCase("astarman"))
 					{
@@ -119,19 +123,24 @@ public class MyModel extends ObservableModel
 						searcher = new BFS();
 						sol = searcher.search(sMaze);
 					}
-					getSolutionCollection().put(getMazeCollection().get(name), sol);
-					changeAndNotify("solved", name);
-
-				} 
-				else 
-				{
-					changeAndNotify("notify", "Bad Maze Name (m.solve)");
+					return sol;
 				}
+					});
+			try
+			{
+				getSolutionCollection().put(getMazeCollection().get(name), mySolution.get());
+			} 
+			catch (InterruptedException | ExecutionException e)
+			{
+				e.printStackTrace();
 			}
-		}).start();
+			changeAndNotify("solved", name);
+		}
+		else 
+		{
+			changeAndNotify("notify", "Bad Maze Name (m.solve)");
+		}
 	}
-
-
 
 	@Override
 	public HashMap<String, Maze3d> getMazeCollection()
@@ -210,26 +219,20 @@ public class MyModel extends ObservableModel
 	@Override
 	public void loadMaze(String mazeName, String fileName)
 	{
-		try
+		InputStream in;
+		try 
 		{
-			InputStream in=new MyDecompressorInputStream( new FileInputStream(fileName));
+			in = new MyDecompressorInputStream( new FileInputStream(fileName));
 			byte[] b = new byte[((MyDecompressorInputStream) in).getLength()];
 			in.read(b);
 			in.close();
 			this.mazeCollection.put(mazeName, new Maze3d(b));
 			changeAndNotify("loaded", mazeName);
-		}
-
-		catch (FileNotFoundException e) 
+		} 
+		catch (IOException e) 
 		{
-
-			e.printStackTrace();
-		} catch (IOException e)
-		{
-
 			e.printStackTrace();
 		}
-
 	}
 
 
@@ -243,13 +246,11 @@ public class MyModel extends ObservableModel
 			size = myMaze.toByteArray().length;
 			commandData.put("maze", name);
 			changeAndNotify("calcedMazeSize", size);
-
 		}
 		else
 		{
 			changeAndNotify("notify", "Bad Maze Name (m.calcmazesize)");
 		}
-
 	}
 
 

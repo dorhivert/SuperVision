@@ -144,6 +144,14 @@ public class Presenter implements Observer
 				commandMenu();
 			}
 		});
+		map.put("exit", new Command() 
+		{
+			@Override
+			public void doCommand(String [] args) 
+			{
+				notifyView("Official Exit");
+			}
+		});
 	}
 
 	@Override
