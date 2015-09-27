@@ -150,6 +150,7 @@ public class Presenter implements Observer
 			public void doCommand(String [] args) 
 			{
 				notifyView("Official Exit");
+				model.officialExit();
 			}
 		});
 	}

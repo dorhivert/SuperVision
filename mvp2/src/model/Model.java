@@ -82,4 +82,6 @@ public interface Model
 	public HashMap<String,Maze3d> getMazeCollection();
 	public HashMap<Maze3d,Solution> getSolutionCollection();
 	public HashMap<String,Object> getCommandData();
+
+	public void officialExit();
 }

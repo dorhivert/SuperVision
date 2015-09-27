@@ -45,6 +45,7 @@ public class MyModel extends ObservableModel
 	{
 		super();
 		threadPool = Executors.newCachedThreadPool();
+	
 	}
 
 	@Override
@@ -283,5 +284,11 @@ public class MyModel extends ObservableModel
 	public HashMap<String, Object> getCommandData() 
 	{
 		return this.commandData;
+	}
+
+	@Override
+	public void officialExit() 
+	{
+		
 	}
 }
