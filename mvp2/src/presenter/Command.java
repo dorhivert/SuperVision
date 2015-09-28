@@ -6,11 +6,10 @@ package presenter;
  */
 public interface Command
 {
-
 	/**
 	 * Do command.
 	 *
 	 * @param args the args
 	 */
-	void doCommand (String [] args);
+	public void doCommand (String [] args); //will be implemented many times the presenter
 }

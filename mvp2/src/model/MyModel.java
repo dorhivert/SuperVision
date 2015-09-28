@@ -45,7 +45,6 @@ public class MyModel extends ObservableModel
 	{
 		super();
 		threadPool = Executors.newCachedThreadPool();
-	
 	}
 
 	@Override
@@ -99,7 +98,6 @@ public class MyModel extends ObservableModel
 		{
 			Future<Solution> mySolution = threadPool.submit(new Callable<Solution>()
 					{
-
 				@Override
 				public Solution call() throws Exception 
 				{
@@ -214,9 +212,6 @@ public class MyModel extends ObservableModel
 	}
 
 
-
-
-
 	@Override
 	public void loadMaze(String mazeName, String fileName)
 	{
@@ -268,18 +263,7 @@ public class MyModel extends ObservableModel
 		changeAndNotify("calcedFileSize", f.length());
 
 	}
-
-	public void changeAndNotify(String command, Object obj)
-	{
-		if (obj != null) 
-		{
-			this.commandData.put(command, obj);
-		}
-		setChanged();
-		notifyObservers(command);
-	}
-
-
+	
 	@Override
 	public HashMap<String, Object> getCommandData() 
 	{
@@ -289,6 +273,16 @@ public class MyModel extends ObservableModel
 	@Override
 	public void officialExit() 
 	{
-		
+		changeAndNotify("quit", "Official Exit");
+	}
+
+	private void changeAndNotify(String command, Object obj)
+	{
+		if (obj != null) 
+		{
+			this.commandData.put(command, obj);
+		}
+		setChanged();
+		notifyObservers(command);
 	}
 }

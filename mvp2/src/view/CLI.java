@@ -7,13 +7,11 @@ import java.util.HashMap;
 
 import presenter.Command;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CLI.
  */
 public class CLI extends Thread
 {
-
 	/** The in. */
 	BufferedReader in;
 	
@@ -37,9 +35,6 @@ public class CLI extends Thread
 		this.commandMap = _cm;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Thread#start()
-	 */
 	public void start()
 	{
 		new Thread(new Runnable()

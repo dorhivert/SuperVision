@@ -22,7 +22,6 @@ public class MyView extends ObservableView
 			@Override
 			public void run() 
 			{
-
 				try 
 				{
 					String line;	
@@ -36,7 +35,6 @@ public class MyView extends ObservableView
 						{
 							System.out.println("--- Command '" + line + "' is OK --- ");
 							cli.out.flush();
-//							cli.commandMap.get(splittedLine[0]).doCommand(splittedLine);
 							setChanged();
 							notifyObservers(splittedLine);
 						}
@@ -85,7 +83,6 @@ public class MyView extends ObservableView
 			System.out.println();
 		}
 		System.out.println();
-
 	}
 
 	@Override
@@ -114,14 +111,12 @@ public class MyView extends ObservableView
 	public void displayMaze(Maze3d maze) 
 	{
 		maze.displayMaze(maze);
-
 	}
 
 	@Override
 	public void displaySolution(Solution s) 
 	{
 		s.print();
-
 	}
 
 	@Override
@@ -152,5 +147,4 @@ public class MyView extends ObservableView
 		System.out.println("  menu");
 		System.out.println("  exit");
 	}
-
 }

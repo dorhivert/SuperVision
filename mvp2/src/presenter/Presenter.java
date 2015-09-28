@@ -9,12 +9,11 @@ import view.View;
 
 public class Presenter implements Observer
 {
+	private Model model;
 
-	Model model;
+	private View view;
 
-	View view;
-
-	HashMap<String,Command> commandMap;
+	private HashMap<String,Command> commandMap;
 
 	public Presenter(Model model, View view) 
 	{
@@ -24,7 +23,7 @@ public class Presenter implements Observer
 		this.initCommands(commandMap);
 	}
 
-	public void initCommands(HashMap<String, Command> map) 
+	private void initCommands(HashMap<String, Command> map) 
 	{
 		map.put("dir", new Command() 
 		{
@@ -149,7 +148,6 @@ public class Presenter implements Observer
 			@Override
 			public void doCommand(String [] args) 
 			{
-				notifyView("Official Exit");
 				model.officialExit();
 			}
 		});
@@ -181,11 +179,9 @@ public class Presenter implements Observer
 			}	break;
 			case "loaded":
 			{
-			//	notifyView("Maze: "+model.getCommandData().get("loaded")+" has been loaded");
 			}	break;
 			case "saved":
 			{
-				//notifyView("Maze: "+model.getCommandData().get("saved")+" has been saved");
 			}	break;
 			case "solved":
 			{
@@ -194,6 +190,10 @@ public class Presenter implements Observer
 			case "notify":
 			{
 				notifyView((String) model.getCommandData().get("notify"));
+			}	break;
+			case "quit":
+			{
+				notifyView((String) model.getCommandData().get("quit"));
 			}	break;
 				
 
@@ -217,68 +217,37 @@ public class Presenter implements Observer
 			}
 		}
 	}
-
-	/* (non-Javadoc)
-	 * @see controller.Controller#displayDirectory(java.lang.String[])
-	 */
-	public void displayDirectory(String[] path) 
+	
+	public HashMap<String, Command> getCommandMap() 
 	{
-		view.displayDirectory(path);
+		return this.commandMap;
 	}
 
-	/* (non-Javadoc)
-	 * @see controller.Controller#generate3dMaze(java.lang.String, int)
-	 */
-	public void generate3dMaze(String name, int size)
+	private void generate3dMaze(String name, int size)
 	{
 		this.model.generate3dMaze(name, size);
 	}
 
-	/* (non-Javadoc)
-	 * @see controller.Controller#displayMaze(java.lang.String)
-	 */
-	public void displayMaze(String name)
-	{
-		if ((model.getMazeCollection().get(name)) !=null)
-		{
-			this.view.displayMaze(model.getMazeCollection().get(name));
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see controller.Controller#getCrossSection(java.lang.String, int, char)
-	 */
-	public void getCrossSection(String name, int index, char xyz)
+	private void getCrossSection(String name, int index, char xyz)
 	{
 		this.model.getCrossSection(xyz, index, name);
-	//	this.view.displayCrossSection((int[][]) this.model.getCommandData().get(name));
 	}
 
-	/* (non-Javadoc)
-	 * @see controller.Controller#displayMazeSize(java.lang.String)
-	 */
-	public void displayMazeSize(String name) 
+	private void displayMazeSize(String name) 
 	{
 		this.model.calcMazeSize(name);
 		this.view.displayMazeSize(name, (double) this.model.getCommandData().get(name));
 	}
 
-	/* (non-Javadoc)
-	 * @see controller.Controller#displayFileSize(java.lang.String)
-	 */
-	public void displayFileSize(String name)
+	private void displayFileSize(String name)
 	{
 		this.model.calcFileSize(name);
 		this.view.displayFileSize(name, (double) this.model.getCommandData().get(name));
 	}
 
-	/* (non-Javadoc)
-	 * @see controller.Controller#getFilesInDirectory(java.lang.String)
-	 */
-	public void getFilesInDirectory(String path) 
+	private void getFilesInDirectory(String path) 
 	{
 		this.model.getFilesInDirectory(path);
-		//this.view.displayDirectory((String[]) this.model.getCommandData().get(path));
 	}
 
 	/**
@@ -286,38 +255,14 @@ public class Presenter implements Observer
 	 *
 	 * @param msg the msg
 	 */
-	public void notifyView(String msg) 
+	private void notifyView(String msg) 
 	{
 		this.view.writeToConsole("*** CPU Notification: "+msg);
 	}
 
-	/* (non-Javadoc)
-	 * @see controller.Controller#displaySolution(java.lang.String)
-	 */
-	public void displaySolution(String name)
-	{
-		if (this.model.getSolutionCollection().containsKey(name))
-		{
-			view.displaySolution(model.getSolutionCollection().get(name));
-		} 
-		else 
-		{
-			this.notifyView("No Solution for this maze (c.displaySolution)");
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see controller.Controller#commandManu()
-	 */
-	public void commandMenu() 
+	private void commandMenu() 
 	{
 		view.displayCommandMenu();
 
 	}
-
-	public HashMap<String, Command> getCommandMap() 
-	{
-		return this.commandMap;
-	}
-
 }
