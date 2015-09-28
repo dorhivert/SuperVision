@@ -2,11 +2,12 @@ package view;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.Observable;
 
 import mazeGenerators.Maze3d;
 import solution.Solution;
 
-public class MyView extends ObservableView 
+public class MyView extends Observable implements View
 {
 	CLI cli;
 
@@ -73,7 +74,6 @@ public class MyView extends ObservableView
 			System.out.print("    ");
 			for (int j = 0; j < crossSection.length; j++)
 			{
-
 				System.out.print(crossSection[j][crossSection.length-i-1]);
 				if (j+1 < crossSection.length)
 				{

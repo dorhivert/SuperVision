@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.Observable;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -27,7 +28,7 @@ import algorithms.search.BFS;
 import algorithms.search.CommonSearcher;
 import algorithms.search.SearchableMaze;
 
-public class MyModel extends ObservableModel 
+public class MyModel extends Observable implements Model
 {
 
 	ExecutorService threadPool;
