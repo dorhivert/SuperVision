@@ -3,12 +3,18 @@
  */
 package mazeGenerators;
 
-// TODO: Auto-generated Javadoc
+import java.io.Serializable;
+
 /**
  * The Class Position.
  */
-public class Position 
+public class Position implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1607482662205262265L;
+
 	/** The x. */
 	private int x;
 	
