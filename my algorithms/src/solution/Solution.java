@@ -3,16 +3,20 @@
  */
 package solution;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Solution.
  */
-public class Solution
+public class Solution implements Serializable
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1368969165588483942L;
 	/** The solution list. */
 	private ArrayList<String> solutionList;
 
