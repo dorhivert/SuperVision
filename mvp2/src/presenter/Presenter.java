@@ -195,6 +195,14 @@ public class Presenter implements Observer
 			{
 				notifyView((String) model.getCommandData().get("quit"));
 			}	break;
+			case "saveZip":
+			{
+				notifyView((String) model.getCommandData().get("saveZip"));
+			}	break;
+			case "loadZip":
+			{
+				notifyView((String) model.getCommandData().get("loadZip"));
+			}	break;
 				
 
 			default:

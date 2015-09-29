@@ -10,6 +10,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Observable;
@@ -18,6 +20,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import mazeGenerators.Maze3d;
 import mazeGenerators.Maze3dGenerator;
@@ -46,6 +51,15 @@ public class MyModel extends Observable implements Model
 	{
 		super();
 		threadPool = Executors.newCachedThreadPool();
+		try 
+		{
+			loadFromZip();
+			changeAndNotify("loadZip", "Mazes has been loaded from file");
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -264,7 +278,7 @@ public class MyModel extends Observable implements Model
 		changeAndNotify("calcedFileSize", f.length());
 
 	}
-	
+
 	@Override
 	public HashMap<String, Object> getCommandData() 
 	{
@@ -274,6 +288,18 @@ public class MyModel extends Observable implements Model
 	@Override
 	public void officialExit() 
 	{
+		threadPool.shutdown();
+		try 
+		{
+			saveToZip();
+			changeAndNotify("saveZip", "File has been saved");
+			threadPool.awaitTermination(59, TimeUnit.SECONDS);
+		} 
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		threadPool.shutdownNow();
 		changeAndNotify("quit", "Official Exit");
 	}
 
@@ -285,5 +311,43 @@ public class MyModel extends Observable implements Model
 		}
 		setChanged();
 		notifyObservers(command);
+	}
+
+	private void saveToZip()
+	{
+		try
+		{
+			ObjectOutputStream zipMaze = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream("mazeSolutionCache.gzip")));
+			zipMaze.writeObject(mazeCollection);
+			zipMaze.writeObject(solutionCollection);
+			zipMaze.flush();
+			zipMaze.close();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void loadFromZip()
+	{
+		File myFile = new File("mazeSolutionCache.gzip");
+		try
+		{
+			if(!myFile.createNewFile())
+			{
+				ObjectInputStream mazeZip = new ObjectInputStream(new GZIPInputStream(new FileInputStream(myFile)));
+
+				this.mazeCollection = (HashMap<String, Maze3d>) mazeZip.readObject();
+				this.solutionCollection = (HashMap<Maze3d, Solution>) mazeZip.readObject();
+				
+				mazeZip.close();
+			} 
+		}
+		catch (IOException | ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }
