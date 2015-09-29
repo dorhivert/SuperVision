@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.Observable;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -27,7 +28,7 @@ import mazeGenerators.Maze3dGenerator;
 import mazeGenerators.MyMaze3dGenerator;
 import solution.Solution;
 
-public class MyModel extends ObservableModel {
+public class MyModel extends Observable implements Model {
 
 	ExecutorService threadPool;
 	
@@ -213,17 +214,18 @@ public class MyModel extends ObservableModel {
 	@Override
 	public void solve(String name, String algo) 
 	{
-		new Thread(new Runnable() 
+		if (getMazeCollection().containsKey(name))
 		{
-
-			@Override
-			public void run() 
-			{
-				if (getMazeCollection().containsKey(name))
+			Future<Solution> mySolution = threadPool.submit(new Callable<Solution>()
+					{
+				@Override
+				public Solution call() throws Exception 
 				{
-					SearchableMaze sMaze = new SearchableMaze(new Maze3d(getMazeCollection().get(name)));
+					Maze3d myMaze = new Maze3d(getMazeCollection().get(name));
+					SearchableMaze sMaze = new SearchableMaze(myMaze);
 					CommonSearcher searcher;
 					Solution sol = new Solution();
+
 
 					if (algo.equalsIgnoreCase("astarman"))
 					{
@@ -240,15 +242,23 @@ public class MyModel extends ObservableModel {
 						searcher = new BFS();
 						sol = searcher.search(sMaze);
 					}
-					getSolutionCollection().put(getMazeCollection().get(name), sol);
-					changeAndNotify("solved",name);
-
-				} else 
-				{
-					changeAndNotify("notify", "No maze by this name");
+					return sol;
 				}
+					});
+			try
+			{
+				getSolutionCollection().put(getMazeCollection().get(name), mySolution.get());
+			} 
+			catch (InterruptedException | ExecutionException e)
+			{
+				e.printStackTrace();
 			}
-		}).start();
+			changeAndNotify("solved", name);
+		}
+		else 
+		{
+			changeAndNotify("notify", "Bad Maze Name (m.solve)");
+		}
 	}
 	
 

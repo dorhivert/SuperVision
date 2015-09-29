@@ -3,12 +3,13 @@ package view;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.Observable;
 
 import mazeGenerators.Maze3d;
 import presenter.Command;
 import solution.Solution;
 
-public class MyView extends ObservableView 
+public class MyView extends Observable implements View 
 {
 	CLI cli;
 	
