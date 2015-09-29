@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Observable;
@@ -14,6 +16,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import algorithms.search.AStar;
 import algorithms.search.BFS;
@@ -46,6 +51,7 @@ public class MyModel extends Observable implements Model {
 	{
 		super();
 		threadPool = Executors.newCachedThreadPool();
+		loadFromZip();
 	}
 	
 	@Override
@@ -274,6 +280,51 @@ public class MyModel extends Observable implements Model {
 	public HashMap<Maze3d, Solution> getSolutionCollection() {
 		return solutionCollection;
 		
+	}
+
+	@Override
+	public void officialExit() {
+		saveToZip();
+		threadPool.shutdown();
+		try {
+			threadPool.awaitTermination(59,TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		threadPool.shutdownNow();
+		changeAndNotify("quit", "Official Exit");
+	}
+	
+	private void loadFromZip()
+	{
+		File file = new File("mazeSolutionCache.gzip");
+		try {
+				if(!(file.createNewFile()))	
+				{
+				ObjectInputStream mazeZip = new ObjectInputStream(new GZIPInputStream(new FileInputStream(file)));
+				mazeCollection = (HashMap<String, Maze3d>) mazeZip.readObject();
+				solutionCollection = (HashMap<Maze3d, Solution>) mazeZip.readObject();
+				mazeZip.close();
+				}
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+	}
+	@SuppressWarnings("unused")
+	private void saveToZip()
+	{
+		File file = new File("mazeSolutionCache.gzip");
+
+			try {
+				ObjectOutputStream mazeZip = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream(file)));
+				mazeZip.writeObject(mazeCollection);
+				mazeZip.writeObject(solutionCollection);
+				mazeZip.flush();
+				mazeZip.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
 	}
 
 }

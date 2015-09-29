@@ -33,8 +33,9 @@ public class MyView extends Observable implements View
 				String line;	
 				System.out.println("You can start writing commands");
 				System.out.println("Type menu to see syntax");
-					while (!(line = cli.in.readLine()).equals("exit")) 
+					do 
 					{
+						line = cli.in.readLine();
 						String [] splittedLine = line.split(" ");
 						if (cli.commandMap.containsKey(splittedLine[0])) 
 						{
@@ -49,7 +50,7 @@ public class MyView extends Observable implements View
 							System.out.println("ERROR: Wrong command: "+line);
 							cli.out.flush();
 						}
-					}
+					}while (!(line.equals("exit")));
 				}
 				catch (IOException e) 
 				{

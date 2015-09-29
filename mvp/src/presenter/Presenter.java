@@ -144,6 +144,14 @@ public class Presenter implements Observer{
 				commandMenu();
 			}
 		});
+		map.put("exit", new Command() 
+		{
+			@Override
+			public void doCommand(String [] args) 
+			{
+				model.officialExit();
+			}
+		});
 	}
 	
 	@Override
@@ -210,6 +218,10 @@ public class Presenter implements Observer{
 				notifyView("Maze named " + model.getCommandData().get("solved")+" is ready");
 			}
 			break;
+			case "quit":
+			{
+				notifyView((String) model.getCommandData().get("quit"));
+			}break;
 			default:
 				notifyView("Model is going crazy!(presenter.update.default)");
 				break;
