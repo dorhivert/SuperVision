@@ -3,14 +3,14 @@
  */
 package algorithms.search;
 
+import heuristics.Heuristic;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import heuristics.Heuristic;
 import solution.Solution;
 import states.State;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AStar.
  */
@@ -37,6 +37,16 @@ public class AStar extends CommonSearcher
 	@Override
 	public Solution search(Searchable s) 
 	{
+		if(s == null )
+		{
+			return null;
+		}
+		
+		if(this.h == null)
+		{
+			return null;
+		}
+		
 		HashSet<State> closedSet = new HashSet<State>();
 		addToOpenList(s.getStartState());
 
