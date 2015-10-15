@@ -31,6 +31,8 @@ import io.MyDecompressorInputStream;
 import mazeGenerators.Maze3d;
 import mazeGenerators.Maze3dGenerator;
 import mazeGenerators.MyMaze3dGenerator;
+import mazeGenerators.SimpleMaze3dGenerator;
+import presenter.Properties;
 import solution.Solution;
 
 public class MyModel extends Observable implements Model {
@@ -43,17 +45,31 @@ public class MyModel extends Observable implements Model {
 	/** The solution collection. */
 	private HashMap<Maze3d, Solution> solutionCollection = new HashMap<Maze3d, Solution>();
 	
+	/** The Commands collection. */
 	private HashMap<String,Object> commandData = new HashMap<String,Object>();
+	
+	/** The Properties object. */
+	private Properties prop;
 
 	
 	
-	public MyModel()
+	public MyModel(Properties prop)
 	{
 		super();
-		threadPool = Executors.newCachedThreadPool();
+		threadPool = Executors.newFixedThreadPool(prop.getHowManyThreads());
 		loadFromZip();
+		changeAndNotify("loadZip", "Maze has been loaded from the file");
+		
 	}
 	
+	public Properties getProp() {
+		return prop;
+	}
+
+	public void setProp(Properties prop) {
+		this.prop = prop;
+	}
+
 	@Override
 	public HashMap<String,Object> getCommandData()
 	{
@@ -99,6 +115,10 @@ public class MyModel extends Observable implements Model {
 			@Override
 			public Maze3d call() throws Exception {
 				Maze3dGenerator mg = new MyMaze3dGenerator();
+				if (prop.getGenerationAlgo().equalsIgnoreCase("simple"))
+				{
+					mg = new SimpleMaze3dGenerator();
+				}
 				Maze3d myMaze = mg.generate(size, size, size);
 				return myMaze;
 			}
@@ -295,6 +315,7 @@ public class MyModel extends Observable implements Model {
 		changeAndNotify("quit", "Official Exit");
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void loadFromZip()
 	{
 		File file = new File("mazeSolutionCache.gzip");
@@ -310,7 +331,6 @@ public class MyModel extends Observable implements Model {
 				e.printStackTrace();
 			}
 	}
-	@SuppressWarnings("unused")
 	private void saveToZip()
 	{
 		File file = new File("mazeSolutionCache.gzip");

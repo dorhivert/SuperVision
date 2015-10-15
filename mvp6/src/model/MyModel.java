@@ -64,6 +64,7 @@ public class MyModel extends Observable implements Model {
 	
 	public Properties getProp() {
 		return prop;
+		
 	}
 
 	public void setProp(Properties prop) {
