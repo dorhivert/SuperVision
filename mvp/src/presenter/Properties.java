@@ -4,9 +4,11 @@ import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 
 public class Properties implements Serializable {
@@ -35,6 +37,7 @@ public class Properties implements Serializable {
 		this.howManyThreads = 10;
 		this.generationAlgo = "DFS";
 		this.solvingAlgo = "astarair";
+
 	}
 	
 	public int getHowManyThreads() {
@@ -70,6 +73,10 @@ public class Properties implements Serializable {
 	public void readProperties(String filename) throws FileNotFoundException
 	{
 		XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(filename)));
-		
+		Properties tmpProp = (Properties) decoder.readObject();
+		decoder.close();
+		this.howManyThreads = tmpProp.howManyThreads;
+		this.generationAlgo = tmpProp.generationAlgo;
+		this.solvingAlgo = tmpProp.solvingAlgo;
 	}
 }
