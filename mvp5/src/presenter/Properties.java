@@ -10,6 +10,7 @@ public class Properties implements Serializable
 	private String generationAlgo;
 	private String solveAlgo;
 	
+	
 	public Properties()
 	{
 		
