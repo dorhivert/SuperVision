@@ -9,8 +9,7 @@ public class Properties implements Serializable
 	private int numOfThreads;
 	private String generationAlgo;
 	private String solveAlgo;
-	
-	
+
 	public Properties()
 	{
 		super();
