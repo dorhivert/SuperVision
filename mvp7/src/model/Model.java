@@ -75,14 +75,12 @@ public interface Model
 	 * Solve.
 	 *
 	 * @param name the name
-	 * @param algo the algo
+	 * @param algo the algorithm
 	 */
 	public void solve(String name);
 	
 	public HashMap<String,Maze3d> getMazeCollection();
-	
 	public HashMap<Maze3d,Solution> getSolutionCollection();
-	
 	public HashMap<String,Object> getCommandData();
 
 	public void officialExit();

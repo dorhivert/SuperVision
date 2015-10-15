@@ -17,7 +17,7 @@ import view.View;
 public class Run {
 
 	public static void main(String[] args) {
-		Properties prop;
+		Properties prop = new Properties();
 		try {
 			prop = new PropManager().readProp("properties.xml");
 		} catch (FileNotFoundException e) {

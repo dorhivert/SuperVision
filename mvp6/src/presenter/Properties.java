@@ -26,7 +26,7 @@ public class Properties implements Serializable {
 	{
 		super();
 		this.howManyThreads = 10;
-		this.generationAlgo = "DFS";
+		this.generationAlgo = "my";
 		this.solvingAlgo = "astarair";
 
 	}
