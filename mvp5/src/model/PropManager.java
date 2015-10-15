@@ -60,7 +60,7 @@ public class PropManager
 		encode.close();
 	}
 	
-	public void loadProp()
+	public Properties loadProp()
 	{
 		File myFile = new File("properties.xml");
 		try
@@ -84,5 +84,6 @@ public class PropManager
 		{
 			e.printStackTrace();
 		}
+		return prop;
 	}
 }

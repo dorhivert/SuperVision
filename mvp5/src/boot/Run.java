@@ -16,12 +16,7 @@ public class Run
 {
 	public static void main(String[] args) 
 	{
-		Properties prop;
-		PropManager pm = new PropManager();
-	
-			pm.loadProp();
-			prop = pm.getProp();
-
+		Properties prop = new PropManager().loadProp();
 		
 		MyModel model = new MyModel(prop);
 		MyView view = new MyView();
