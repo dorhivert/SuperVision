@@ -13,7 +13,10 @@ public class Properties implements Serializable
 	
 	public Properties()
 	{
-		
+		super();
+		this.numOfThreads = 10;
+		this.generationAlgo = "my";
+		this.solveAlgo = "astarair";
 	}
 	
 	public Properties(int _num, String _gen, String _solve)

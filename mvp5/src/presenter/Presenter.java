@@ -129,10 +129,11 @@ public class Presenter implements Observer
 			@Override
 			public void doCommand(String [] args) 
 			{
-				String defaultAlg = new String("astarair");
+				@SuppressWarnings("unused")
+				String defaultAlg = new String();
 				if (args.length >= 3)
 					defaultAlg = new String(args[2]);
-				model.solve(args[1], defaultAlg);
+				model.solve(args[1]);
 			}
 		});
 		map.put("menu", new Command() 

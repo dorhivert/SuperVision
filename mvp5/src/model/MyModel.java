@@ -126,7 +126,7 @@ public class MyModel extends Observable implements Model
 	}
 
 	@Override
-	public void solve(String name, String algo) 
+	public void solve(String name) 
 	{
 		if (getMazeCollection().containsKey(name))
 		{
@@ -141,17 +141,17 @@ public class MyModel extends Observable implements Model
 					Solution sol = new Solution();
 
 
-					if (algo.equalsIgnoreCase("astarman"))
+					if (prop.getSolveAlgo().equalsIgnoreCase("astarman"))
 					{
 						searcher = new AStar(new MazeManhattanDistance());
 						sol = searcher.search(sMaze);
 					}
-					if (algo.equalsIgnoreCase("astarair"))
+					if (prop.getSolveAlgo().equalsIgnoreCase("astarair"))
 					{
 						searcher = new AStar(new MazeEuclideanDistance());
 						sol = searcher.search(sMaze);
 					}
-					if (algo.equalsIgnoreCase("bfs"))
+					if (prop.getSolveAlgo().equalsIgnoreCase("bfs"))
 					{
 						searcher = new BFS();
 						sol = searcher.search(sMaze);

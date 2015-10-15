@@ -77,7 +77,7 @@ public interface Model
 	 * @param name the name
 	 * @param algo the algorithm
 	 */
-	public void solve(String name, String algo);
+	public void solve(String name);
 	
 	public HashMap<String,Maze3d> getMazeCollection();
 	public HashMap<Maze3d,Solution> getSolutionCollection();
