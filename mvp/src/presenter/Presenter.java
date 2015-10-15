@@ -218,6 +218,16 @@ public class Presenter implements Observer{
 				notifyView("Maze named " + model.getCommandData().get("solved")+" is ready");
 			}
 			break;
+			case "saveZip":
+			{
+				notifyView((String) model.getCommandData().get("saveZip"));
+				break;
+			}
+			case "loadZip":
+			{
+				notifyView((String) model.getCommandData().get("saveZip"));
+				break;
+			}
 			case "quit":
 			{
 				notifyView((String) model.getCommandData().get("quit"));

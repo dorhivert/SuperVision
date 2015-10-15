@@ -1,14 +1,5 @@
 package presenter;
 
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.Serializable;
 
 public class Properties implements Serializable {
@@ -59,24 +50,4 @@ public class Properties implements Serializable {
 		this.solvingAlgo = solvingAlgo;
 	}
 
-	public void writeProperties(String filename) throws FileNotFoundException
-	{
-		XMLEncoder encoder;
-
-		encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(filename)));
-		encoder.writeObject(this);
-		encoder.flush();
-		encoder.close();
-
-	}
-	
-	public void readProperties(String filename) throws FileNotFoundException
-	{
-		XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(filename)));
-		Properties tmpProp = (Properties) decoder.readObject();
-		decoder.close();
-		this.howManyThreads = tmpProp.howManyThreads;
-		this.generationAlgo = tmpProp.generationAlgo;
-		this.solvingAlgo = tmpProp.solvingAlgo;
-	}
 }
