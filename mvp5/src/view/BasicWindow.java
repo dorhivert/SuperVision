@@ -26,7 +26,7 @@ public abstract class BasicWindow implements Runnable
 		shell.open();
 
 		while(!shell.isDisposed())
-		{ // window isn't closed
+		{ 
 			if(!display.readAndDispatch())
 			{
 				display.sleep();
