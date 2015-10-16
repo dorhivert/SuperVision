@@ -1,9 +1,11 @@
 package view;
 
+import java.util.Observable;
+
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-public abstract class BasicWindow implements Runnable 
+public abstract class BasicWindow extends Observable implements Runnable, View
 {
 
 	Display display;
@@ -26,7 +28,7 @@ public abstract class BasicWindow implements Runnable
 		shell.open();
 
 		while(!shell.isDisposed())
-		{ // window isn't closed
+		{ 
 			if(!display.readAndDispatch())
 			{
 				display.sleep();
