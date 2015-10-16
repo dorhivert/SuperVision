@@ -1,9 +1,17 @@
 package view;
 
+import java.io.Closeable;
+import java.io.IOException;
+
 import mazeGenerators.Maze3d;
 import solution.Solution;
 
-public class MyGUIView extends AbstractGUI {
+public class MyGUIView extends BasicWindow implements Closeable{
+
+	public MyGUIView(String title, int width, int height) {
+		super(title, width, height);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public void start() {
@@ -57,6 +65,27 @@ public class MyGUIView extends AbstractGUI {
 	public void displayCommandMenu() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	void InitWidgets() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void close() throws IOException {
+		if (display!=null&&(!display.isDisposed()))
+		{
+			display.dispose();
+		}
+
+		if(shell!=null&&(!shell.isDisposed()))
+		{
+			shell.dispose();
+		}
+
+		
 	}
 
 }
