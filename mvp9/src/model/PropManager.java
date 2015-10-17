@@ -73,7 +73,7 @@ public class PropManager
 			} 
 			else
 			{
-				this.prop = new Properties(9,"my","astarair");
+				this.prop = new Properties(9,"my","astarair","firstRun");
 				this.encoder = new XMLEncoder(new FileOutputStream("properties.xml"));
 				encoder.writeObject(prop);
 				encoder.flush();

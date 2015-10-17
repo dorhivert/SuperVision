@@ -9,6 +9,7 @@ public class Properties implements Serializable
 	private int numOfThreads;
 	private String generationAlgo;
 	private String solveAlgo;
+	private String gameInterface;
 	
 	
 	public Properties()
@@ -16,13 +17,15 @@ public class Properties implements Serializable
 		this.numOfThreads = 10;
 		this.generationAlgo = "my";
 		this.solveAlgo = "astarair";
+		this.gameInterface = "gui";
 	}
 	
-	public Properties(int _num, String _gen, String _solve)
+	public Properties(int _num, String _gen, String _solve, String _interface)
 	{
 		this.numOfThreads = _num;
 		this.generationAlgo = new String(_gen);
 		this.solveAlgo = new String(_solve);
+		this.gameInterface = new String(_interface);
 	}
 	
 	public int getNumOfThreads() {
@@ -42,6 +45,14 @@ public class Properties implements Serializable
 	}
 	public void setSolveAlgo(String solveAlgo) {
 		this.solveAlgo = solveAlgo;
+	}
+
+	public String getGameInterface() {
+		return gameInterface;
+	}
+
+	public void setGameInterface(String gameInterface) {
+		this.gameInterface = gameInterface;
 	}
 
 }
