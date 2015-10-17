@@ -147,4 +147,5 @@ public class MyView extends Observable implements View
 		System.out.println("  menu");
 		System.out.println("  exit");
 	}
+
 }
