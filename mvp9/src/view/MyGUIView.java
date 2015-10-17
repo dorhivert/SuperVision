@@ -2,6 +2,7 @@ package view;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.HashMap;
 
 import mazeGenerators.Maze3d;
 
@@ -11,7 +12,10 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 
 import solution.Solution;
@@ -20,6 +24,8 @@ public class MyGUIView extends BasicWindow implements Closeable
 {
 	String fileName;
 	Text ascii;
+	private HashMap<String, Object> commandData = new HashMap<String, Object>();
+   private MessageBox msgs;
 
 
 	public MyGUIView(String title, int width, int height)
@@ -32,7 +38,6 @@ public class MyGUIView extends BasicWindow implements Closeable
 	public void start()
 	{
 		run();
-		
 	}
 
 	@Override
@@ -95,6 +100,21 @@ public class MyGUIView extends BasicWindow implements Closeable
 	void InitWidgets()
 	{
 		shell.setLayout(new GridLayout(2, false));
+		shell.addListener(SWT.Close, new Listener() 
+		{
+			
+			@Override
+			public void handleEvent(Event arg0)
+			{
+				  int style = SWT.APPLICATION_MODAL | SWT.YES | SWT.NO;
+				  System.out.println("FUCK YOU!!");
+				   changeAndNotify("exit");
+		           msgs = new MessageBox(shell, style);
+		           msgs.setText("Information");
+		           msgs.setMessage("Close the shell?");
+		           arg0.doit = msgs.open() == SWT.YES;
+			}
+		});
 
 
 		Button open = new Button(shell, SWT.PUSH);
@@ -115,10 +135,30 @@ public class MyGUIView extends BasicWindow implements Closeable
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
+			public void widgetDefaultSelected(SelectionEvent arg0) 
+			{
 				// TODO Auto-generated method stub
 
 			}
+		});
+		
+		Button generate = new Button(shell, SWT.PUSH);
+		generate.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
+		generate.setText("Generate 3d Maze!");
+		
+		generate.addSelectionListener(new SelectionListener()
+		{
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0)
+			{
+				String line = new String("generate 3d maze tomi1 15");
+				ascii.append("IM GENERATING!\n");
+				changeAndNotify(line);
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0){}
 		});
 
 
@@ -134,8 +174,22 @@ public class MyGUIView extends BasicWindow implements Closeable
 	@Override
 	public void close() throws IOException
 	{
-		// TODO Auto-generated method stub
-		
-	}
+		System.out.println("FUCK YOU");
+		if (display!=null&&(!display.isDisposed()))
+		{
+			display.dispose();
+		}
 
+		if(shell!=null&&(!shell.isDisposed()))
+		{
+			shell.dispose();
+		}
+	}
+	
+	private void changeAndNotify(String command)
+	{
+		String [] splittedLine = command.split(" ");
+		setChanged();
+		notifyObservers(splittedLine);
+	}
 }

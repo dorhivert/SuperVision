@@ -15,7 +15,7 @@ public class Run
 		
 		MyModel model = new MyModel(prop);
 		//MyView view = new MyView();
-		MyGUIView view = new MyGUIView("test", 100, 100);
+		MyGUIView view = new MyGUIView("test", 500, 500);
 		
 
 		Presenter presenter = new Presenter(model, view);
