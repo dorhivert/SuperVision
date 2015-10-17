@@ -14,6 +14,7 @@ public class Run
 		Properties prop = new PropManager().loadProp();
 		
 		MyModel model = new MyModel(prop);
+		
 		//MyView view = new MyView();
 		MyGUIView view = new MyGUIView("test", 500, 500);
 		
