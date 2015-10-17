@@ -245,9 +245,31 @@ public class MyGUIView extends BasicWindow implements Closeable
 		ascii = new Text(shell, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 		ascii.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
 
-		Button convert = new Button(shell, SWT.PUSH);
-		convert.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
-		convert.setText("convert to ascii art");
+		Button egzit = new Button(shell, SWT.PUSH);
+		egzit.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
+		egzit.setText("EXIT");
+		egzit.addSelectionListener(new SelectionListener()
+		{
+
+			@Override
+			public void widgetSelected(SelectionEvent arg0) 
+			{
+				int style = SWT.APPLICATION_MODAL | SWT.YES | SWT.NO;
+				changeAndNotify("exit");
+				msgs = new MessageBox(shell, style);
+				msgs.setText("Information");
+				msgs.setMessage("Close the shell?");
+				arg0.doit = msgs.open() == SWT.YES;
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) 
+			{
+				// TODO Auto-generated method stub
+
+			}
+		});
+
 
 	}
 
