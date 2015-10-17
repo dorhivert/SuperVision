@@ -30,6 +30,7 @@ public class MyView extends Observable implements View
 					System.out.println("Type menu to see syntax");
 					do
 					{
+						
 						line = cli.in.readLine();
 						String [] splittedLine = line.split(" ");
 						if (cli.commandMap.containsKey(splittedLine[0])) 

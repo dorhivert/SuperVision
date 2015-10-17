@@ -72,7 +72,7 @@ public class PropManager
 			}
 			else
 			{
-				prop = new Properties(9,"my","astarair");
+				prop = new Properties(9,"my","astarair","gui");
 				XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(myFile)));
 				encoder.writeObject(prop);
 				encoder.flush();
