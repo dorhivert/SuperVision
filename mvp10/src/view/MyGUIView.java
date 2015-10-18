@@ -25,7 +25,6 @@ public class MyGUIView extends BasicWindow implements Closeable
 	private String propertiesFilePath;
 	private Text ascii;
 	private MessageBox msgs;
-	private MessageBox rst;
 	private Canvas myGame;
 
 
@@ -41,11 +40,12 @@ public class MyGUIView extends BasicWindow implements Closeable
 	}
 
 	@Override
-	public void writeToConsole(String userInput)
-	{
-		// TODO Auto-generated method stub
+	public void writeToConsole(String userInput){} 
+	@Override
+	public void displayDirectory(String[] path){}
+	@Override
+	public void displayCommandMenu(){}
 
-	}
 
 	@Override
 	public void displayCrossSection(int[][] crossSection)
@@ -77,20 +77,6 @@ public class MyGUIView extends BasicWindow implements Closeable
 
 	@Override
 	public void displaySolution(Solution s)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void displayDirectory(String[] path)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void displayCommandMenu()
 	{
 		// TODO Auto-generated method stub
 
@@ -130,10 +116,10 @@ public class MyGUIView extends BasicWindow implements Closeable
 				String line = new String("openNewXML");
 				line = line+" "+propertiesFilePath;
 				changeAndNotify(line);
-				rst = new MessageBox(shell);
-				rst.setText("NOTICE");
-				rst.setMessage("You must restart the apllication in order to apply new properties!");
-				rst.open();
+				msgs = new MessageBox(shell);
+				msgs.setText("NOTICE");
+				msgs.setMessage("You must restart the apllication in order to apply new properties!");
+				msgs.open();
 			}
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {}});
@@ -198,10 +184,10 @@ public class MyGUIView extends BasicWindow implements Closeable
 				if (line.split(" ").length == 5)
 				{
 					changeAndNotify(line);
-					rst = new MessageBox(shell);
-					rst.setText("NOTICE");
-					rst.setMessage("You must restart the apllication in order to apply new properties!");
-					rst.open();
+					msgs = new MessageBox(shell);
+					msgs.setText("NOTICE");
+					msgs.setMessage("You must restart the apllication in order to apply new properties!");
+					msgs.open();
 				}
 			}
 			@Override
