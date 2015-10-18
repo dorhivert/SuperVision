@@ -65,7 +65,7 @@ public interface View
 	public void displayDirectory(String[] path);
 
 	/**
-	 * Display command manu.
+	 * Display command menu.
 	 */
 	public void displayCommandMenu();
 }

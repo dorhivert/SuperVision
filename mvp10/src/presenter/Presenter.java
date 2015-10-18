@@ -10,9 +10,7 @@ import view.View;
 public class Presenter implements Observer
 {
 	private Model model;
-
 	private View view;
-
 	private HashMap<String,Command> commandMap;
 
 	public Presenter(Model model, View view) 
@@ -166,7 +164,6 @@ public class Presenter implements Observer
 			@Override
 			public void doCommand(String [] args) 
 			{
-				
 				model.loadNewProperties(args);
 			}
 		});

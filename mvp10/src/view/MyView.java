@@ -9,12 +9,13 @@ import solution.Solution;
 
 public class MyView extends Observable implements View
 {
-	CLI cli;
+	private CLI cli;
 
 	public void setCli(CLI cli)
 	{
 		this.cli = cli;
 	}
+	
 	@Override
 	public void start()
 	{

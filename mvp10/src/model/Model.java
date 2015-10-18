@@ -5,7 +5,6 @@ import java.util.HashMap;
 import mazeGenerators.Maze3d;
 import solution.Solution;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface Model.
  */
