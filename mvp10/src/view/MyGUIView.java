@@ -2,7 +2,6 @@ package view;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.HashMap;
 
 import mazeGenerators.Maze3d;
 
@@ -12,6 +11,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
@@ -22,17 +22,16 @@ import solution.Solution;
 
 public class MyGUIView extends BasicWindow implements Closeable
 {
-	String propertiesFilePath;
-	Text ascii;
-	private HashMap<String, Object> commandData = new HashMap<String, Object>();
+	private String propertiesFilePath;
+	private Text ascii;
 	private MessageBox msgs;
 	private MessageBox rst;
+	private Canvas myGame;
 
 
 	public MyGUIView(String title, int width, int height)
 	{
 		super(title, width, height);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -103,7 +102,6 @@ public class MyGUIView extends BasicWindow implements Closeable
 		shell.setLayout(new GridLayout(2, false));
 		shell.addListener(SWT.Close, new Listener() 
 		{
-
 			@Override
 			public void handleEvent(Event arg0)
 			{
@@ -113,17 +111,13 @@ public class MyGUIView extends BasicWindow implements Closeable
 				msgs.setText("Information");
 				msgs.setMessage("Close the shell?");
 				arg0.doit = msgs.open() == SWT.YES;
-			}
-		});
-
+			}});
 
 		Button open = new Button(shell, SWT.PUSH);
 		open.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
 		open.setText("load XML properties file");
-
 		open.addSelectionListener(new SelectionListener()
 		{
-
 			@Override
 			public void widgetSelected(SelectionEvent arg0)
 			{
@@ -141,22 +135,17 @@ public class MyGUIView extends BasicWindow implements Closeable
 				rst.setMessage("You must restart the apllication in order to apply new properties!");
 				rst.open();
 			}
-
 			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) 	{}
-		});
+			public void widgetDefaultSelected(SelectionEvent arg0) {}});
 
 		Button generate = new Button(shell, SWT.PUSH);
 		generate.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
 		generate.setText("Generate 3d Maze!");
-
 		generate.addSelectionListener(new SelectionListener()
 		{
-
 			@Override
 			public void widgetSelected(SelectionEvent arg0)
 			{
-
 				MazeSettingsDialog fd=new MazeSettingsDialog(shell);
 				fd.setText("open");
 
@@ -186,17 +175,13 @@ public class MyGUIView extends BasicWindow implements Closeable
 						}
 					}
 				}
-
 			}
-
 			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0){}
-		});
-		
+			public void widgetDefaultSelected(SelectionEvent arg0){}});
+
 		Button mazeProps = new Button(shell, SWT.PUSH);
 		mazeProps.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
 		mazeProps.setText("Application Properties");
-
 		mazeProps.addSelectionListener(new SelectionListener()
 		{
 
@@ -205,7 +190,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 			{
 				GamePropertiesDialog gpd = new GamePropertiesDialog(shell);
 				gpd.setText("open");
-		
+
 				String newValue = new String(gpd.open());
 
 				String line = new String("changeProperties ");
@@ -220,8 +205,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 				}
 			}
 			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) 	{}
-		});
+			public void widgetDefaultSelected(SelectionEvent arg0) {}});
 
 
 		ascii = new Text(shell, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
@@ -232,7 +216,6 @@ public class MyGUIView extends BasicWindow implements Closeable
 		egzit.setText("EXIT");
 		egzit.addSelectionListener(new SelectionListener()
 		{
-
 			@Override
 			public void widgetSelected(SelectionEvent arg0) 
 			{
@@ -245,12 +228,8 @@ public class MyGUIView extends BasicWindow implements Closeable
 					e.printStackTrace();
 				}
 			}
-
 			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {}
-		});
-
-
+			public void widgetDefaultSelected(SelectionEvent arg0) {}});
 	}
 
 	@Override

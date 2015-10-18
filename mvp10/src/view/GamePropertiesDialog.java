@@ -15,26 +15,26 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 
-public class GamePropertiesDialog extends Dialog {
-	Double value;
-	String stringValue;
-	String tempValue;
-	int numberOfThreads;
-	String numberOfThreadStringi;
-	String myInterface;
-	String generationAlgorithm;
-	String solveAlgorithm;
-	boolean flag = true;
-	boolean verifyData1 = false;
-	boolean verifyData2 = false;
-	boolean verifyData3 = false;
-	boolean verifyData4 = false;
+public class GamePropertiesDialog extends Dialog
+{
+	private Double value;
+	private String stringValue;
+	private String tempValue;
+	private String numberOfThreadStringi;
+	private String myInterface;
+	private String generationAlgorithm;
+	private String solveAlgorithm;
+	private boolean verifyData1 = false;
+	private boolean verifyData2 = false;
+	private boolean verifyData3 = false;
+	private boolean verifyData4 = false;
 
 
 	/**
 	 * @param parent
 	 */
-	public GamePropertiesDialog(Shell parent) {
+	public GamePropertiesDialog(Shell parent)
+	{
 		super(parent);
 	}
 
@@ -42,7 +42,8 @@ public class GamePropertiesDialog extends Dialog {
 	 * @param parent
 	 * @param style
 	 */
-	public GamePropertiesDialog(Shell parent, int style) {
+	public GamePropertiesDialog(Shell parent, int style) 
+	{
 		super(parent, style);
 	}
 
@@ -54,8 +55,7 @@ public class GamePropertiesDialog extends Dialog {
 	public String open() 
 	{
 		Shell parent = getParent();
-		final Shell shell =
-				new Shell(parent, SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL);
+		final Shell shell = new Shell(parent, SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL);
 		shell.setText("Properties");
 
 		shell.setLayout(new GridLayout(2, true));
@@ -125,7 +125,6 @@ public class GamePropertiesDialog extends Dialog {
 						}
 					}
 				}
-
 				catch (Exception e) 
 				{
 					buttonOK.setEnabled(false);
@@ -156,7 +155,7 @@ public class GamePropertiesDialog extends Dialog {
 				}
 			}
 		});
-		
+
 		text4.addListener(SWT.Modify, new Listener()
 		{
 			public void handleEvent(Event event)
@@ -189,20 +188,23 @@ public class GamePropertiesDialog extends Dialog {
 			}
 		});
 
-		buttonCancel.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event event) {
+		buttonCancel.addListener(SWT.Selection, new Listener() 
+		{
+			public void handleEvent(Event event) 
+			{
 				DecimalFormat df = new DecimalFormat("#.##");
 				value = new Double(5.0);
 				stringValue = new String("unNamed Maze");
 				tempValue = new String(df.format(value));
-
 				stringValue = stringValue+" "+tempValue;
 				shell.dispose();
 			}
 		});
 
-		shell.addListener(SWT.Traverse, new Listener() {
-			public void handleEvent(Event event) {
+		shell.addListener(SWT.Traverse, new Listener()
+		{
+			public void handleEvent(Event event)
+			{
 				if(event.detail == SWT.TRAVERSE_ESCAPE)
 					event.doit = false;
 			}
@@ -213,16 +215,16 @@ public class GamePropertiesDialog extends Dialog {
 		shell.open();
 
 		Display display = parent.getDisplay();
-		while (!shell.isDisposed()) {
+		while (!shell.isDisposed())
+		{
 			if (!display.readAndDispatch())
 				display.sleep();
 		}
-
-		
 		return stringValue;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		Shell shell = new Shell();
 		GamePropertiesDialog dialog = new GamePropertiesDialog(shell);
 		System.out.println(dialog.open());

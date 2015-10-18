@@ -17,6 +17,7 @@ public class PropManager
 	private XMLDecoder decoder;
 	private XMLEncoder encoder;
 	private Properties prop;
+	private File myFile;
 
 	public XMLDecoder getDecoder() {
 		return decoder;
@@ -62,7 +63,7 @@ public class PropManager
 	
 	public Properties loadProp()
 	{
-		File myFile = new File("properties.xml");
+		myFile = new File("properties.xml");
 		try
 		{
 			if(!myFile.createNewFile())
@@ -87,11 +88,9 @@ public class PropManager
 		return prop;
 	}
 	
-	public Properties setNewProperties(String[] settings)
+	public void setNewProperties(String[] settings)
 	{
-		
-		@SuppressWarnings("unused")
-		File myFile = new File("properties.xml");
+		myFile = new File("properties.xml");
 		try
 		{		
 				this.prop = new Properties(settings[1],settings[3],settings[4],settings[2]);
@@ -104,10 +103,9 @@ public class PropManager
 		{
 			e.printStackTrace();
 		}
-		return prop;
 	}
 
-	public Properties loadNewPropsFromFile(String[] args)
+	public void loadNewPropsFromFile(String[] args)
 	{
 		File mySecondFile = new File(args[1]);
 		try
@@ -125,6 +123,5 @@ public class PropManager
 		{
 			e.printStackTrace();
 		}
-		return prop;
 	}
 }

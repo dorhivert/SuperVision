@@ -24,11 +24,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import presenter.Properties;
 import mazeGenerators.Maze3d;
 import mazeGenerators.Maze3dGenerator;
 import mazeGenerators.MyMaze3dGenerator;
 import mazeGenerators.SimpleMaze3dGenerator;
+import presenter.Properties;
 import solution.Solution;
 import algorithms.search.AStar;
 import algorithms.search.BFS;
@@ -49,10 +49,6 @@ public class MyModel extends Observable implements Model
 	private HashMap<String, Object> commandData = new HashMap<String, Object>();
 	
 	private Properties prop;
-	
-	@SuppressWarnings("unused")
-	private Properties tempProp;
-
 
 	public MyModel(Properties _prop)
 	{
@@ -376,12 +372,12 @@ public class MyModel extends Observable implements Model
 	@Override
 	public void creatNewProperties(String[] args) 
 	{
-		tempProp = new PropManager().setNewProperties(args);
+		new PropManager().setNewProperties(args);
 	}
 
 	@Override
 	public void loadNewProperties(String[] args)
 	{
-		tempProp = new PropManager().loadNewPropsFromFile(args);
+		new PropManager().loadNewPropsFromFile(args);
 	}
 }
