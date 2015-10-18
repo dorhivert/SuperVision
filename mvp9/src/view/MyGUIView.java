@@ -2,7 +2,6 @@ package view;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import mazeGenerators.Maze3d;
@@ -13,7 +12,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
@@ -126,7 +124,8 @@ public class MyGUIView extends BasicWindow implements Closeable
 		{
 
 			@Override
-			public void widgetSelected(SelectionEvent arg0) {
+			public void widgetSelected(SelectionEvent arg0)
+			{
 				FileDialog fd=new FileDialog(shell,SWT.OPEN);
 				fd.setText("open");
 				fd.setFilterPath("");
@@ -254,12 +253,14 @@ public class MyGUIView extends BasicWindow implements Closeable
 			@Override
 			public void widgetSelected(SelectionEvent arg0) 
 			{
-				int style = SWT.APPLICATION_MODAL | SWT.YES | SWT.NO;
-				changeAndNotify("exit");
-				msgs = new MessageBox(shell, style);
-				msgs.setText("Information");
-				msgs.setMessage("Close the shell?");
-				arg0.doit = msgs.open() == SWT.YES;
+				try 
+				{
+					close();
+				} 
+				catch (IOException e) 
+				{
+					e.printStackTrace();
+				}
 			}
 
 			@Override
@@ -277,6 +278,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 	public void close() throws IOException
 	{
 		System.out.println("FUCK YOU");
+		changeAndNotify("exit");
 		if (display!=null&&(!display.isDisposed()))
 		{
 			display.dispose();
