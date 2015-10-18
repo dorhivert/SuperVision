@@ -40,16 +40,32 @@ public class Properties implements Serializable
 	{
 		return numOfThreads;
 	}
+	public void setNumOfThreads(int numOfThreads)
+	{
+		this.numOfThreads = numOfThreads;
+	}
 	public String getGenerationAlgo()
 	{
 		return generationAlgo;
+	}
+	public void setGenerationAlgo(String generationAlgo) 
+	{
+		this.generationAlgo = generationAlgo;
 	}
 	public String getSolveAlgo()
 	{
 		return solveAlgo;
 	}
-	public String getGameInterface()
+	public void setSolveAlgo(String solveAlgo) 
+	{
+		this.solveAlgo = solveAlgo;
+	}
+	public String getGameInterface() 
 	{
 		return gameInterface;
+	}
+	public void setGameInterface(String gameInterface)
+	{
+		this.gameInterface = gameInterface;
 	}
 }
