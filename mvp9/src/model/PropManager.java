@@ -86,4 +86,45 @@ public class PropManager
 		}
 		return prop;
 	}
+	
+	public Properties setNewProperties(String[] settings)
+	{
+		
+		@SuppressWarnings("unused")
+		File myFile = new File("properties.xml");
+		try
+		{		
+				this.prop = new Properties(settings[1],settings[3],settings[4],settings[2]);
+				this.encoder = new XMLEncoder(new FileOutputStream("properties.xml"));
+				encoder.writeObject(prop);
+				encoder.flush();
+				encoder.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		return prop;
+	}
+
+	public Properties loadNewPropsFromFile(String[] args)
+	{
+		File mySecondFile = new File(args[1]);
+		try
+		{
+				this.decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(mySecondFile)));
+				this.prop = (Properties) decoder.readObject();
+				decoder.close();
+
+				this.encoder = new XMLEncoder(new FileOutputStream("properties.xml"));
+				encoder.writeObject(prop);
+				encoder.flush();
+				encoder.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		return prop;
+	}
 }

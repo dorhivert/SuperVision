@@ -2,7 +2,7 @@
 <java version="1.8.0_31" class="java.beans.XMLDecoder">
  <object class="presenter.Properties">
   <void property="gameInterface">
-   <string>gui</string>
+   <string>firstRun</string>
   </void>
   <void property="numOfThreads">
    <int>9</int>

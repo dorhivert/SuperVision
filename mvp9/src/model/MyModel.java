@@ -49,6 +49,9 @@ public class MyModel extends Observable implements Model
 	private HashMap<String, Object> commandData = new HashMap<String, Object>();
 	
 	private Properties prop;
+	
+	@SuppressWarnings("unused")
+	private Properties tempProp;
 
 
 	public MyModel(Properties _prop)
@@ -368,5 +371,17 @@ public class MyModel extends Observable implements Model
 		{
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void creatNewProperties(String[] args) 
+	{
+		tempProp = new PropManager().setNewProperties(args);
+	}
+
+	@Override
+	public void loadNewProperties(String[] args)
+	{
+		tempProp = new PropManager().loadNewPropsFromFile(args);
 	}
 }

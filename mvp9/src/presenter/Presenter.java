@@ -152,6 +152,24 @@ public class Presenter implements Observer
 				model.officialExit();
 			}
 		});
+		map.put("changeProperties", new Command() 
+		{
+			@Override
+			public void doCommand(String [] args) 
+			{
+				
+				model.creatNewProperties(args);
+			}
+		});
+		map.put("openNewXML", new Command() 
+		{
+			@Override
+			public void doCommand(String [] args) 
+			{
+				
+				model.loadNewProperties(args);
+			}
+		});
 	}
 
 	@Override

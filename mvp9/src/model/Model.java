@@ -84,4 +84,8 @@ public interface Model
 	public HashMap<String,Object> getCommandData();
 
 	public void officialExit();
+
+	public void creatNewProperties(String[] args);
+
+	public void loadNewProperties(String[] args);
 }

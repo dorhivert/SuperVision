@@ -51,7 +51,7 @@ public class GamePropertiesDialog extends Dialog {
 	 * 
 	 * @return
 	 */
-	public String[] open() 
+	public String open() 
 	{
 		Shell parent = getParent();
 		final Shell shell =
@@ -218,8 +218,8 @@ public class GamePropertiesDialog extends Dialog {
 				display.sleep();
 		}
 
-		String [] splittedLine = stringValue.split(" ");
-		return splittedLine;
+		
+		return stringValue;
 	}
 
 	public static void main(String[] args) {

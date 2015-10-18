@@ -28,6 +28,14 @@ public class Properties implements Serializable
 		this.gameInterface = new String(_interface);
 	}
 	
+	public Properties(String _num, String _gen, String _solve, String _interface)
+	{
+		this.numOfThreads = Integer.parseInt(_num);
+		this.generationAlgo = new String(_gen);
+		this.solveAlgo = new String(_solve);
+		this.gameInterface = new String(_interface);
+	}
+	
 	public int getNumOfThreads() {
 		return numOfThreads;
 	}

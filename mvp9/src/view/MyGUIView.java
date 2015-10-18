@@ -22,10 +22,11 @@ import solution.Solution;
 
 public class MyGUIView extends BasicWindow implements Closeable
 {
-	String fileName;
+	String propertiesFilePath;
 	Text ascii;
 	private HashMap<String, Object> commandData = new HashMap<String, Object>();
 	private MessageBox msgs;
+	private MessageBox rst;
 
 
 	public MyGUIView(String title, int width, int height)
@@ -118,7 +119,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 
 		Button open = new Button(shell, SWT.PUSH);
 		open.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
-		open.setText("open img file");
+		open.setText("load XML properties file");
 
 		open.addSelectionListener(new SelectionListener()
 		{
@@ -129,17 +130,20 @@ public class MyGUIView extends BasicWindow implements Closeable
 				FileDialog fd=new FileDialog(shell,SWT.OPEN);
 				fd.setText("open");
 				fd.setFilterPath("");
-				String[] filterExt = { "*.gif", "*.jpg", ".png", ".bmp", "*.*" };
+				String[] filterExt = { "*.xml", "*.XML", "*.*" };
 				fd.setFilterExtensions(filterExt);
-				fileName = fd.open();
+				propertiesFilePath = fd.open();
+				String line = new String("openNewXML");
+				line = line+" "+propertiesFilePath;
+				changeAndNotify(line);
+				rst = new MessageBox(shell);
+				rst.setText("NOTICE");
+				rst.setMessage("You must restart the apllication in order to apply new properties!");
+				rst.open();
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) 
-			{
-				// TODO Auto-generated method stub
-
-			}
+			public void widgetDefaultSelected(SelectionEvent arg0) 	{}
 		});
 
 		Button generate = new Button(shell, SWT.PUSH);
@@ -199,45 +203,24 @@ public class MyGUIView extends BasicWindow implements Closeable
 			@Override
 			public void widgetSelected(SelectionEvent arg0)
 			{
-
 				GamePropertiesDialog gpd = new GamePropertiesDialog(shell);
 				gpd.setText("open");
-				gpd.open();
+		
+				String newValue = new String(gpd.open());
 
-//				String newValue = new String(gpd.open());
-//
-//				String line = new String("generate 3d maze");
-//				line = line+" "+newValue;
-//				String [] splittedLine = line.split(" ");
-//				int num = splittedLine.length;
-//				boolean flag = true;
-//				if (num == 5) 
-//				{
-//					if (!splittedLine[3].equals("unNamed Maze")) 
-//					{
-//						if (splittedLine[3] == null)
-//						{
-//							flag = false;
-//						}
-//						if (Integer.parseInt(splittedLine[4]) < 1) 
-//						{
-//							flag = false;
-//						}
-//						if (flag == true)
-//						{
-//							ascii.append("IM GENERATING!\n");
-//							changeAndNotify(line);
-//						}
-//					}
-//				}
-
+				String line = new String("changeProperties ");
+				line = line+newValue;
+				if (line.split(" ").length == 5)
+				{
+					changeAndNotify(line);
+					rst = new MessageBox(shell);
+					rst.setText("NOTICE");
+					rst.setMessage("You must restart the apllication in order to apply new properties!");
+					rst.open();
+				}
 			}
 			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) 
-			{
-				// TODO Auto-generated method stub
-
-			}
+			public void widgetDefaultSelected(SelectionEvent arg0) 	{}
 		});
 
 
@@ -264,11 +247,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) 
-			{
-				// TODO Auto-generated method stub
-
-			}
+			public void widgetDefaultSelected(SelectionEvent arg0) {}
 		});
 
 
