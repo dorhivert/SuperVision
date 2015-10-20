@@ -3,8 +3,6 @@ package view;
 import java.io.Closeable;
 import java.io.IOException;
 
-import mazeGenerators.Maze3d;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -17,6 +15,9 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 
+import mazeGenerators.Maze3d;
+import mazeGenerators.Maze3dGenerator;
+import mazeGenerators.MyMaze3dGenerator;
 import solution.Solution;
 
 public class MyGUIView extends BasicWindow implements Closeable
@@ -24,6 +25,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 	private String propertiesFilePath;
 	private Text ascii;
 	private MessageBox msgs;
+	public CommonMazeDisplayWidget mazeDisplay;
 
 
 	public MyGUIView(String title, int width, int height)
@@ -195,8 +197,15 @@ public class MyGUIView extends BasicWindow implements Closeable
 			public void widgetDefaultSelected(SelectionEvent arg0) {}});
 
 
-		ascii = new Text(shell, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
-		ascii.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
+//		ascii = new Text(shell, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+//		ascii.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
+//		
+		mazeDisplay = new MyMazeDisplayWidget(shell, SWT.BORDER);
+		mazeDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
+		Maze3dGenerator mg = new MyMaze3dGenerator();
+		Maze3d myMaze = mg.generate(15, 15, 15);
+		mazeDisplay.setMyMaze(myMaze);
+		mazeDisplay.redraw();
 
 		Button egzit = new Button(shell, SWT.PUSH);
 		egzit.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
