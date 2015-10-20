@@ -87,7 +87,7 @@ public class PropManager
 		return prop;
 	}
 	
-	public Properties setNewProperties(String[] settings)
+	public void setNewProperties(String[] settings)
 	{
 		
 		@SuppressWarnings("unused")
@@ -104,10 +104,9 @@ public class PropManager
 		{
 			e.printStackTrace();
 		}
-		return prop;
 	}
 
-	public Properties loadNewPropsFromFile(String[] args)
+	public void loadNewPropsFromFile(String[] args)
 	{
 		File mySecondFile = new File(args[1]);
 		try
@@ -125,6 +124,5 @@ public class PropManager
 		{
 			e.printStackTrace();
 		}
-		return prop;
 	}
 }

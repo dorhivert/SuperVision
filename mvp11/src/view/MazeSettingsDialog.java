@@ -166,10 +166,10 @@ public class MazeSettingsDialog extends Dialog
 		return stringValue;
 	}
 
-	public static void main(String[] args)
-	{
-		Shell shell = new Shell();
-		MazeSettingsDialog dialog = new MazeSettingsDialog(shell);
-		System.out.println(dialog.open());
-	}
+//	public static void main(String[] args)
+//	{
+//		Shell shell = new Shell();
+//		MazeSettingsDialog dialog = new MazeSettingsDialog(shell);
+//		System.out.println(dialog.open());
+//	}
 }

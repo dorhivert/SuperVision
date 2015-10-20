@@ -222,9 +222,9 @@ public class GamePropertiesDialog extends Dialog {
 		return stringValue;
 	}
 
-	public static void main(String[] args) {
-		Shell shell = new Shell();
-		GamePropertiesDialog dialog = new GamePropertiesDialog(shell);
-		System.out.println(dialog.open());
-	}
+//	public static void main(String[] args) {
+//		Shell shell = new Shell();
+//		GamePropertiesDialog dialog = new GamePropertiesDialog(shell);
+//		System.out.println(dialog.open());
+//	}
 }

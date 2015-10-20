@@ -2,7 +2,6 @@ package view;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.HashMap;
 
 import mazeGenerators.Maze3d;
 
@@ -22,17 +21,14 @@ import solution.Solution;
 
 public class MyGUIView extends BasicWindow implements Closeable
 {
-	String propertiesFilePath;
-	Text ascii;
-	private HashMap<String, Object> commandData = new HashMap<String, Object>();
+	private String propertiesFilePath;
+	private Text ascii;
 	private MessageBox msgs;
-	private MessageBox rst;
 
 
 	public MyGUIView(String title, int width, int height)
 	{
 		super(title, width, height);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -42,11 +38,12 @@ public class MyGUIView extends BasicWindow implements Closeable
 	}
 
 	@Override
-	public void writeToConsole(String userInput)
-	{
-		// TODO Auto-generated method stub
+	public void writeToConsole(String userInput){} 
+	@Override
+	public void displayDirectory(String[] path){}
+	@Override
+	public void displayCommandMenu(){}
 
-	}
 
 	@Override
 	public void displayCrossSection(int[][] crossSection)
@@ -84,26 +81,11 @@ public class MyGUIView extends BasicWindow implements Closeable
 	}
 
 	@Override
-	public void displayDirectory(String[] path)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void displayCommandMenu()
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	void InitWidgets()
 	{
 		shell.setLayout(new GridLayout(2, false));
 		shell.addListener(SWT.Close, new Listener() 
 		{
-
 			@Override
 			public void handleEvent(Event arg0)
 			{
@@ -113,17 +95,13 @@ public class MyGUIView extends BasicWindow implements Closeable
 				msgs.setText("Information");
 				msgs.setMessage("Close the shell?");
 				arg0.doit = msgs.open() == SWT.YES;
-			}
-		});
-
+			}});
 
 		Button open = new Button(shell, SWT.PUSH);
 		open.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
 		open.setText("load XML properties file");
-
 		open.addSelectionListener(new SelectionListener()
 		{
-
 			@Override
 			public void widgetSelected(SelectionEvent arg0)
 			{
@@ -133,30 +111,28 @@ public class MyGUIView extends BasicWindow implements Closeable
 				String[] filterExt = { "*.xml", "*.XML", "*.*" };
 				fd.setFilterExtensions(filterExt);
 				propertiesFilePath = fd.open();
-				String line = new String("openNewXML");
-				line = line+" "+propertiesFilePath;
-				changeAndNotify(line);
-				rst = new MessageBox(shell);
-				rst.setText("NOTICE");
-				rst.setMessage("You must restart the apllication in order to apply new properties!");
-				rst.open();
+				if (propertiesFilePath != null)
+				{
+					String line = new String("openNewXML");
+					line = line+" "+propertiesFilePath;
+					changeAndNotify(line);
+					msgs = new MessageBox(shell);
+					msgs.setText("NOTICE");
+					msgs.setMessage("You must restart the apllication in order to apply new properties!");
+					msgs.open();
+				}
 			}
-
 			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) 	{}
-		});
+			public void widgetDefaultSelected(SelectionEvent arg0) {}});
 
 		Button generate = new Button(shell, SWT.PUSH);
 		generate.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
 		generate.setText("Generate 3d Maze!");
-
 		generate.addSelectionListener(new SelectionListener()
 		{
-
 			@Override
 			public void widgetSelected(SelectionEvent arg0)
 			{
-
 				MazeSettingsDialog fd=new MazeSettingsDialog(shell);
 				fd.setText("open");
 
@@ -186,17 +162,13 @@ public class MyGUIView extends BasicWindow implements Closeable
 						}
 					}
 				}
-
 			}
-
 			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0){}
-		});
-		
+			public void widgetDefaultSelected(SelectionEvent arg0){}});
+
 		Button mazeProps = new Button(shell, SWT.PUSH);
 		mazeProps.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
 		mazeProps.setText("Application Properties");
-
 		mazeProps.addSelectionListener(new SelectionListener()
 		{
 
@@ -205,7 +177,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 			{
 				GamePropertiesDialog gpd = new GamePropertiesDialog(shell);
 				gpd.setText("open");
-		
+
 				String newValue = new String(gpd.open());
 
 				String line = new String("changeProperties ");
@@ -213,15 +185,14 @@ public class MyGUIView extends BasicWindow implements Closeable
 				if (line.split(" ").length == 5)
 				{
 					changeAndNotify(line);
-					rst = new MessageBox(shell);
-					rst.setText("NOTICE");
-					rst.setMessage("You must restart the apllication in order to apply new properties!");
-					rst.open();
+					msgs = new MessageBox(shell);
+					msgs.setText("NOTICE");
+					msgs.setMessage("You must restart the apllication in order to apply new properties!");
+					msgs.open();
 				}
 			}
 			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) 	{}
-		});
+			public void widgetDefaultSelected(SelectionEvent arg0) {}});
 
 
 		ascii = new Text(shell, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
@@ -232,7 +203,6 @@ public class MyGUIView extends BasicWindow implements Closeable
 		egzit.setText("EXIT");
 		egzit.addSelectionListener(new SelectionListener()
 		{
-
 			@Override
 			public void widgetSelected(SelectionEvent arg0) 
 			{
@@ -245,12 +215,8 @@ public class MyGUIView extends BasicWindow implements Closeable
 					e.printStackTrace();
 				}
 			}
-
 			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {}
-		});
-
-
+			public void widgetDefaultSelected(SelectionEvent arg0) {}});
 	}
 
 	@Override
