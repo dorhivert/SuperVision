@@ -25,7 +25,6 @@ public class MyGUIView extends BasicWindow implements Closeable
 	private Text ascii;
 	private MessageBox msgs;
 
-
 	public MyGUIView(String title, int width, int height)
 	{
 		super(title, width, height);
@@ -95,13 +94,15 @@ public class MyGUIView extends BasicWindow implements Closeable
 				msgs.setText("Information");
 				msgs.setMessage("Close the shell?");
 				arg0.doit = msgs.open() == SWT.YES;
-			}});
-
+			}
+		});
 		Button open = new Button(shell, SWT.PUSH);
 		open.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
 		open.setText("load XML properties file");
 		open.addSelectionListener(new SelectionListener()
 		{
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {}
 			@Override
 			public void widgetSelected(SelectionEvent arg0)
 			{
@@ -122,14 +123,15 @@ public class MyGUIView extends BasicWindow implements Closeable
 					msgs.open();
 				}
 			}
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {}});
+		});
 
 		Button generate = new Button(shell, SWT.PUSH);
 		generate.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
 		generate.setText("Generate 3d Maze!");
 		generate.addSelectionListener(new SelectionListener()
 		{
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0){}
 			@Override
 			public void widgetSelected(SelectionEvent arg0)
 			{
@@ -163,15 +165,15 @@ public class MyGUIView extends BasicWindow implements Closeable
 					}
 				}
 			}
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0){}});
+		});
 
 		Button mazeProps = new Button(shell, SWT.PUSH);
 		mazeProps.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
 		mazeProps.setText("Application Properties");
 		mazeProps.addSelectionListener(new SelectionListener()
 		{
-
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0){}
 			@Override
 			public void widgetSelected(SelectionEvent arg0)
 			{
@@ -191,9 +193,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 					msgs.open();
 				}
 			}
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {}});
-
+		});
 
 		ascii = new Text(shell, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 		ascii.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
@@ -203,6 +203,8 @@ public class MyGUIView extends BasicWindow implements Closeable
 		egzit.setText("EXIT");
 		egzit.addSelectionListener(new SelectionListener()
 		{
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0){}
 			@Override
 			public void widgetSelected(SelectionEvent arg0) 
 			{
@@ -215,14 +217,12 @@ public class MyGUIView extends BasicWindow implements Closeable
 					e.printStackTrace();
 				}
 			}
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {}});
+		});
 	}
 
 	@Override
 	public void close() throws IOException
 	{
-		System.out.println("FUCK YOU");
 		changeAndNotify("exit");
 		if (display!=null&&(!display.isDisposed()))
 		{
