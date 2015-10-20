@@ -2,8 +2,6 @@ package view;
 
 import org.eclipse.swt.widgets.Composite;
 
-import mazeGenerators.Position;
-
 public class MyMazeDisplayWidget extends CommonMazeDisplayWidget {
 
 	
@@ -14,36 +12,37 @@ public class MyMazeDisplayWidget extends CommonMazeDisplayWidget {
 
 	@Override
 	public void moveUp() {
+		getMyMaze().moveUp();
 		
 	}
 
 	@Override
 	public void moveDown() {
-		// TODO Auto-generated method stub
+		getMyMaze().moveDown();
 		
 	}
 
 	@Override
 	public void moveLeft() {
-		// TODO Auto-generated method stub
+		getMyMaze().moveLeft();
 		
 	}
 
 	@Override
 	public void moveRight() {
-		// TODO Auto-generated method stub
+		getMyMaze().moveRight();
 		
 	}
 
 	@Override
 	public void moveIn() {
-		// TODO Auto-generated method stub
+		getMyMaze().moveIn();
 		
 	}
 
 	@Override
 	public void moveOut() {
-		// TODO Auto-generated method stub
+		getMyMaze().moveOut();
 		
 	}
 

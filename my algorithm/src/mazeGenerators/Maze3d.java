@@ -170,7 +170,7 @@ public class Maze3d implements Serializable
 	 *
 	 * @return the current position
 	 */
-	protected Position getCorrentPosition()
+	public Position getCorrentPosition()
 	{
 		return correntPosition;
 	}
@@ -182,7 +182,7 @@ public class Maze3d implements Serializable
 	 * @param y the y
 	 * @param z the z
 	 */
-	protected void setCorrentPosition(int x, int y, int z) 
+	public void setCorrentPosition(int x, int y, int z) 
 	{
 		this.correntPosition = new Position();
 		this.correntPosition.setPosition(x, y, z);
@@ -205,7 +205,7 @@ public class Maze3d implements Serializable
 	 * @param y the y
 	 * @param z the z
 	 */
-	protected void setStartPosition(int x, int y, int z)
+	public void setStartPosition(int x, int y, int z)
 	{
 		this.startPosition = new Position();
 		this.startPosition.setPosition(x, y, z);
@@ -328,7 +328,7 @@ public class Maze3d implements Serializable
 	/**
 	 * Move up.
 	 */
-	protected void moveUp()
+	public void moveUp()
 	{
 		if (isMoveLegal(1))
 			this.correntPosition.setY(this.correntPosition.getY()+1);	
@@ -337,7 +337,7 @@ public class Maze3d implements Serializable
 	/**
 	 * Move down.
 	 */
-	protected void moveDown()
+	public void moveDown()
 	{
 		if (isMoveLegal(2))
 			this.correntPosition.setY(this.correntPosition.getY()-1);
@@ -346,7 +346,7 @@ public class Maze3d implements Serializable
 	/**
 	 * Move right.
 	 */
-	protected void moveRight()
+	public void moveRight()
 	{
 		if (isMoveLegal(3))
 			this.correntPosition.setX(this.correntPosition.getX()+1);
@@ -355,7 +355,7 @@ public class Maze3d implements Serializable
 	/**
 	 * Move left.
 	 */
-	protected void moveLeft()
+	public void moveLeft()
 	{
 		if (isMoveLegal(4))
 			this.correntPosition.setX(this.correntPosition.getX()-1);
@@ -364,7 +364,7 @@ public class Maze3d implements Serializable
 	/**
 	 * Move in.
 	 */
-	protected void moveIn()
+	public void moveIn()
 	{
 		if (isMoveLegal(5))
 			this.correntPosition.setZ(this.correntPosition.getZ()+1);
@@ -373,7 +373,7 @@ public class Maze3d implements Serializable
 	/**
 	 * Move out.
 	 */
-	protected void moveOut()
+	public void moveOut()
 	{
 		if (isMoveLegal(6))
 			this.correntPosition.setZ(this.correntPosition.getZ()-1);
@@ -817,7 +817,7 @@ public class Maze3d implements Serializable
 	 * @param p the p
 	 * @return true, if is move really legal
 	 */
-	private boolean isMoveRealyLegal2(int move, Position p)
+	public boolean isMoveRealyLegal2(int move, Position p)
 	{
 		if (!(isMoveLegal2(move, p)))
 			return false;
