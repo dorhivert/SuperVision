@@ -90,15 +90,22 @@ public class GamePropertiesDialog extends Dialog
 				{
 					DecimalFormat df = new DecimalFormat("#.##");
 					value = new Double(text.getText());
-					if (value>0 || value<80000)
+					if ((value>0) && (value<80000))
 					{
 						numberOfThreadStringi = new String(df.format(value));
 						verifyData1 = true;
-						stringValue = numberOfThreadStringi+" ";
+						stringValue = numberOfThreadStringi+" "+myInterface+" "+generationAlgorithm+" "+solveAlgorithm;
+
 						if (verifyData1 && verifyData2 && verifyData3 && verifyData4)
 						{
 							buttonOK.setEnabled(true);
 						}
+						else{}
+					}
+					else
+					{
+						verifyData1 = false;
+						buttonOK.setEnabled(false);
 					}
 				} 
 				catch (Exception e) 
@@ -115,14 +122,21 @@ public class GamePropertiesDialog extends Dialog
 				try 
 				{
 					myInterface = new String(text2.getText());
-					if (myInterface.equals("cli") || myInterface.equals("gui"))
+					if (myInterface.equalsIgnoreCase("cli") || myInterface.equalsIgnoreCase("gui"))
 					{
 						verifyData2 = true;
-						stringValue = stringValue + myInterface	+" ";
+						stringValue = numberOfThreadStringi+" "+myInterface+" "+generationAlgorithm+" "+solveAlgorithm;
+
 						if (verifyData1 && verifyData2 && verifyData3 && verifyData4)
 						{
 							buttonOK.setEnabled(true);
 						}
+						else{}
+					}
+					else
+					{
+						verifyData2 = false;
+						buttonOK.setEnabled(false);
 					}
 				}
 				catch (Exception e) 
@@ -139,15 +153,23 @@ public class GamePropertiesDialog extends Dialog
 				try 
 				{
 					generationAlgorithm = new String(text3.getText());
-					if (generationAlgorithm.equals("simple") || generationAlgorithm.equals("dfs"))
+					if (generationAlgorithm.equalsIgnoreCase("simple") || generationAlgorithm.equalsIgnoreCase("dfs"))
 					{
 						verifyData3 = true;
-						stringValue = stringValue + generationAlgorithm	+" ";
+						stringValue = numberOfThreadStringi+" "+myInterface+" "+generationAlgorithm+" "+solveAlgorithm;
+
 						if (verifyData1 && verifyData2 && verifyData3 && verifyData4)
 						{
 							buttonOK.setEnabled(true);
 						}
+						else{}
 					}
+					else
+					{
+						verifyData3 = false;
+						buttonOK.setEnabled(false);
+					}
+
 				}
 				catch (Exception e) 
 				{
@@ -163,14 +185,21 @@ public class GamePropertiesDialog extends Dialog
 				try 
 				{
 					solveAlgorithm = new String(text4.getText());
-					if (solveAlgorithm.equals("bfs") || solveAlgorithm.equals("astarman")|| solveAlgorithm.equals("astarair"))
+					if (solveAlgorithm.equalsIgnoreCase("bfs") || solveAlgorithm.equalsIgnoreCase("astarman")|| solveAlgorithm.equalsIgnoreCase("astarair"))
 					{
 						verifyData4 = true;
-						stringValue = stringValue + solveAlgorithm;
+						stringValue = numberOfThreadStringi+" "+myInterface+" "+generationAlgorithm+" "+solveAlgorithm;
+
 						if (verifyData1 && verifyData2 && verifyData3 && verifyData4)
 						{
 							buttonOK.setEnabled(true);
 						}
+						else{}
+					}
+					else
+					{
+						verifyData4 = false;
+						buttonOK.setEnabled(false);
 					}
 				}
 				catch (Exception e) 
@@ -221,12 +250,5 @@ public class GamePropertiesDialog extends Dialog
 				display.sleep();
 		}
 		return stringValue;
-	}
-
-	public static void main(String[] args)
-	{
-		Shell shell = new Shell();
-		GamePropertiesDialog dialog = new GamePropertiesDialog(shell);
-		System.out.println(dialog.open());
 	}
 }

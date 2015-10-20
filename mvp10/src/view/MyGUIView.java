@@ -11,7 +11,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
@@ -25,7 +24,6 @@ public class MyGUIView extends BasicWindow implements Closeable
 	private String propertiesFilePath;
 	private Text ascii;
 	private MessageBox msgs;
-	private Canvas myGame;
 
 
 	public MyGUIView(String title, int width, int height)
@@ -113,13 +111,16 @@ public class MyGUIView extends BasicWindow implements Closeable
 				String[] filterExt = { "*.xml", "*.XML", "*.*" };
 				fd.setFilterExtensions(filterExt);
 				propertiesFilePath = fd.open();
-				String line = new String("openNewXML");
-				line = line+" "+propertiesFilePath;
-				changeAndNotify(line);
-				msgs = new MessageBox(shell);
-				msgs.setText("NOTICE");
-				msgs.setMessage("You must restart the apllication in order to apply new properties!");
-				msgs.open();
+				if (propertiesFilePath != null)
+				{
+					String line = new String("openNewXML");
+					line = line+" "+propertiesFilePath;
+					changeAndNotify(line);
+					msgs = new MessageBox(shell);
+					msgs.setText("NOTICE");
+					msgs.setMessage("You must restart the apllication in order to apply new properties!");
+					msgs.open();
+				}
 			}
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {}});
