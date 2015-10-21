@@ -1,13 +1,13 @@
 package view;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.widgets.Composite;
 
 public class MyMazeDisplayWidget extends CommonMazeDisplayWidget 
 {
-	private GameCharacter myMegi;
-
+	private GameChar myMegi;
 
 	MyMazeDisplayWidget(Composite composite, int style) 
 	{
@@ -16,15 +16,12 @@ public class MyMazeDisplayWidget extends CommonMazeDisplayWidget
 
 		addPaintListener(new PaintListener()
 		{
-
 			@Override
 			public void paintControl(PaintEvent arg0)
 			{
-
 				int startFromX = 0;
 				int startFromY = 0;
-				setBackground(white);
-				//				setBackground(new Color(getDisplay(), 0, 255, 255));
+
 				int min=0;
 
 				if(getSize().y < getSize().x)
@@ -32,23 +29,11 @@ public class MyMazeDisplayWidget extends CommonMazeDisplayWidget
 				else 
 					min = getSize().x+2;
 
-				int levelSelected = 5;
-				//		        Color c1 = new Color(arg0.display, 50, 50, 200);
-				//		        arg0.gc.setBackground(c1);
-				//		        arg0.gc.fillRectangle(10, 15, 90, 60);
-				//
-				//		        Color c2 = new Color(arg0.display, 105, 90, 60);
-				//		        arg0.gc.setBackground(c2);
-				//		        arg0.gc.fillRectangle(130, 15, 90, 60);
-				//
-				//		        Color c3 = new Color(arg0.display, 33, 200, 100);
-				//		        arg0.gc.setBackground(c3);
-				//		        arg0.gc.fillRectangle(250, 15, 90, 60);
+				int levelSelected = getMyMaze().getCorrentPosition().getZ();
 
 				int cellSize = min / getMyMaze().getMaze().length;
 
-
-				arg0.gc.setBackground(black);
+				arg0.gc.setBackground(arg0.display.getSystemColor(SWT.COLOR_BLACK));
 				arg0.gc.fillRectangle(0, 0, cellSize-1, cellSize-1);
 
 				for(int x = 0;x<getMyMaze().getMaxX()+1;x++)
@@ -63,40 +48,43 @@ public class MyMazeDisplayWidget extends CommonMazeDisplayWidget
 
 							if(getMyMaze().getCellValue(x, y, levelSelected)==0)
 							{
-								arg0.gc.setBackground(white);
+								arg0.gc.setBackground(arg0.display.getSystemColor(SWT.COLOR_WHITE));
 								arg0.gc.fillRectangle(startFromX, startFromY, cellSize, cellSize);
-								if(getMyMaze().getCellValue(x, y, levelSelected+1)==0)
-								{
-			
-									arg0.gc.setBackground(superLightBlack);
-									arg0.gc.fillRectangle(startFromX, startFromY, cellSize, cellSize);
-				
-								}
-								if(getMyMaze().getCellValue(x, y, levelSelected-1)==0)
-								{
-									
-									arg0.gc.setBackground(superLightBlack);
-									arg0.gc.fillRectangle(startFromX, startFromY, cellSize, cellSize);
-									
-								}
-								if((getMyMaze().getCellValue(x, y, levelSelected-1)==0)&&(getMyMaze().getCellValue(x, y, levelSelected+1)==0))
-								{
-									
-									arg0.gc.setBackground(superLightBlack);
-									arg0.gc.fillRectangle(startFromX, startFromY, cellSize, cellSize);
-									
-								}
+								if (levelSelected < getMyMaze().getMaxZ())
+									if(getMyMaze().getCellValue(x, y, levelSelected+1)==0)
+									{
+										arg0.gc.setBackground(arg0.display.getSystemColor(SWT.COLOR_GRAY));
+										arg0.gc.fillRectangle(startFromX, startFromY, cellSize, cellSize);
+									}
+									else{}
+								else{}
+								if (levelSelected > 0)
+									if(getMyMaze().getCellValue(x, y, levelSelected-1)==0)
+									{
+										arg0.gc.setBackground(arg0.display.getSystemColor(SWT.COLOR_GRAY));
+										arg0.gc.fillRectangle(startFromX, startFromY, cellSize, cellSize);
+									}
+									else{}
+								else{}
+								if ((levelSelected < getMyMaze().getMaxZ())&&(levelSelected > 0))
+									if((getMyMaze().getCellValue(x, y, levelSelected-1)==0)&&(getMyMaze().getCellValue(x, y, levelSelected+1)==0))
+									{
+										arg0.gc.setBackground(arg0.display.getSystemColor(SWT.COLOR_GRAY));
+										arg0.gc.fillRectangle(startFromX, startFromY, cellSize, cellSize);
+									}
+									else{}
+								else{}
 							}
 							else
 							{
-								arg0.gc.setBackground(black);
+								arg0.gc.setBackground(arg0.display.getSystemColor(SWT.COLOR_BLACK));
 								arg0.gc.fillRectangle(startFromX+1, startFromY+1, cellSize-1, cellSize-1);
 							}
 						}
 					}
 				}
-				myMegi.print(arg0, 0, 0, cellSize, cellSize);
-				setBackground(white);
+				myMegi.print(arg0, getMyMaze().getCorrentPosition().getX()*cellSize, getMyMaze().getCorrentPosition().getY()*cellSize, cellSize, cellSize);
+				setBackground(arg0.display.getSystemColor(SWT.COLOR_WHITE));
 			}
 		});
 	}
