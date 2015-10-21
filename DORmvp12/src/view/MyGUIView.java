@@ -8,6 +8,8 @@ import mazeGenerators.Maze3dGenerator;
 import mazeGenerators.MyMaze3dGenerator;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -85,6 +87,8 @@ public class MyGUIView extends BasicWindow implements Closeable
 	@Override
 	void InitWidgets()
 	{
+
+
 		shell.setLayout(new GridLayout(2, false));
 		shell.addListener(SWT.Close, new Listener() 
 		{
@@ -198,15 +202,54 @@ public class MyGUIView extends BasicWindow implements Closeable
 			}
 		});
 
-//		ascii = new Text(shell, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
-//		ascii.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
-		
+		//		ascii = new Text(shell, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+		//		ascii.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
+
 		mazeDisplay = new MyMazeDisplayWidget(shell, SWT.BORDER);
 		mazeDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
 		Maze3dGenerator mg = new MyMaze3dGenerator();
 		Maze3d myMaze = mg.generate(15, 15, 15);
 		mazeDisplay.setMyMaze(myMaze);
 		mazeDisplay.redraw();
+		mazeDisplay.forceFocus();
+		mazeDisplay.addKeyListener(new KeyListener()
+		{
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {}
+
+			@Override
+			public void keyPressed(KeyEvent e) 
+			{
+				if (e.keyCode == SWT.ARROW_UP) 
+				{
+					mazeDisplay.moveDown();
+				}
+				else if (e.keyCode == SWT.ARROW_DOWN) 
+				{
+					mazeDisplay.moveUp();
+				}
+				else if (e.keyCode == SWT.ARROW_RIGHT)
+				{
+					mazeDisplay.moveRight();
+				}
+				else if (e.keyCode == SWT.ARROW_LEFT) 
+				{
+					mazeDisplay.moveLeft();
+				} 
+				else if (e.keyCode == SWT.PAGE_UP)
+				{
+					// play stairs sound
+					mazeDisplay.moveIn();
+				}
+				else if (e.keyCode == SWT.PAGE_DOWN) 
+				{
+					// play downstairs sound
+					mazeDisplay.moveOut();
+				}
+
+			}
+		});
 
 		Button egzit = new Button(shell, SWT.PUSH);
 		egzit.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
