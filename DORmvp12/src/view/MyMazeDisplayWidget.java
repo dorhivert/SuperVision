@@ -182,6 +182,7 @@ public class MyMazeDisplayWidget extends CommonMazeDisplayWidget
 		if (flag)
 		{
 			getMyMaze().moveOut();
+			
 			redraw();
 		}
 
