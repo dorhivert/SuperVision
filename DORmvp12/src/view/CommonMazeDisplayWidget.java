@@ -15,7 +15,8 @@ public abstract class CommonMazeDisplayWidget extends Canvas
 	
 
 
-	public Maze3d getMyMaze() {
+	public Maze3d getMyMaze() 
+	{
 		return myMaze;
 	}
 
