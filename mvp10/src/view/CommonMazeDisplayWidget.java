@@ -45,4 +45,46 @@ public abstract class CommonMazeDisplayWidget extends Canvas
 		white = new Color(getDisplay(),240,240,240);
 		yellow = new Color(getDisplay(),255,255,0);
 	}
+
+
+	public void moveUp() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void moveDown() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void moveLeft() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void moveRight() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void moveOut() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void moveIn() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void winGame() {
+		// TODO Auto-generated method stub
+		
+	}
 }
