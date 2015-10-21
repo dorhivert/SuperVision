@@ -5,7 +5,8 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 
-public class MyMazeDisplayWidget extends CommonMazeDisplayWidget {
+public class MyMazeDisplayWidget extends CommonMazeDisplayWidget 
+{
 
 	private Color black,white;
 	
