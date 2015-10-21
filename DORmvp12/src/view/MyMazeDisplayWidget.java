@@ -95,6 +95,7 @@ public class MyMazeDisplayWidget extends CommonMazeDisplayWidget
 				}
 				if ((getMyMaze().getCorrentPosition().getZ()) == levelSelected) 
 				{
+
 					myMegi.print(arg0, getMyMaze().getCorrentPosition().getX()*cellSize, getMyMaze().getCorrentPosition().getY()*cellSize, cellSize, cellSize);
 				}
 				if ((getMyMaze().getFinishPosition().getZ()) == levelSelected) 
@@ -188,11 +189,6 @@ public class MyMazeDisplayWidget extends CommonMazeDisplayWidget
 
 	}
 
-	@Override
-	public void winGame() {
-		// TODO Auto-generated method stub
-
-	}
 
 
 

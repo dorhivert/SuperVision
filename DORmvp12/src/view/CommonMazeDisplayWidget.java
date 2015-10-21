@@ -49,5 +49,4 @@ public abstract class CommonMazeDisplayWidget extends Canvas
 	public abstract void moveRight();
 	public abstract void moveOut(); 
 	public abstract void moveIn();
-	public abstract void winGame();
 }
