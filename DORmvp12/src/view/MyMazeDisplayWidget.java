@@ -1,5 +1,7 @@
 package view;
 
+import mazeGenerators.Position;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -7,12 +9,16 @@ import org.eclipse.swt.widgets.Composite;
 
 public class MyMazeDisplayWidget extends CommonMazeDisplayWidget 
 {
-	private GameChar myMegi;
+	private GameChar myMegi, myPresent, myFinished;
+	private boolean flag = false;
+	private Position myTempPosition;
 
 	MyMazeDisplayWidget(Composite composite, int style) 
 	{
 		super(composite, style);
 		myMegi = new GameCharacter();
+		myPresent = new GameGoalImage();
+		myFinished = new GameFinishGesture();
 
 		addPaintListener(new PaintListener()
 		{
@@ -44,7 +50,6 @@ public class MyMazeDisplayWidget extends CommonMazeDisplayWidget
 							startFromX = x*cellSize;
 							startFromY = y*cellSize;
 							arg0.gc.drawRectangle(startFromX, startFromY, cellSize, cellSize);
-
 
 							if(getMyMaze().getCellValue(x, y, levelSelected)==0)
 							{
@@ -83,45 +88,102 @@ public class MyMazeDisplayWidget extends CommonMazeDisplayWidget
 						}
 					}
 				}
-				myMegi.print(arg0, getMyMaze().getCorrentPosition().getX()*cellSize, getMyMaze().getCorrentPosition().getY()*cellSize, cellSize, cellSize);
+				if((getMyMaze().getStartPosition().getZ()) == levelSelected)
+				{
+					arg0.gc.setBackground(arg0.display.getSystemColor(SWT.COLOR_GREEN));
+					arg0.gc.fillRectangle(getMyMaze().getStartPosition().getX()*cellSize, getMyMaze().getStartPosition().getY()*cellSize, cellSize, cellSize);
+				}
+				if ((getMyMaze().getCorrentPosition().getZ()) == levelSelected) 
+				{
+					myMegi.print(arg0, getMyMaze().getCorrentPosition().getX()*cellSize, getMyMaze().getCorrentPosition().getY()*cellSize, cellSize, cellSize);
+				}
+				if ((getMyMaze().getFinishPosition().getZ()) == levelSelected) 
+				{
+					myPresent.print(arg0, getMyMaze().getFinishPosition().getX()*cellSize, getMyMaze().getFinishPosition().getY()*cellSize, cellSize, cellSize);
+				}
+
+				if (((getMyMaze().getCorrentPosition().getX()) == (getMyMaze().getFinishPosition().getX()))&&((getMyMaze().getCorrentPosition().getY()) == (getMyMaze().getFinishPosition().getY()))&&((getMyMaze().getCorrentPosition().getZ()) == (getMyMaze().getFinishPosition().getZ())))
+				{
+					myFinished.print(arg0, 0, 0, ((getMyMaze().getMaxX()+1)*cellSize), ((getMyMaze().getMaxY()+1)*cellSize));
+				}
+
 				setBackground(arg0.display.getSystemColor(SWT.COLOR_WHITE));
 			}
 		});
 	}
 
 	@Override
-	public void moveUp() {
-		getMyMaze().moveUp();
+	public void moveUp()
+	{
+		myTempPosition = new Position(getMyMaze().getCorrentPosition());
+		flag = getMyMaze().isMoveRealyLegal2(1, myTempPosition);
+		if (flag)
+		{
+			getMyMaze().moveUp();
+			redraw();
+		}
+	}
+
+	@Override
+	public void moveDown()
+	{
+		myTempPosition = new Position(getMyMaze().getCorrentPosition());
+		flag = getMyMaze().isMoveRealyLegal2(2, myTempPosition);
+		if (flag)
+		{
+			getMyMaze().moveDown();
+			redraw();
+		}
+	}
+
+	@Override
+	public void moveLeft()
+	{
+		myTempPosition = new Position(getMyMaze().getCorrentPosition());
+		flag = getMyMaze().isMoveRealyLegal2(4, myTempPosition);
+		if (flag)
+		{
+			getMyMaze().moveLeft();
+			redraw();
+		}
 
 	}
 
 	@Override
-	public void moveDown() {
-		getMyMaze().moveDown();
+	public void moveRight()
+	{
+		myTempPosition = new Position(getMyMaze().getCorrentPosition());
+		flag = getMyMaze().isMoveRealyLegal2(3, myTempPosition);
+		if (flag)
+		{
+			getMyMaze().moveRight();
+			redraw();
+		}
+	}
+
+	@Override
+	public void moveIn() 
+	{
+		myTempPosition = new Position(getMyMaze().getCorrentPosition());
+		flag = getMyMaze().isMoveRealyLegal2(5, myTempPosition);
+		if (flag)
+		{
+			getMyMaze().moveIn();
+			redraw();
+		}
 
 	}
 
 	@Override
-	public void moveLeft() {
-		getMyMaze().moveLeft();
-
-	}
-
-	@Override
-	public void moveRight() {
-		getMyMaze().moveRight();
-
-	}
-
-	@Override
-	public void moveIn() {
-		getMyMaze().moveIn();
-
-	}
-
-	@Override
-	public void moveOut() {
-		getMyMaze().moveOut();
+	public void moveOut() 
+	{
+		myTempPosition = new Position(getMyMaze().getCorrentPosition());
+		flag = getMyMaze().isMoveRealyLegal2(6, myTempPosition);
+		if (flag)
+		{
+			getMyMaze().moveOut();
+			redraw();
+		}
 
 	}
 
