@@ -184,6 +184,8 @@ public class Presenter implements Observer
 			case "generated":
 			{
 				notifyView("Maze "+model.getCommandData().get("generated")+" is ready" );
+				view.displayMazeGUI(model.getMazeCollection().get(model.getCommandData().get("generated")));
+	
 			}	break;
 			case "crossed":
 			{

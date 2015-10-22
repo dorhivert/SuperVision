@@ -173,6 +173,6 @@ public class MazeSettingsDialog extends Dialog
 				display.sleep();
 		}
 
-		return stringValue;
+		return totalValue;
 	}
 }

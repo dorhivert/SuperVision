@@ -21,7 +21,7 @@ public class Run
 		boolean flag = false;
 		Properties prop = new PropManager().loadProp();
 		MyModel model = new MyModel(prop);
-		View view = new MyGUIView("Java Maze Project", 500, 500);
+		View view = new MyGUIView("Java Maze Project", 650, 590);
 		if (prop.getGameInterface().equals("cli"))
 		{
 			view = new MyView();

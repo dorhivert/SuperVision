@@ -7,12 +7,12 @@ import org.eclipse.swt.widgets.Composite;
 
 public abstract class CommonMazeDisplayWidget extends Canvas 
 {
-	
+
 	private Maze3d myMaze;
 	private int[][] my2dCrossSection;
 	public MazeGameBoard myBoard;
 
-	
+
 
 
 	public Maze3d getMyMaze() 
@@ -21,8 +21,10 @@ public abstract class CommonMazeDisplayWidget extends Canvas
 	}
 
 
-	public void setMyMaze(Maze3d myMaze) {
-		this.myMaze = myMaze;
+	public void setMyMaze(Maze3d myMaze) 
+	{
+		if (myMaze != null)
+			this.myMaze = myMaze;
 	}
 
 
