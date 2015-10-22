@@ -864,59 +864,9 @@ public class Maze3d implements Serializable
 				return true;
 			}
 		}
-		return true;
-	}
-	
-	public boolean isMoveRealyLegal3(int move, Position p)
-	{
-		if (!(isMoveLegal2(move, p)))
-			return false;
-
-		if (move == 1) 
-		{
-			if (this.getCellValue(p.getX(), p.getY() + 1, p.getZ()) == 0)
-			{
-				return true;
-			}
-		}
-		if (move == 2) 
-		{
-			if (this.getCellValue(p.getX(), p.getY()  -1, p.getZ()) == 0)
-			{
-				return true;
-			}
-		}
-		if (move == 3) 
-		{
-			if (this.getCellValue(p.getX() + 1, p.getY(), p.getZ()) == 0)
-			{
-				return true;
-			}
-		}
-		if (move == 4)
-		{
-			if (this.getCellValue(p.getX() - 1, p.getY(), p.getZ()) == 0)
-			{
-				return true;
-			}
-		}
-		if (move == 5)
-		{
-			if (this.getCellValue(p.getX(), p.getY(), p.getZ() + 1) == 0)
-			{
-				return true;
-			}
-		}
-		if (move == 6) 
-		{
-			if (this.getCellValue(p.getX(), p.getY(), p.getZ() - 1) == 0)
-			{
-				return true;
-			}
-		}
 		return false;
 	}
-
+	
 
 	/**
 	 * converts the maze into Byte Array.
