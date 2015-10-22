@@ -143,7 +143,7 @@ public class MyView extends Observable implements View
 		System.out.println("  load maze <file name> <file>");
 		System.out.println("  maze size <name>");
 		System.out.println("  file size <name>");
-		System.out.println("  solve <name> <algorithm (BFS / ASTARAIR / ASTARMAN>");
+		System.out.println("  solve <name> <algorithm (BFS / ASTARAIR / ASTARMAN)>");
 		System.out.println("  display solution <name>");
 		System.out.println("  menu");
 		System.out.println("  exit");

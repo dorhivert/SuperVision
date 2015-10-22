@@ -103,26 +103,26 @@ public class MyGUIView extends BasicWindow implements Closeable
 				arg0.doit = msgs.open() == SWT.YES;
 			}
 		});
-		Button open = new Button(shell, SWT.PUSH);
-		open.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
-		open.setText("load XML properties file");
-		open.addSelectionListener(new SelectionListener()
+		
+		Button mazeProps = new Button(shell, SWT.PUSH);
+		mazeProps.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
+		mazeProps.setText("Application Properties");
+		mazeProps.addSelectionListener(new SelectionListener()
 		{
 			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {}
+			public void widgetDefaultSelected(SelectionEvent arg0){}
 			@Override
 			public void widgetSelected(SelectionEvent arg0)
 			{
-				FileDialog fd=new FileDialog(shell,SWT.OPEN);
-				fd.setText("open");
-				fd.setFilterPath("");
-				String[] filterExt = { "*.xml", "*.XML", "*.*" };
-				fd.setFilterExtensions(filterExt);
-				propertiesFilePath = fd.open();
-				if (propertiesFilePath != null)
+				GamePropertiesDialog gpd = new GamePropertiesDialog(shell);
+				gpd.setText("open");
+
+				String newValue = new String(gpd.open());
+
+				String line = new String("changeProperties ");
+				line = line+newValue;
+				if (line.split(" ").length == 5)
 				{
-					String line = new String("openNewXML");
-					line = line+" "+propertiesFilePath;
 					changeAndNotify(line);
 					msgs = new MessageBox(shell);
 					msgs.setText("NOTICE");
@@ -131,10 +131,10 @@ public class MyGUIView extends BasicWindow implements Closeable
 				}
 			}
 		});
-
+		
 		Button generate = new Button(shell, SWT.PUSH);
 		generate.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
-		generate.setText("Generate 3d Maze!");
+		generate.setText("New Game");
 		generate.addSelectionListener(new SelectionListener()
 		{
 			@Override
@@ -166,33 +166,33 @@ public class MyGUIView extends BasicWindow implements Closeable
 						}
 						if (flag == true)
 						{
-							ascii.append("IM GENERATING!\n");
 							changeAndNotify(line);
 						}
 					}
 				}
 			}
 		});
-
-		Button mazeProps = new Button(shell, SWT.PUSH);
-		mazeProps.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
-		mazeProps.setText("Application Properties");
-		mazeProps.addSelectionListener(new SelectionListener()
+		
+		Button open = new Button(shell, SWT.PUSH);
+		open.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
+		open.setText("load XML properties file");
+		open.addSelectionListener(new SelectionListener()
 		{
 			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0){}
+			public void widgetDefaultSelected(SelectionEvent arg0) {}
 			@Override
 			public void widgetSelected(SelectionEvent arg0)
 			{
-				GamePropertiesDialog gpd = new GamePropertiesDialog(shell);
-				gpd.setText("open");
-
-				String newValue = new String(gpd.open());
-
-				String line = new String("changeProperties ");
-				line = line+newValue;
-				if (line.split(" ").length == 5)
+				FileDialog fd=new FileDialog(shell,SWT.OPEN);
+				fd.setText("open");
+				fd.setFilterPath("");
+				String[] filterExt = { "*.xml", "*.XML", "*.*" };
+				fd.setFilterExtensions(filterExt);
+				propertiesFilePath = fd.open();
+				if (propertiesFilePath != null)
 				{
+					String line = new String("openNewXML");
+					line = line+" "+propertiesFilePath;
 					changeAndNotify(line);
 					msgs = new MessageBox(shell);
 					msgs.setText("NOTICE");
@@ -201,6 +201,149 @@ public class MyGUIView extends BasicWindow implements Closeable
 				}
 			}
 		});
+		
+		Button loadMaze = new Button(shell, SWT.PUSH);
+		loadMaze.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
+		loadMaze.setText("load maze");
+		loadMaze.addSelectionListener(new SelectionListener()
+		{
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {}
+			@Override
+			public void widgetSelected(SelectionEvent arg0)
+			{
+				FileDialog fd=new FileDialog(shell,SWT.OPEN);
+				fd.setText("open");
+				fd.setFilterPath("");
+				String[] filterExt = { "*.xml", "*.XML", "*.*" };
+				fd.setFilterExtensions(filterExt);
+				propertiesFilePath = fd.open();
+				if (propertiesFilePath != null)
+				{
+					String line = new String("openNewXML");
+					line = line+" "+propertiesFilePath;
+					changeAndNotify(line);
+					msgs = new MessageBox(shell);
+					msgs.setText("NOTICE");
+					msgs.setMessage("You must restart the apllication in order to apply new properties!");
+					msgs.open();
+				}
+			}
+		});
+		Button saveMaze = new Button(shell, SWT.PUSH);
+		saveMaze.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
+		saveMaze.setText("save maze");
+		saveMaze.addSelectionListener(new SelectionListener()
+		{
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {}
+			@Override
+			public void widgetSelected(SelectionEvent arg0)
+			{
+				FileDialog fd=new FileDialog(shell,SWT.OPEN);
+				fd.setText("open");
+				fd.setFilterPath("");
+				String[] filterExt = { "*.xml", "*.XML", "*.*" };
+				fd.setFilterExtensions(filterExt);
+				propertiesFilePath = fd.open();
+				if (propertiesFilePath != null)
+				{
+					String line = new String("openNewXML");
+					line = line+" "+propertiesFilePath;
+					changeAndNotify(line);
+					msgs = new MessageBox(shell);
+					msgs.setText("NOTICE");
+					msgs.setMessage("You must restart the apllication in order to apply new properties!");
+					msgs.open();
+				}
+			}
+		});
+		Button hint = new Button(shell, SWT.PUSH);
+		hint.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
+		hint.setText("HINT");
+		hint.addSelectionListener(new SelectionListener()
+		{
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {}
+			@Override
+			public void widgetSelected(SelectionEvent arg0)
+			{
+				FileDialog fd=new FileDialog(shell,SWT.OPEN);
+				fd.setText("open");
+				fd.setFilterPath("");
+				String[] filterExt = { "*.xml", "*.XML", "*.*" };
+				fd.setFilterExtensions(filterExt);
+				propertiesFilePath = fd.open();
+				if (propertiesFilePath != null)
+				{
+					String line = new String("openNewXML");
+					line = line+" "+propertiesFilePath;
+					changeAndNotify(line);
+					msgs = new MessageBox(shell);
+					msgs.setText("NOTICE");
+					msgs.setMessage("You must restart the apllication in order to apply new properties!");
+					msgs.open();
+				}
+			}
+		});
+		Button solve = new Button(shell, SWT.PUSH);
+		solve.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
+		solve.setText("SOLVE");
+		solve.addSelectionListener(new SelectionListener()
+		{
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {}
+			@Override
+			public void widgetSelected(SelectionEvent arg0)
+			{
+				FileDialog fd=new FileDialog(shell,SWT.OPEN);
+				fd.setText("open");
+				fd.setFilterPath("");
+				String[] filterExt = { "*.xml", "*.XML", "*.*" };
+				fd.setFilterExtensions(filterExt);
+				propertiesFilePath = fd.open();
+				if (propertiesFilePath != null)
+				{
+					String line = new String("openNewXML");
+					line = line+" "+propertiesFilePath;
+					changeAndNotify(line);
+					msgs = new MessageBox(shell);
+					msgs.setText("NOTICE");
+					msgs.setMessage("You must restart the apllication in order to apply new properties!");
+					msgs.open();
+				}
+			}
+		});
+		Button info = new Button(shell, SWT.PUSH);
+		info.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
+		info.setText("INFO");
+		info.addSelectionListener(new SelectionListener()
+		{
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {}
+			@Override
+			public void widgetSelected(SelectionEvent arg0)
+			{
+				FileDialog fd=new FileDialog(shell,SWT.OPEN);
+				fd.setText("open");
+				fd.setFilterPath("");
+				String[] filterExt = { "*.xml", "*.XML", "*.*" };
+				fd.setFilterExtensions(filterExt);
+				propertiesFilePath = fd.open();
+				if (propertiesFilePath != null)
+				{
+					String line = new String("openNewXML");
+					line = line+" "+propertiesFilePath;
+					changeAndNotify(line);
+					msgs = new MessageBox(shell);
+					msgs.setText("NOTICE");
+					msgs.setMessage("You must restart the apllication in order to apply new properties!");
+					msgs.open();
+				}
+			}
+		});
+
+		
 
 		//		ascii = new Text(shell, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 		//		ascii.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
