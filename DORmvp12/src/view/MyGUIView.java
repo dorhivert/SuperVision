@@ -160,7 +160,6 @@ public class MyGUIView extends BasicWindow implements Closeable
 
 				String line = new String("generate 3d maze");
 				line = line+" "+newValue;
-				//String anotherLine = new String("display maze "+newValue);
 				String [] splittedLine = line.split(" ");
 				int num = splittedLine.length;
 				boolean flag = true;
