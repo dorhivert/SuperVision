@@ -68,4 +68,6 @@ public interface View
 	 * Display command menu.
 	 */
 	public void displayCommandMenu();
+
+	void displayMazeGUI(Maze3d maze3d);
 }

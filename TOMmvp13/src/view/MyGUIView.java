@@ -3,6 +3,8 @@ package view;
 import java.io.Closeable;
 import java.io.IOException;
 
+import mazeGenerators.Maze3d;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -18,9 +20,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 
-import mazeGenerators.Maze3d;
-import mazeGenerators.Maze3dGenerator;
-import mazeGenerators.MyMaze3dGenerator;
 import solution.Solution;
 
 public class MyGUIView extends BasicWindow implements Closeable
@@ -30,6 +29,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 	private Text zLevel;
 	private MessageBox msgs;
 	public CommonMazeDisplayWidget mazeDisplay;
+	private Maze3d myViewMaze;
 
 	public MyGUIView(String title, int width, int height)
 	{
@@ -74,9 +74,18 @@ public class MyGUIView extends BasicWindow implements Closeable
 	@Override
 	public void displayMaze(Maze3d maze)
 	{
-		Maze3dGenerator mg = new MyMaze3dGenerator();
-		Maze3d myMaze = mg.generate(15, 15, 15);
-		this.mazeDisplay.setMyMaze(myMaze);
+		displayMazeGUI(maze);
+	}
+	
+	public void displayMazeGUI(Maze3d maze)
+	{
+		if (maze != null) 
+		{
+			this.myViewMaze = maze;
+			mazeDisplay.setMyMaze(myViewMaze);
+			mazeDisplay.redraw();
+			mazeDisplay.forceFocus();
+		}
 	}
 
 	@Override
@@ -89,8 +98,6 @@ public class MyGUIView extends BasicWindow implements Closeable
 	@Override
 	void InitWidgets()
 	{
-
-
 		shell.setLayout(new GridLayout(2, false));
 		shell.addListener(SWT.Close, new Listener() 
 		{
@@ -105,7 +112,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 				arg0.doit = msgs.open() == SWT.YES;
 			}
 		});
-		
+
 		Button mazeProps = new Button(shell, SWT.PUSH);
 		mazeProps.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
 		mazeProps.setText("Application Properties");
@@ -136,7 +143,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 		mazeInformation = new Text(shell, SWT.BORDER);
 		mazeInformation.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 		mazeInformation.append("Maze Name:");
-		
+
 		Button generate = new Button(shell, SWT.PUSH);
 		generate.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
 		generate.setText("New Game");
@@ -154,6 +161,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 
 				String line = new String("generate 3d maze");
 				line = line+" "+newValue;
+				//String anotherLine = new String("display maze "+newValue);
 				String [] splittedLine = line.split(" ");
 				int num = splittedLine.length;
 				boolean flag = true;
@@ -177,7 +185,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 				}
 			}
 		});
-		
+
 		zLevel = new Text(shell, SWT.BORDER);
 		zLevel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 		zLevel.append("Floor level:");
@@ -213,9 +221,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 
 		mazeDisplay = new MyMazeDisplayWidget(shell, SWT.BORDER);
 		mazeDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 10));
-		this.displayMaze(mazeDisplay.getMyMaze());
-//		Maze3dGenerator mg = new MyMaze3dGenerator();
-//		Maze3d myMaze = mg.generate(15, 15, 15);
+		mazeDisplay.setMyMaze(myViewMaze);
 		mazeDisplay.redraw();
 		mazeDisplay.forceFocus();
 		mazeDisplay.addKeyListener(new KeyListener()
@@ -251,14 +257,32 @@ public class MyGUIView extends BasicWindow implements Closeable
 				{
 					mazeDisplay.moveOut();
 				}
-
 			}
 		});
-		
+
 		Button loadMaze = new Button(shell, SWT.PUSH);
 		loadMaze.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
 		loadMaze.setText("load maze");
 		loadMaze.addSelectionListener(new SelectionListener()
+		{
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {}
+			@Override
+			public void widgetSelected(SelectionEvent arg0)
+			{
+				Dialog loadMaze = new GameSaveMazeDialog(shell);
+				String line = ((GameSaveMazeDialog) loadMaze).open();
+				if(line != null)
+				{
+					String newLine = "display "+line;
+					changeAndNotify(newLine);
+				}
+			}
+		});
+		Button loadMazeFile = new Button(shell, SWT.PUSH);
+		loadMazeFile.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
+		loadMazeFile.setText("load maze from file");
+		loadMazeFile.addSelectionListener(new SelectionListener()
 		{
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {}
@@ -367,35 +391,10 @@ public class MyGUIView extends BasicWindow implements Closeable
 				}
 			}
 		});
-		
-		Button loadMazeFromFile = new Button(shell, SWT.PUSH);
-		loadMazeFromFile.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
-		loadMazeFromFile.setText("Load maze from file");
-		loadMazeFromFile.addSelectionListener(new SelectionListener() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent arg0) {
-				Dialog loadMaze = new SavedMazeDialog(shell);
-				String line = ((SavedMazeDialog) loadMaze).open();
-				if(line!=null)
-				{
-					System.out.println("line is not null!");
-					String newLine = "display maze"+line;
-					changeAndNotify(newLine);
-				}
-				
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
-		
 
-		
+
+
+
 		Button egzit = new Button(shell, SWT.PUSH);
 		egzit.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
 		egzit.setText("EXIT");
@@ -416,8 +415,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 				}
 			}
 		});
-		
-		
+
 	}
 
 	@Override

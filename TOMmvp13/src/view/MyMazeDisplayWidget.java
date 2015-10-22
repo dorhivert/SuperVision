@@ -20,6 +20,7 @@ public class MyMazeDisplayWidget extends CommonMazeDisplayWidget
 		myPresent = new GameGoalImage();
 		myFinished = new GameFinishGesture();
 
+
 		addPaintListener(new PaintListener()
 		{
 			@Override
@@ -34,8 +35,10 @@ public class MyMazeDisplayWidget extends CommonMazeDisplayWidget
 					min=getSize().y+2;
 				else 
 					min = getSize().x+2;
-				if(getMyMaze()!=null)
+
+				if(getMyMaze() != null)
 				{
+
 					int levelSelected = getMyMaze().getCorrentPosition().getZ();
 
 					int cellSize = min / getMyMaze().getMaze().length;
@@ -89,7 +92,6 @@ public class MyMazeDisplayWidget extends CommonMazeDisplayWidget
 							}
 						}
 					}
-
 					if((getMyMaze().getStartPosition().getZ()) == levelSelected)
 					{
 						arg0.gc.setBackground(arg0.display.getSystemColor(SWT.COLOR_GREEN));
@@ -108,8 +110,9 @@ public class MyMazeDisplayWidget extends CommonMazeDisplayWidget
 					{
 						myFinished.print(arg0, 0, 0, ((getMyMaze().getMaxX()+1)*cellSize), ((getMyMaze().getMaxY()+1)*cellSize));
 					}
+
+					setBackground(arg0.display.getSystemColor(SWT.COLOR_WHITE));
 				}
-				setBackground(arg0.display.getSystemColor(SWT.COLOR_WHITE));
 			}
 		});
 	}

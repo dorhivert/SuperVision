@@ -1,7 +1,5 @@
 package view;
 
-import java.text.DecimalFormat;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -15,19 +13,16 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 
-public class MazeSettingsDialog extends Dialog
+public class GameSaveMazeDialog extends Dialog
 {
-	private Double value;
-	private String stringValue;
-	private String tempValue;
+
 	private String totalValue;
-	private boolean verifyData1 = false;
 	private boolean verifyData2 = false;
 
 	/**
 	 * @param parent
 	 */
-	public MazeSettingsDialog(Shell parent)
+	public GameSaveMazeDialog(Shell parent)
 	{
 		super(parent);
 	}
@@ -36,7 +31,7 @@ public class MazeSettingsDialog extends Dialog
 	 * @param parent
 	 * @param style
 	 */
-	public MazeSettingsDialog(Shell parent, int style)
+	public GameSaveMazeDialog(Shell parent, int style)
 	{
 		super(parent, style);
 	}
@@ -55,11 +50,6 @@ public class MazeSettingsDialog extends Dialog
 
 		shell.setLayout(new GridLayout(2, true));
 
-		Label label = new Label(shell, SWT.NULL);
-		label.setText("Please enter desired maze size:");
-
-		final Text text = new Text(shell, SWT.SINGLE | SWT.BORDER);
-
 		Label label2 = new Label(shell, SWT.NULL);
 		label2.setText("Please enter maze name:");
 
@@ -68,34 +58,11 @@ public class MazeSettingsDialog extends Dialog
 		final Button buttonOK = new Button(shell, SWT.PUSH);
 		buttonOK.setText("Ok");
 		buttonOK.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+		buttonOK.setEnabled(false);
 		Button buttonCancel = new Button(shell, SWT.PUSH);
 		buttonCancel.setText("Cancel");
 
-		text.addListener(SWT.Modify, new Listener() 
-		{
-			public void handleEvent(Event event)
-			{
-				try 
-				{
-					DecimalFormat df = new DecimalFormat("#.##");
-					value = new Double(text.getText());;
-					stringValue = new String(df.format(value));
-					verifyData1 = true;
-					if ((value>900) || (value<2))
-					{
-						verifyData1 = false;
-						buttonOK.setEnabled(false);
-					}
-
-					if (verifyData1 && verifyData2)
-						buttonOK.setEnabled(true);
-				} 
-				catch (Exception e) 
-				{
-					buttonOK.setEnabled(false);
-				}
-			}
-		});
+		
 		text2.addListener(SWT.Modify, new Listener() 
 		{
 			public void handleEvent(Event event) 
@@ -103,15 +70,17 @@ public class MazeSettingsDialog extends Dialog
 				try 
 				{
 					totalValue = new String(text2.getText());
-					totalValue = totalValue+" "+stringValue;
-					verifyData2 = true;
 					if ((text2.getText() == null) || (text2.getText().length() > 20) || (text2.getText().length() < 2))
 					{
 						verifyData2 = false;
 						buttonOK.setEnabled(false);
 					}
+					else
+					{
+						verifyData2 = true;
+					}
 
-					if (verifyData1 && verifyData2)
+					if (verifyData2)
 						buttonOK.setEnabled(true);
 				} 
 				catch (Exception e) 
@@ -125,16 +94,7 @@ public class MazeSettingsDialog extends Dialog
 		{
 			public void handleEvent(Event event)
 			{
-				if (stringValue == null) 
-				{
-					DecimalFormat df = new DecimalFormat("#.##");
-					value = new Double(5.0);
-					stringValue = new String("unNamed Maze");
-					tempValue = new String(df.format(value));
 
-					stringValue = stringValue+" "+tempValue;
-					shell.dispose();
-				}
 				shell.dispose();
 			}
 		});
@@ -143,12 +103,7 @@ public class MazeSettingsDialog extends Dialog
 		{
 			public void handleEvent(Event event)
 			{
-				DecimalFormat df = new DecimalFormat("#.##");
-				value = new Double(5.0);
-				stringValue = new String("unNamed Maze");
-				tempValue = new String(df.format(value));
-
-				stringValue = stringValue+" "+tempValue;
+				totalValue = null;
 				shell.dispose();
 			}
 		});
@@ -162,7 +117,6 @@ public class MazeSettingsDialog extends Dialog
 			}
 		});
 
-		text.setText("");
 		shell.pack();
 		shell.open();
 
@@ -174,5 +128,11 @@ public class MazeSettingsDialog extends Dialog
 		}
 
 		return totalValue;
+	}
+	public static void main(String[] args)
+	{
+		Shell shell = new Shell();
+		GameSaveMazeDialog dor = new GameSaveMazeDialog(shell);
+		System.out.println(dor.open());
 	}
 }
