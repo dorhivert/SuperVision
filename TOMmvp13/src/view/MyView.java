@@ -148,4 +148,7 @@ public class MyView extends Observable implements View
 		System.out.println("  menu");
 		System.out.println("  exit");
 	}
+
+	@Override
+	public void displayMazeGUI(Maze3d maze3d) {}
 }
