@@ -13,6 +13,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
@@ -71,7 +72,10 @@ public class MyGUIView extends BasicWindow implements Closeable
 	}
 
 	@Override
-	public void displayMaze(Maze3d maze){}
+	public void displayMaze(Maze3d maze)
+	{
+		displayMazeGUI(maze);
+	}
 	
 	public void displayMazeGUI(Maze3d maze)
 	{
@@ -266,21 +270,12 @@ public class MyGUIView extends BasicWindow implements Closeable
 			@Override
 			public void widgetSelected(SelectionEvent arg0)
 			{
-				FileDialog fd=new FileDialog(shell,SWT.OPEN);
-				fd.setText("open");
-				fd.setFilterPath("");
-				String[] filterExt = { "*.xml", "*.XML", "*.*" };
-				fd.setFilterExtensions(filterExt);
-				propertiesFilePath = fd.open();
-				if (propertiesFilePath != null)
+				Dialog loadMaze = new GameSaveMazeDialog(shell);
+				String line = ((GameSaveMazeDialog) loadMaze).open();
+				if(line != null)
 				{
-					String line = new String("openNewXML");
-					line = line+" "+propertiesFilePath;
-					changeAndNotify(line);
-					msgs = new MessageBox(shell);
-					msgs.setText("NOTICE");
-					msgs.setMessage("You must restart the apllication in order to apply new properties!");
-					msgs.open();
+					String newLine = "display "+line;
+					changeAndNotify(newLine);
 				}
 			}
 		});
