@@ -156,7 +156,6 @@ public class MyGUIView extends BasicWindow implements Closeable
 			{
 				MazeSettingsDialog fd=new MazeSettingsDialog(shell);
 				fd.setText("open");
-
 				String newValue = new String(fd.open());
 
 				String line = new String("generate 3d maze");
