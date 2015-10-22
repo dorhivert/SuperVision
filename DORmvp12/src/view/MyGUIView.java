@@ -26,7 +26,8 @@ import solution.Solution;
 public class MyGUIView extends BasicWindow implements Closeable
 {
 	private String propertiesFilePath;
-	private Text ascii;
+	private Text mazeInformation;
+	private Text zLevel;
 	private MessageBox msgs;
 	public CommonMazeDisplayWidget mazeDisplay;
 
@@ -131,6 +132,9 @@ public class MyGUIView extends BasicWindow implements Closeable
 				}
 			}
 		});
+		mazeInformation = new Text(shell, SWT.BORDER);
+		mazeInformation.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+		mazeInformation.append("Maze Name:");
 		
 		Button generate = new Button(shell, SWT.PUSH);
 		generate.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
@@ -173,6 +177,10 @@ public class MyGUIView extends BasicWindow implements Closeable
 			}
 		});
 		
+		zLevel = new Text(shell, SWT.BORDER);
+		zLevel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+		zLevel.append("Floor level:");
+
 		Button open = new Button(shell, SWT.PUSH);
 		open.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
 		open.setText("load XML properties file");
@@ -199,6 +207,51 @@ public class MyGUIView extends BasicWindow implements Closeable
 					msgs.setMessage("You must restart the apllication in order to apply new properties!");
 					msgs.open();
 				}
+			}
+		});
+		mazeDisplay = new MyMazeDisplayWidget(shell, SWT.BORDER);
+		mazeDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 10));
+		Maze3dGenerator mg = new MyMaze3dGenerator();
+		Maze3d myMaze = mg.generate(15, 15, 15);
+		mazeDisplay.setMyMaze(myMaze);
+		mazeDisplay.redraw();
+		mazeDisplay.forceFocus();
+		mazeDisplay.addKeyListener(new KeyListener()
+		{
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {}
+
+			@Override
+			public void keyPressed(KeyEvent e) 
+			{
+				if (e.keyCode == SWT.ARROW_UP) 
+				{
+					mazeDisplay.moveDown();
+				}
+				else if (e.keyCode == SWT.ARROW_DOWN) 
+				{
+					mazeDisplay.moveUp();
+				}
+				else if (e.keyCode == SWT.ARROW_RIGHT)
+				{
+					mazeDisplay.moveRight();
+				}
+				else if (e.keyCode == SWT.ARROW_LEFT) 
+				{
+					mazeDisplay.moveLeft();
+				} 
+				else if (e.keyCode == SWT.PAGE_UP)
+				{
+					// play stairs sound
+					mazeDisplay.moveIn();
+				}
+				else if (e.keyCode == SWT.PAGE_DOWN) 
+				{
+					// play downstairs sound
+					mazeDisplay.moveOut();
+				}
+
 			}
 		});
 		
@@ -314,86 +367,10 @@ public class MyGUIView extends BasicWindow implements Closeable
 				}
 			}
 		});
-		Button info = new Button(shell, SWT.PUSH);
-		info.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
-		info.setText("INFO");
-		info.addSelectionListener(new SelectionListener()
-		{
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {}
-			@Override
-			public void widgetSelected(SelectionEvent arg0)
-			{
-				FileDialog fd=new FileDialog(shell,SWT.OPEN);
-				fd.setText("open");
-				fd.setFilterPath("");
-				String[] filterExt = { "*.xml", "*.XML", "*.*" };
-				fd.setFilterExtensions(filterExt);
-				propertiesFilePath = fd.open();
-				if (propertiesFilePath != null)
-				{
-					String line = new String("openNewXML");
-					line = line+" "+propertiesFilePath;
-					changeAndNotify(line);
-					msgs = new MessageBox(shell);
-					msgs.setText("NOTICE");
-					msgs.setMessage("You must restart the apllication in order to apply new properties!");
-					msgs.open();
-				}
-			}
-		});
-
+		
 		
 
-		//		ascii = new Text(shell, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
-		//		ascii.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
-
-		mazeDisplay = new MyMazeDisplayWidget(shell, SWT.BORDER);
-		mazeDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
-		Maze3dGenerator mg = new MyMaze3dGenerator();
-		Maze3d myMaze = mg.generate(15, 15, 15);
-		mazeDisplay.setMyMaze(myMaze);
-		mazeDisplay.redraw();
-		mazeDisplay.forceFocus();
-		mazeDisplay.addKeyListener(new KeyListener()
-		{
-
-			@Override
-			public void keyReleased(KeyEvent arg0) {}
-
-			@Override
-			public void keyPressed(KeyEvent e) 
-			{
-				if (e.keyCode == SWT.ARROW_UP) 
-				{
-					mazeDisplay.moveDown();
-				}
-				else if (e.keyCode == SWT.ARROW_DOWN) 
-				{
-					mazeDisplay.moveUp();
-				}
-				else if (e.keyCode == SWT.ARROW_RIGHT)
-				{
-					mazeDisplay.moveRight();
-				}
-				else if (e.keyCode == SWT.ARROW_LEFT) 
-				{
-					mazeDisplay.moveLeft();
-				} 
-				else if (e.keyCode == SWT.PAGE_UP)
-				{
-					// play stairs sound
-					mazeDisplay.moveIn();
-				}
-				else if (e.keyCode == SWT.PAGE_DOWN) 
-				{
-					// play downstairs sound
-					mazeDisplay.moveOut();
-				}
-
-			}
-		});
-
+		
 		Button egzit = new Button(shell, SWT.PUSH);
 		egzit.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
 		egzit.setText("EXIT");
@@ -414,6 +391,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 				}
 			}
 		});
+		
 	}
 
 	@Override
