@@ -28,7 +28,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 	private Text mazeInformation;
 	private Text zLevel;
 	private MessageBox msgs;
-	public CommonMazeDisplayWidget mazeDisplay;
+	private CommonMazeDisplayWidget mazeDisplay;
 	private Maze3d myViewMaze;
 
 	public MyGUIView(String title, int width, int height)
