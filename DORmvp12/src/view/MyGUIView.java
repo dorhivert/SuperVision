@@ -30,10 +30,14 @@ public class MyGUIView extends BasicWindow implements Closeable
 	private MessageBox msgs;
 	private CommonMazeDisplayWidget mazeDisplay;
 	private Maze3d myViewMaze;
+	private String mazeName;
+	private String floorLevelZed;
 
 	public MyGUIView(String title, int width, int height)
 	{
 		super(title, width, height);
+		this.mazeName = new String(" No Maze");
+		this.mazeName = new String(" ?");
 	}
 
 	@Override
@@ -85,6 +89,9 @@ public class MyGUIView extends BasicWindow implements Closeable
 			mazeDisplay.setMyMaze(myViewMaze);
 			mazeDisplay.redraw();
 			mazeDisplay.forceFocus();
+			mazeInformation.setText("Maze Name: "+this.mazeName);
+			getZedLevel();
+			zLevel.setText("Floor level: "+this.floorLevelZed);
 		}
 	}
 
@@ -142,7 +149,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 		});
 		mazeInformation = new Text(shell, SWT.BORDER);
 		mazeInformation.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-		mazeInformation.append("Maze Name:");
+		mazeInformation.append("Maze Name: "+this.mazeName);
 
 		Button generate = new Button(shell, SWT.PUSH);
 		generate.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
@@ -186,7 +193,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 
 		zLevel = new Text(shell, SWT.BORDER);
 		zLevel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-		zLevel.append("Floor level:");
+		zLevel.append("Floor level: "+this.floorLevelZed);
 
 		Button open = new Button(shell, SWT.PUSH);
 		open.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
@@ -250,10 +257,14 @@ public class MyGUIView extends BasicWindow implements Closeable
 				else if (e.keyCode == SWT.PAGE_UP)
 				{
 					mazeDisplay.moveIn();
+					getZedLevel();
+					zLevel.setText("Floor level: "+floorLevelZed);
 				}
 				else if (e.keyCode == SWT.PAGE_DOWN) 
 				{
 					mazeDisplay.moveOut();
+					getZedLevel();
+					zLevel.setText("Floor level: "+floorLevelZed);
 				}
 			}
 		});
@@ -436,5 +447,16 @@ public class MyGUIView extends BasicWindow implements Closeable
 		String [] splittedLine = command.split(" ");
 		setChanged();
 		notifyObservers(splittedLine);
+	}
+
+	@Override
+	public void getMazeName(String _name)
+	{
+		this.mazeName = new String (_name);
+	}
+	
+	private void getZedLevel()
+	{
+		this.floorLevelZed = new String(Integer.toString(myViewMaze.getCorrentPosition().getZ()));
 	}
 }

@@ -70,6 +70,7 @@ public class Presenter implements Observer
 				default:
 					if(model.getMazeCollection().get(args[1])!=null)
 					{
+						view.getMazeName(args[1]);
 						view.displayMaze(model.getMazeCollection().get(args[1]));
 					}
 					else

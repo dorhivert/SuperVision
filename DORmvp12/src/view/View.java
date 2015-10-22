@@ -70,4 +70,6 @@ public interface View
 	public void displayCommandMenu();
 
 	public void displayMazeGUI(Maze3d maze3d);
+
+	public void getMazeName(String _name);
 }

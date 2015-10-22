@@ -148,7 +148,7 @@ public class MazeSettingsDialog extends Dialog
 				stringValue = new String("unNamed Maze");
 				tempValue = new String(df.format(value));
 
-				stringValue = stringValue+" "+tempValue;
+				totalValue = stringValue+" "+tempValue;
 				shell.dispose();
 			}
 		});

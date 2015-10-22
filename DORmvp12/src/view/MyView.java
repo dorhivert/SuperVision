@@ -15,7 +15,7 @@ public class MyView extends Observable implements View
 	{
 		this.cli = cli;
 	}
-	
+
 	@Override
 	public void start()
 	{
@@ -151,4 +151,7 @@ public class MyView extends Observable implements View
 
 	@Override
 	public void displayMazeGUI(Maze3d maze3d) {}
+
+	@Override
+	public void getMazeName(String _name) {}
 }
