@@ -81,6 +81,11 @@ public class MazeSettingsDialog extends Dialog
 					value = new Double(text.getText());;
 					stringValue = new String(df.format(value));
 					verifyData1 = true;
+					if ((value>900) || (value<2))
+					{
+						verifyData1 = false;
+						buttonOK.setEnabled(false);
+					}
 
 					if (verifyData1 && verifyData2)
 						buttonOK.setEnabled(true);
@@ -100,6 +105,11 @@ public class MazeSettingsDialog extends Dialog
 					totalValue = new String(text2.getText());
 					totalValue = totalValue+" "+stringValue;
 					verifyData2 = true;
+					if ((text2.getText() == null) || (text2.getText().length() > 20) || (text2.getText().length() < 2))
+					{
+						verifyData2 = false;
+						buttonOK.setEnabled(false);
+					}
 
 					if (verifyData1 && verifyData2)
 						buttonOK.setEnabled(true);
@@ -165,11 +175,4 @@ public class MazeSettingsDialog extends Dialog
 
 		return stringValue;
 	}
-
-//	public static void main(String[] args)
-//	{
-//		Shell shell = new Shell();
-//		MazeSettingsDialog dialog = new MazeSettingsDialog(shell);
-//		System.out.println(dialog.open());
-//	}
 }

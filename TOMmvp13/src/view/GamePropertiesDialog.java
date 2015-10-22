@@ -15,26 +15,26 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 
-public class GamePropertiesDialog extends Dialog {
-	Double value;
-	String stringValue;
-	String tempValue;
-	int numberOfThreads;
-	String numberOfThreadStringi;
-	String myInterface;
-	String generationAlgorithm;
-	String solveAlgorithm;
-	boolean flag = true;
-	boolean verifyData1 = false;
-	boolean verifyData2 = false;
-	boolean verifyData3 = false;
-	boolean verifyData4 = false;
+public class GamePropertiesDialog extends Dialog
+{
+	private Double value;
+	private String stringValue;
+	private String tempValue;
+	private String numberOfThreadStringi;
+	private String myInterface;
+	private String generationAlgorithm;
+	private String solveAlgorithm;
+	private boolean verifyData1 = false;
+	private boolean verifyData2 = false;
+	private boolean verifyData3 = false;
+	private boolean verifyData4 = false;
 
 
 	/**
 	 * @param parent
 	 */
-	public GamePropertiesDialog(Shell parent) {
+	public GamePropertiesDialog(Shell parent)
+	{
 		super(parent);
 	}
 
@@ -42,7 +42,8 @@ public class GamePropertiesDialog extends Dialog {
 	 * @param parent
 	 * @param style
 	 */
-	public GamePropertiesDialog(Shell parent, int style) {
+	public GamePropertiesDialog(Shell parent, int style) 
+	{
 		super(parent, style);
 	}
 
@@ -54,8 +55,7 @@ public class GamePropertiesDialog extends Dialog {
 	public String open() 
 	{
 		Shell parent = getParent();
-		final Shell shell =
-				new Shell(parent, SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL);
+		final Shell shell = new Shell(parent, SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL);
 		shell.setText("Properties");
 
 		shell.setLayout(new GridLayout(2, true));
@@ -90,15 +90,22 @@ public class GamePropertiesDialog extends Dialog {
 				{
 					DecimalFormat df = new DecimalFormat("#.##");
 					value = new Double(text.getText());
-					if (value>0 || value<80000)
+					if ((value>0) && (value<80000))
 					{
 						numberOfThreadStringi = new String(df.format(value));
 						verifyData1 = true;
-						stringValue = numberOfThreadStringi+" ";
+						stringValue = numberOfThreadStringi+" "+myInterface+" "+generationAlgorithm+" "+solveAlgorithm;
+
 						if (verifyData1 && verifyData2 && verifyData3 && verifyData4)
 						{
 							buttonOK.setEnabled(true);
 						}
+						else{}
+					}
+					else
+					{
+						verifyData1 = false;
+						buttonOK.setEnabled(false);
 					}
 				} 
 				catch (Exception e) 
@@ -115,17 +122,23 @@ public class GamePropertiesDialog extends Dialog {
 				try 
 				{
 					myInterface = new String(text2.getText());
-					if (myInterface.equals("cli") || myInterface.equals("gui"))
+					if (myInterface.equalsIgnoreCase("cli") || myInterface.equalsIgnoreCase("gui"))
 					{
 						verifyData2 = true;
-						stringValue = stringValue + myInterface	+" ";
+						stringValue = numberOfThreadStringi+" "+myInterface+" "+generationAlgorithm+" "+solveAlgorithm;
+
 						if (verifyData1 && verifyData2 && verifyData3 && verifyData4)
 						{
 							buttonOK.setEnabled(true);
 						}
+						else{}
+					}
+					else
+					{
+						verifyData2 = false;
+						buttonOK.setEnabled(false);
 					}
 				}
-
 				catch (Exception e) 
 				{
 					buttonOK.setEnabled(false);
@@ -140,15 +153,23 @@ public class GamePropertiesDialog extends Dialog {
 				try 
 				{
 					generationAlgorithm = new String(text3.getText());
-					if (generationAlgorithm.equals("simple") || generationAlgorithm.equals("dfs"))
+					if (generationAlgorithm.equalsIgnoreCase("simple") || generationAlgorithm.equalsIgnoreCase("dfs"))
 					{
 						verifyData3 = true;
-						stringValue = stringValue + generationAlgorithm	+" ";
+						stringValue = numberOfThreadStringi+" "+myInterface+" "+generationAlgorithm+" "+solveAlgorithm;
+
 						if (verifyData1 && verifyData2 && verifyData3 && verifyData4)
 						{
 							buttonOK.setEnabled(true);
 						}
+						else{}
 					}
+					else
+					{
+						verifyData3 = false;
+						buttonOK.setEnabled(false);
+					}
+
 				}
 				catch (Exception e) 
 				{
@@ -156,7 +177,7 @@ public class GamePropertiesDialog extends Dialog {
 				}
 			}
 		});
-		
+
 		text4.addListener(SWT.Modify, new Listener()
 		{
 			public void handleEvent(Event event)
@@ -164,14 +185,21 @@ public class GamePropertiesDialog extends Dialog {
 				try 
 				{
 					solveAlgorithm = new String(text4.getText());
-					if (solveAlgorithm.equals("bfs") || solveAlgorithm.equals("astarman")|| solveAlgorithm.equals("astarair"))
+					if (solveAlgorithm.equalsIgnoreCase("bfs") || solveAlgorithm.equalsIgnoreCase("astarman")|| solveAlgorithm.equalsIgnoreCase("astarair"))
 					{
 						verifyData4 = true;
-						stringValue = stringValue + solveAlgorithm;
+						stringValue = numberOfThreadStringi+" "+myInterface+" "+generationAlgorithm+" "+solveAlgorithm;
+
 						if (verifyData1 && verifyData2 && verifyData3 && verifyData4)
 						{
 							buttonOK.setEnabled(true);
 						}
+						else{}
+					}
+					else
+					{
+						verifyData4 = false;
+						buttonOK.setEnabled(false);
 					}
 				}
 				catch (Exception e) 
@@ -189,20 +217,23 @@ public class GamePropertiesDialog extends Dialog {
 			}
 		});
 
-		buttonCancel.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event event) {
+		buttonCancel.addListener(SWT.Selection, new Listener() 
+		{
+			public void handleEvent(Event event) 
+			{
 				DecimalFormat df = new DecimalFormat("#.##");
 				value = new Double(5.0);
 				stringValue = new String("unNamed Maze");
 				tempValue = new String(df.format(value));
-
 				stringValue = stringValue+" "+tempValue;
 				shell.dispose();
 			}
 		});
 
-		shell.addListener(SWT.Traverse, new Listener() {
-			public void handleEvent(Event event) {
+		shell.addListener(SWT.Traverse, new Listener()
+		{
+			public void handleEvent(Event event)
+			{
 				if(event.detail == SWT.TRAVERSE_ESCAPE)
 					event.doit = false;
 			}
@@ -213,18 +244,11 @@ public class GamePropertiesDialog extends Dialog {
 		shell.open();
 
 		Display display = parent.getDisplay();
-		while (!shell.isDisposed()) {
+		while (!shell.isDisposed())
+		{
 			if (!display.readAndDispatch())
 				display.sleep();
 		}
-
-		
 		return stringValue;
 	}
-
-//	public static void main(String[] args) {
-//		Shell shell = new Shell();
-//		GamePropertiesDialog dialog = new GamePropertiesDialog(shell);
-//		System.out.println(dialog.open());
-//	}
 }

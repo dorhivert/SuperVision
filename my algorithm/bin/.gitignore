@@ -1,2 +1,7 @@
-/mazeGenerators/
 /algorithms/
+/heuristics/
+/io/
+/mazeGenerators/
+/solution/
+/stateComparator/
+/states/
