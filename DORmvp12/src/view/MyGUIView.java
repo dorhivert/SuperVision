@@ -37,7 +37,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 	{
 		super(title, width, height);
 		this.mazeName = new String(" No Maze");
-		this.mazeName = new String(" ?");
+		this.floorLevelZed = new String(" ?");
 	}
 
 	@Override
