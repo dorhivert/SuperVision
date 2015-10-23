@@ -198,21 +198,17 @@ public class MyGUIView extends BasicWindow implements Closeable
 			@Override
 			public void widgetSelected(SelectionEvent arg0)
 			{
-				FileDialog fd=new FileDialog(shell,SWT.OPEN);
-				fd.setText("open");
+				FileDialog fd=new FileDialog(shell,SWT.SAVE);
+				fd.setText("Save");
 				fd.setFilterPath("");
-				String[] filterExt = { "*.xml", "*.XML", "*.*" };
+				String[] filterExt = { "*.maz", "*.MAZ", "*.*" };
 				fd.setFilterExtensions(filterExt);
 				propertiesFilePath = fd.open();
 				if (propertiesFilePath != null)
 				{
-					String line = new String("openNewXML");
+					String line = new String("save maze "+mazeName);
 					line = line+" "+propertiesFilePath;
 					changeAndNotify(line);
-					msgs = new MessageBox(shell);
-					msgs.setText("NOTICE");
-					msgs.setMessage("You must restart the apllication in order to apply new properties!");
-					msgs.open();
 				}
 			}
 		});
@@ -302,6 +298,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 			public void widgetSelected(SelectionEvent arg0)
 			{
 				FileDialog fd=new FileDialog(shell,SWT.OPEN);
+				
 				fd.setText("open");
 				fd.setFilterPath("");
 				String[] filterExt = { "*.xml", "*.XML", "*.*" };
