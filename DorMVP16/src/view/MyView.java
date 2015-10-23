@@ -153,5 +153,5 @@ public class MyView extends Observable implements View
 	public void displayMazeGUI(Maze3d maze3d) {}
 
 	@Override
-	public void getMazeName(String _name) {}
+	public void setMazeName(String _name) {}
 }

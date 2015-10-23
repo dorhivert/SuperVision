@@ -36,7 +36,7 @@ public class Presenter implements Observer
 			@Override
 			public void doCommand(String [] args) 
 			{
-				view.getMazeName(args[3]);
+				view.setMazeName(args[3]);
 				int size = Integer.parseInt(args[4]);
 				generate3dMaze(args[3], size);
 			}
@@ -71,7 +71,7 @@ public class Presenter implements Observer
 				default:
 					if(model.getMazeCollection().get(args[1])!=null)
 					{
-						view.getMazeName(args[1]);
+						view.setMazeName(args[1]);
 						view.displayMaze(model.getMazeCollection().get(args[1]));
 					}
 					else
@@ -104,8 +104,10 @@ public class Presenter implements Observer
 			@Override
 			public void doCommand(String [] args) 
 			{
+				view.setMazeName(args[3]);
 				model.loadMaze(args[3], args[2]);
 				notifyView("File "+args[2]+" has been loaded");
+				view.displayMazeGUI(model.getMazeCollection().get(args[3]));
 			}
 		});
 		map.put("maze", new Command() 

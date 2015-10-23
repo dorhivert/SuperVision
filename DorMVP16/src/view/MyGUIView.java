@@ -290,7 +290,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 		
 		Button loadMazeFile = new Button(shell, SWT.PUSH);
 		loadMazeFile.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
-		loadMazeFile.setText("load maze from file");
+		loadMazeFile.setText("Load maze from file");
 		loadMazeFile.addSelectionListener(new SelectionListener()
 		{
 			@Override
@@ -302,18 +302,19 @@ public class MyGUIView extends BasicWindow implements Closeable
 				
 				fd.setText("open");
 				fd.setFilterPath("");
-				String[] filterExt = { "*.xml", "*.XML", "*.*" };
+				String[] filterExt = { "*.maz", "*.MAZ", "*.*" };
 				fd.setFilterExtensions(filterExt);
 				propertiesFilePath = fd.open();
 				if (propertiesFilePath != null)
 				{
-					String line = new String("openNewXML");
+					String line = new String("load maze");
 					line = line+" "+propertiesFilePath;
+					if (mazeName.equals(" No Maze")) 
+					{
+						mazeName = new String("tempMazeName");
+					}
+					line = line+" "+mazeName;
 					changeAndNotify(line);
-					msgs = new MessageBox(shell);
-					msgs.setText("NOTICE");
-					msgs.setMessage("You must restart the apllication in order to apply new properties!");
-					msgs.open();
 				}
 			}
 		});
@@ -455,7 +456,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 	}
 
 	@Override
-	public void getMazeName(String _name)
+	public void setMazeName(String _name)
 	{
 		this.mazeName = new String (_name);
 	}
