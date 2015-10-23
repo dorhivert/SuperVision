@@ -1,6 +1,7 @@
 package view;
 
 import mazeGenerators.Maze3d;
+import mazeGenerators.Position;
 
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
@@ -49,4 +50,8 @@ public abstract class CommonMazeDisplayWidget extends Canvas
 	public abstract void moveRight();
 	public abstract void moveOut(); 
 	public abstract void moveIn();
+	public abstract void updateCurrentPosition(Position p);
+
+
+
 }

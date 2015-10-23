@@ -36,6 +36,7 @@ public class Presenter implements Observer
 			@Override
 			public void doCommand(String [] args) 
 			{
+				view.setMazeName(args[3]);
 				int size = Integer.parseInt(args[4]);
 				generate3dMaze(args[3], size);
 			}
@@ -70,6 +71,7 @@ public class Presenter implements Observer
 				default:
 					if(model.getMazeCollection().get(args[1])!=null)
 					{
+						view.setMazeName(args[1]);
 						view.displayMaze(model.getMazeCollection().get(args[1]));
 					}
 					else
@@ -102,8 +104,10 @@ public class Presenter implements Observer
 			@Override
 			public void doCommand(String [] args) 
 			{
+				view.setMazeName(args[3]);
 				model.loadMaze(args[3], args[2]);
 				notifyView("File "+args[2]+" has been loaded");
+				view.displayMazeGUI(model.getMazeCollection().get(args[3]));
 			}
 		});
 		map.put("maze", new Command() 
@@ -184,6 +188,7 @@ public class Presenter implements Observer
 			case "generated":
 			{
 				notifyView("Maze "+model.getCommandData().get("generated")+" is ready" );
+				view.displayMazeGUI(model.getMazeCollection().get(model.getCommandData().get("generated")));
 			}	break;
 			case "crossed":
 			{
@@ -202,6 +207,8 @@ public class Presenter implements Observer
 			case "solved":
 			{
 				notifyView("Solution for maze: "+model.getCommandData().get("solved")+" is ready");
+				view.setSolution(model.getSolutionCollection().get(model.getMazeCollection().get(model.getCommandData().get("solved"))));
+				view.setSolved(true);
 			}	break;
 			case "notify":
 			{

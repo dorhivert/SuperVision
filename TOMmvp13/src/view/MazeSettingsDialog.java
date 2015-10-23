@@ -81,7 +81,7 @@ public class MazeSettingsDialog extends Dialog
 					value = new Double(text.getText());;
 					stringValue = new String(df.format(value));
 					verifyData1 = true;
-					if ((value>900) || (value<2))
+					if ((value>200) || (value<3))
 					{
 						verifyData1 = false;
 						buttonOK.setEnabled(false);
@@ -148,7 +148,7 @@ public class MazeSettingsDialog extends Dialog
 				stringValue = new String("unNamed Maze");
 				tempValue = new String(df.format(value));
 
-				stringValue = stringValue+" "+tempValue;
+				totalValue = stringValue+" "+tempValue;
 				shell.dispose();
 			}
 		});
