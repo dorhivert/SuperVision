@@ -3,6 +3,7 @@
  */
 package algorithms.demo;
 
+import solution.Solution;
 import heuristics.MazeEuclideanDistance;
 import heuristics.MazeManhattanDistance;
 import mazeGenerators.Maze3d;
@@ -59,20 +60,23 @@ public class Demo
 		}
 		Searchable sm = new SearchableMaze(myMaze);
 		Searcher sBFS = new BFS();
-		sBFS.search(sm);
+		Solution tempSol1 = (sBFS.search(sm));
 		Searcher sManhatan = new AStar(new MazeManhattanDistance());
-		sManhatan.search(sm);
+		Solution tempSol2 = (sManhatan.search(sm));
 		Searcher sEuc = new AStar(new MazeEuclideanDistance());
-		sEuc.search(sm);
+		Solution tempSol3 = (sEuc.search(sm));
 
 		System.out.print("BFS algorithm has developed: ");
 		System.out.print(sBFS.getNumberOfNodesEvaluated());
 		System.out.println(" states.");
+		tempSol1.print();
 		System.out.print("Astar (Manhatten) algorithm has developed: ");
 		System.out.print(sManhatan.getNumberOfNodesEvaluated());
 		System.out.println(" states.");
+		tempSol2.print();
 		System.out.print("Aster (Euclidean) algorithm has developed: ");
 		System.out.print(sEuc.getNumberOfNodesEvaluated());
 		System.out.println(" states.");
+		tempSol3.print();
 	}
 }

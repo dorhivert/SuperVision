@@ -129,7 +129,6 @@ public abstract class CommonSearcher implements Searcher
 		}
 		solution1.getSolutionList().add(startState.getStateString());
 		solution1.sortback();
-		solution1.print();
 		return solution1;
 	}
 }

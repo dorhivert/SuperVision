@@ -48,13 +48,13 @@ public class AStar extends CommonSearcher
 		}
 		
 		HashSet<State> closedSet = new HashSet<State>();
-		addToOpenList(s.getStartState());
+		addToOpenList(s.getCurrentState());
 
 		while (!openList.isEmpty())
 		{
 			State n = popOpenList();
 			if(n.equals(s.getGoalState()))
-				return backTrace(n,s.getStartState()); 
+				return backTrace(n,s.getCurrentState()); 
 			closedSet.add(n); 
 			ArrayList<State> successors=s.getAllPossibleStates(n);
 			for (State state : successors)

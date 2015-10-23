@@ -29,6 +29,15 @@ public interface Searchable
 	State getGoalState();
 	
 	/**
+	 * Gets CurrentState.
+	 *
+	 * @param s the s
+	 * @return the all possible states
+	 */
+	
+	State getCurrentState();
+	
+	/**
 	 * Gets the all possible states.
 	 *
 	 * @param s the s

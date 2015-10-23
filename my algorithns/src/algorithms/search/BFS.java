@@ -22,13 +22,13 @@ public class BFS extends CommonSearcher
 	@Override
 	public Solution search(Searchable s) 
 	{
-		addToOpenList(s.getStartState());
+		addToOpenList(s.getCurrentState());
 		HashSet<State> closedSet=new HashSet<State>();
 		while(openList.size()>0)
 		{
 			State n=popOpenList();
 			if(n.equals(s.getGoalState()))
-				return backTrace(n,s.getStartState()); 
+				return backTrace(n,s.getCurrentState()); 
 			closedSet.add(n); 
 			ArrayList<State> successors=s.getAllPossibleStates(n);  
 			for(State state : successors)

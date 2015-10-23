@@ -24,6 +24,9 @@ public class SearchableMaze implements Searchable
 	/** The goal state. */
 	private State goalState;
 	
+	/** The current state. */
+	private State currentState;
+	
 	/** The move price. */
 	private final int movePrice = 10;
 
@@ -36,6 +39,7 @@ public class SearchableMaze implements Searchable
 	{
 		this.maze = new Maze3d(_maze);
 		this.startState = new MazeState(_maze.getStartPosition());
+		this.currentState = new MazeState (_maze.getCorrentPosition());
 		this.goalState = new MazeState(_maze.getFinishPosition());
 	}
 
@@ -46,6 +50,11 @@ public class SearchableMaze implements Searchable
 	public State getStartState()
 	{
 		return this.startState;
+	}
+	
+	public State getCurrentState()
+	{
+		return this.currentState;
 	}
 
 	/* (non-Javadoc)
