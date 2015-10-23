@@ -201,6 +201,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 				FileDialog fd=new FileDialog(shell,SWT.SAVE);
 				fd.setText("Save");
 				fd.setFilterPath("");
+				
 				String[] filterExt = { "*.maz", "*.MAZ", "*.*" };
 				fd.setFilterExtensions(filterExt);
 				propertiesFilePath = fd.open();
