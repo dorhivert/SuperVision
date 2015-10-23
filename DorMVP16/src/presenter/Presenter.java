@@ -208,6 +208,7 @@ public class Presenter implements Observer
 			case "solved":
 			{
 				notifyView("Solution for maze: "+model.getCommandData().get("solved")+" is ready");
+				view.setSolution(model.getSolutionCollection().get(model.getMazeCollection().get(model.getCommandData().get("solved"))));
 			}	break;
 			case "notify":
 			{
