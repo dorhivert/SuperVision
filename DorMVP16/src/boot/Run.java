@@ -21,7 +21,7 @@ public class Run
 		boolean flag = false;
 		Properties prop = new PropManager().loadProp();
 		MyModel model = new MyModel(prop);
-		View view = new MyGUIView("Help Megi get to her new toy", 650, 590);
+		View view = new MyGUIView("Help Megi get to her new TOY", 650, 590);
 		if (prop.getGameInterface().equals("cli"))
 		{
 			view = new MyView();
