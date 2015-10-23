@@ -229,7 +229,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 			}
 		});
 
-		mazeDisplay = new MyMazeDisplayWidget(shell, SWT.BORDER);
+		mazeDisplay = new MyMazeDisplayWidget(shell, SWT.BORDER | SWT.DOUBLE_BUFFERED);
 		mazeDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 10));
 		mazeDisplay.setMyMaze(myViewMaze);
 		mazeDisplay.redraw();
