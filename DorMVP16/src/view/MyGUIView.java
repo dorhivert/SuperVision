@@ -2,8 +2,11 @@ package view;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import mazeGenerators.Maze3d;
+import mazeGenerators.Position;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -21,6 +24,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 
 import solution.Solution;
+import states.State;
 
 public class MyGUIView extends BasicWindow implements Closeable
 {
@@ -32,6 +36,14 @@ public class MyGUIView extends BasicWindow implements Closeable
 	private Maze3d myViewMaze;
 	private String mazeName;
 	private String floorLevelZed;
+	private Solution mySolution;
+	private boolean verifyData1 = false;
+	private boolean verifyData2 = false;
+	private Button compute;
+	private Button hint;
+	private Button goToPresent;
+	private Timer myTime;
+	private TimerTask myTask;
 
 	public MyGUIView(String title, int width, int height)
 	{
@@ -80,12 +92,12 @@ public class MyGUIView extends BasicWindow implements Closeable
 	{
 		displayMazeGUI(maze);
 	}
-	
+
 	public void displayMazeGUI(Maze3d maze)
 	{
 		if (maze != null) 
 		{
-			this.myViewMaze = maze;
+			setMyViewMaze(maze);
 			mazeDisplay.setMyMaze(myViewMaze);
 			mazeDisplay.redraw();
 			mazeDisplay.forceFocus();
@@ -94,6 +106,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 			zLevel.setText("Floor level: "+this.floorLevelZed);
 		}
 	}
+
 
 	@Override
 	public void displaySolution(Solution s)
@@ -119,7 +132,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 				arg0.doit = msgs.open() == SWT.YES;
 			}
 		});
-		
+
 		Button generate = new Button(shell, SWT.PUSH);
 		generate.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
 		generate.setText("New Game");
@@ -154,12 +167,13 @@ public class MyGUIView extends BasicWindow implements Closeable
 						if (flag == true)
 						{
 							changeAndNotify(line);
+							movedSoCompute();
 						}
 					}
 				}
 			}
 		});
-		
+
 		mazeInformation = new Text(shell, SWT.BORDER);
 		mazeInformation.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 		mazeInformation.append("Maze Name: "+this.mazeName);
@@ -181,6 +195,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 					String newLine = "display "+line;
 					changeAndNotify(newLine);
 				}
+				movedSoCompute();
 			}
 		});
 
@@ -201,7 +216,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 				FileDialog fd=new FileDialog(shell,SWT.SAVE);
 				fd.setText("Save");
 				fd.setFilterPath("");
-				
+
 				String[] filterExt = { "*.maz", "*.MAZ", "*.*" };
 				fd.setFilterExtensions(filterExt);
 				propertiesFilePath = fd.open();
@@ -231,34 +246,40 @@ public class MyGUIView extends BasicWindow implements Closeable
 				if (e.keyCode == SWT.ARROW_UP) 
 				{
 					mazeDisplay.moveDown();
+					movedSoCompute();
 				}
 				else if (e.keyCode == SWT.ARROW_DOWN) 
 				{
 					mazeDisplay.moveUp();
+					movedSoCompute();
 				}
 				else if (e.keyCode == SWT.ARROW_RIGHT)
 				{
 					mazeDisplay.moveRight();
+					movedSoCompute();
 				}
 				else if (e.keyCode == SWT.ARROW_LEFT) 
 				{
 					mazeDisplay.moveLeft();
+					movedSoCompute();
 				} 
 				else if (e.keyCode == SWT.PAGE_UP)
 				{
 					mazeDisplay.moveIn();
 					getZedLevel();
 					zLevel.setText("Floor level: "+floorLevelZed);
+					movedSoCompute();
 				}
 				else if (e.keyCode == SWT.PAGE_DOWN) 
 				{
 					mazeDisplay.moveOut();
 					getZedLevel();
 					zLevel.setText("Floor level: "+floorLevelZed);
+					movedSoCompute();
 				}
 			}
 		});
-		
+
 		Button mazeProps = new Button(shell, SWT.PUSH);
 		mazeProps.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
 		mazeProps.setText("Application Properties");
@@ -287,7 +308,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 			}
 		});
 
-		
+
 		Button loadMazeFile = new Button(shell, SWT.PUSH);
 		loadMazeFile.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
 		loadMazeFile.setText("Load maze from file");
@@ -299,7 +320,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 			public void widgetSelected(SelectionEvent arg0)
 			{
 				FileDialog fd=new FileDialog(shell,SWT.OPEN);
-				
+
 				fd.setText("open");
 				fd.setFilterPath("");
 				String[] filterExt = { "*.maz", "*.MAZ", "*.*" };
@@ -315,14 +336,15 @@ public class MyGUIView extends BasicWindow implements Closeable
 					}
 					line = line+" "+mazeName;
 					changeAndNotify(line);
+					movedSoCompute();
 				}
 			}
 		});
-		
-		Button open = new Button(shell, SWT.PUSH);
-		open.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
-		open.setText("Load XML properties file");
-		open.addSelectionListener(new SelectionListener()
+
+		Button loadXML = new Button(shell, SWT.PUSH);
+		loadXML.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
+		loadXML.setText("Load XML properties file");
+		loadXML.addSelectionListener(new SelectionListener()
 		{
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {}
@@ -347,11 +369,13 @@ public class MyGUIView extends BasicWindow implements Closeable
 				}
 			}
 		});
-		
-		
-		Button hint = new Button(shell, SWT.PUSH);
+
+		hint = new Button(shell, SWT.PUSH);
 		hint.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
 		hint.setText("HINT");
+		hint.setEnabled(false);
+		if (verifyData1) 
+			hint.setEnabled(true);
 		hint.addSelectionListener(new SelectionListener()
 		{
 			@Override
@@ -359,51 +383,83 @@ public class MyGUIView extends BasicWindow implements Closeable
 			@Override
 			public void widgetSelected(SelectionEvent arg0)
 			{
-				FileDialog fd=new FileDialog(shell,SWT.OPEN);
-				fd.setText("open");
-				fd.setFilterPath("");
-				String[] filterExt = { "*.xml", "*.XML", "*.*" };
-				fd.setFilterExtensions(filterExt);
-				propertiesFilePath = fd.open();
-				if (propertiesFilePath != null)
+				if (mySolution.getSolutionList().size() > 1)
 				{
-					String line = new String("openNewXML");
-					line = line+" "+propertiesFilePath;
-					changeAndNotify(line);
-					msgs = new MessageBox(shell);
-					msgs.setText("NOTICE");
-					msgs.setMessage("You must restart the apllication in order to apply new properties!");
-					msgs.open();
+					String move = mySolution.getSolutionList().get(1);
+					State tempState = new State();
+					Position tempPos = tempState.toPositionGeneric(move);
+					mazeDisplay.updateCurrentPosition(tempPos);
+					mySolution.getSolutionList().remove(0);
+					getZedLevel();
+					zLevel.setText("Floor level: "+floorLevelZed);
+					mazeDisplay.forceFocus();
 				}
 			}
 		});
-		
-		Button solve = new Button(shell, SWT.PUSH);
-		solve.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
-		solve.setText("SOLVE");
-		solve.addSelectionListener(new SelectionListener()
+
+		goToPresent = new Button(shell, SWT.PUSH);
+		goToPresent.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
+		goToPresent.setText("SHOW SOLUTION");
+		goToPresent.setEnabled(false);
+		if (verifyData1) 
+			goToPresent.setEnabled(true);
+		goToPresent.addSelectionListener(new SelectionListener()
 		{
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {}
 			@Override
 			public void widgetSelected(SelectionEvent arg0)
 			{
-				FileDialog fd=new FileDialog(shell,SWT.OPEN);
-				fd.setText("open");
-				fd.setFilterPath("");
-				String[] filterExt = { "*.xml", "*.XML", "*.*" };
-				fd.setFilterExtensions(filterExt);
-				propertiesFilePath = fd.open();
-				if (propertiesFilePath != null)
-				{
-					String line = new String("openNewXML");
-					line = line+" "+propertiesFilePath;
-					changeAndNotify(line);
-					msgs = new MessageBox(shell);
-					msgs.setText("NOTICE");
-					msgs.setMessage("You must restart the apllication in order to apply new properties!");
-					msgs.open();
-				}
+				myTime = new Timer();
+				myTask = new TimerTask() 
+				{	
+					@Override
+					public void run()
+					{
+						display.asyncExec(new Runnable() 
+						{
+							@Override
+							public void run() 
+							{
+								if (mySolution.getSolutionList().size() > 1)
+								{
+									String move = mySolution.getSolutionList().get(1);
+									State tempState = new State();
+									Position tempPos = tempState.toPositionGeneric(move);
+									mazeDisplay.updateCurrentPosition(tempPos);
+									mySolution.getSolutionList().remove(0);
+									getZedLevel();
+									zLevel.setText("Floor level: "+floorLevelZed);
+									mazeDisplay.forceFocus();
+								}
+								else
+									myTime.cancel();
+								
+							}
+						});
+					}
+				};
+				myTime.scheduleAtFixedRate(myTask, 0, 100);
+			}
+		});
+
+		compute = new Button(shell, SWT.PUSH);
+		compute.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
+		compute.setText("Compute Solution");
+		compute.setEnabled(false);
+		if (verifyData2) 
+			compute.setEnabled(true);
+
+		compute.addSelectionListener(new SelectionListener()
+		{
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {}
+			@Override
+			public void widgetSelected(SelectionEvent arg0)
+			{
+				String line = new String("solve");
+				line = line+" "+mazeName;
+				changeAndNotify(line);
 			}
 		});
 
@@ -460,9 +516,47 @@ public class MyGUIView extends BasicWindow implements Closeable
 	{
 		this.mazeName = new String (_name);
 	}
-	
+
 	private void getZedLevel()
 	{
 		this.floorLevelZed = new String((Integer.toString(myViewMaze.getCorrentPosition().getZ()+1)));
+	}
+
+	@Override
+	public void setSolution(Solution solution)
+	{
+		if (solution != null)
+		{
+			this.setMySolution(solution);	
+			this.verifyData1 = true;;	
+			hint.setEnabled(verifyData1);
+			goToPresent.setEnabled(verifyData1);
+		}
+		else
+			System.out.println("NO SOLUTION");
+	}
+
+	private void setMyViewMaze(Maze3d maze)
+	{
+		this.myViewMaze = maze;
+		this.verifyData2 = true;
+		compute.setEnabled(verifyData2);
+	}
+
+	public Solution getMySolution() 
+	{
+		return mySolution;
+	}
+
+	public void setMySolution(Solution mySolution) 
+	{
+		this.mySolution = mySolution;
+	}
+	
+	public void movedSoCompute() 
+	{
+		this.verifyData1 = false;	
+		hint.setEnabled(verifyData1);
+		goToPresent.setEnabled(verifyData1);
 	}
 }

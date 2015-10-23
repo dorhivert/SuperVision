@@ -154,4 +154,8 @@ public class MyView extends Observable implements View
 
 	@Override
 	public void setMazeName(String _name) {}
+
+	@Override
+	public void setSolution(Solution solution) {}
+
 }

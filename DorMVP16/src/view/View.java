@@ -72,4 +72,7 @@ public interface View
 	public void displayMazeGUI(Maze3d maze3d);
 
 	public void setMazeName(String _name);
+
+	public void setSolution(Solution solution);
+
 }

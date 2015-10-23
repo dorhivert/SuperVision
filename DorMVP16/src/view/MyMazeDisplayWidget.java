@@ -190,10 +190,12 @@ public class MyMazeDisplayWidget extends CommonMazeDisplayWidget
 
 			redraw();
 		}
-
 	}
 
-
-
-
+	@Override
+	public void updateCurrentPosition(Position _p) 
+	{
+		getMyMaze().setCorrentPosition(_p.getX(), _p.getY(), _p.getZ());
+		redraw();
+	}
 }
