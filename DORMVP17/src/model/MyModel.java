@@ -140,27 +140,20 @@ public class MyModel extends Observable implements Model
 					Solution sol = new Solution();
 
 
-					if (getSolutionCollection().containsKey(getMazeCollection().get(name))) 
+					if (prop.getSolveAlgo().equalsIgnoreCase("astarman"))
 					{
-						sol = getSolutionCollection().get(getMazeCollection().get(name));
+						searcher = new AStar(new MazeManhattanDistance());
+						sol = searcher.search(sMaze);
 					}
-					else
+					if (prop.getSolveAlgo().equalsIgnoreCase("astarair"))
 					{
-						if (prop.getSolveAlgo().equalsIgnoreCase("astarman"))
-						{
-							searcher = new AStar(new MazeManhattanDistance());
-							sol = searcher.search(sMaze);
-						}
-						if (prop.getSolveAlgo().equalsIgnoreCase("astarair"))
-						{
-							searcher = new AStar(new MazeEuclideanDistance());
-							sol = searcher.search(sMaze);
-						}
-						if (prop.getSolveAlgo().equalsIgnoreCase("bfs"))
-						{
-							searcher = new BFS();
-							sol = searcher.search(sMaze);
-						}
+						searcher = new AStar(new MazeEuclideanDistance());
+						sol = searcher.search(sMaze);
+					}
+					if (prop.getSolveAlgo().equalsIgnoreCase("bfs"))
+					{
+						searcher = new BFS();
+						sol = searcher.search(sMaze);
 					}
 					return sol;
 				}
@@ -387,5 +380,4 @@ public class MyModel extends Observable implements Model
 	{
 		new PropManager().loadNewPropsFromFile(args);
 	}
-
 }

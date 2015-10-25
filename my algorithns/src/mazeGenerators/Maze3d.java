@@ -924,13 +924,23 @@ public class Maze3d implements Serializable
 	 */
 	public boolean equals(Maze3d IsEqual)
 	{
-		if (this == IsEqual)
-			return true;
 		if (IsEqual == null)
 			return false;
 		if (getClass() != IsEqual.getClass())
 			return false;
 		if ((this.getMaxX() != IsEqual.getMaxX()) || (this.getMaxY() != IsEqual.getMaxY()) || (this.getMaxZ() != IsEqual.getMaxZ()) ) 
+		{
+			return false;
+		}
+		if (this.getCorrentPosition().getX() != IsEqual.getCorrentPosition().getX())
+		{
+			return false;
+		}
+		if (this.getCorrentPosition().getY() != IsEqual.getCorrentPosition().getY())
+		{
+			return false;
+		}
+		if (this.getCorrentPosition().getZ() != IsEqual.getCorrentPosition().getZ())
 		{
 			return false;
 		}
@@ -942,6 +952,45 @@ public class Maze3d implements Serializable
 				for (int z = 0; z <= this.getMaxZ(); z++)
 				{
 					if ((this.getCellValue(x, y, z)) != (IsEqual.getCellValue(x, y, z))) 
+					{
+						flag = false;
+					}
+				}
+			}
+		  }
+		  return flag;
+	}
+	
+	@Override
+	public boolean equals(Object IsEqual)
+	{
+		if (IsEqual == null)
+			return false;
+	
+		if ((this.getMaxX() != ((Maze3d) IsEqual).getMaxX()) || (this.getMaxY() != ((Maze3d) IsEqual).getMaxY()) || (this.getMaxZ() != ((Maze3d) IsEqual).getMaxZ()) ) 
+		{
+			return false;
+		}
+		if (this.getCorrentPosition().getX() != ((Maze3d) IsEqual).getCorrentPosition().getX())
+		{
+			return false;
+		}
+		if (this.getCorrentPosition().getY() != ((Maze3d) IsEqual).getCorrentPosition().getY())
+		{
+			return false;
+		}
+		if (this.getCorrentPosition().getZ() != ((Maze3d) IsEqual).getCorrentPosition().getZ())
+		{
+			return false;
+		}
+		 boolean flag = true;
+		  for (int x = 0; x <= this.getMaxX(); x++) 
+		  {
+			for (int y = 0; y <= this.getMaxY(); y++)
+			{
+				for (int z = 0; z <= this.getMaxZ(); z++)
+				{
+					if ((this.getCellValue(x, y, z)) != (((Maze3d) IsEqual).getCellValue(x, y, z))) 
 					{
 						flag = false;
 					}

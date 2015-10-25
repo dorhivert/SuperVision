@@ -175,6 +175,16 @@ public class Position implements Serializable
 		return false;
 	}
 	
+	@Override
+	public boolean equals(Object p) 
+	{
+		if ((this.x == ((Position)p).x) && (this.y == ((Position)p).y) && (this.z == ((Position)p).y))
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * makes moves by numbers.
 	 *
