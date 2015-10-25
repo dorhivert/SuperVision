@@ -75,4 +75,6 @@ public interface View
 
 	public void setSolution(Solution solution);
 
+	public void enableSolve();
+
 }

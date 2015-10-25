@@ -62,10 +62,12 @@ public class Presenter implements Observer
 					if((model.getSolutionCollection().get(model.getMazeCollection().get(args[2])))!=null)
 					{
 						view.displaySolution((model.getSolutionCollection().get(model.getMazeCollection().get(args[2]))));
+						view.setSolution(model.getSolutionCollection().get(model.getMazeCollection().get(args[2])));
 					}
 					else
 					{
 						notifyView("No solution exists for this maze, please create one.");
+						view.enableSolve();
 					}
 				} break;
 				default:

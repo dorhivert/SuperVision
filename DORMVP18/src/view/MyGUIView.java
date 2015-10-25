@@ -42,6 +42,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 	private Button compute;
 	private Button hint;
 	private Button goToPresent;
+	private Button reqSolution;
 	private Timer myTime;
 	private TimerTask myTask;
 
@@ -447,9 +448,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 		compute.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
 		compute.setText("Compute Solution");
 		compute.setEnabled(false);
-		if (verifyData2) 
-			compute.setEnabled(true);
-
+	
 		compute.addSelectionListener(new SelectionListener()
 		{
 			@Override
@@ -460,6 +459,35 @@ public class MyGUIView extends BasicWindow implements Closeable
 				String line = new String("solve");
 				line = line+" "+mazeName;
 				changeAndNotify(line);
+			}
+		});
+		reqSolution = new Button(shell, SWT.PUSH);
+		reqSolution.setLayoutData(new GridData(SWT.FILL, SWT.None, false, false, 1, 1));
+		reqSolution.setText("Request Solution");
+		
+		
+			reqSolution.setEnabled(true);
+		
+		reqSolution.addSelectionListener(new SelectionListener()
+		{
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {}
+			@Override
+			public void widgetSelected(SelectionEvent arg0)
+			{			
+					if (myViewMaze != null) 
+					{
+						String line = new String("display solution");
+						line = line + " " + mazeName;
+						changeAndNotify(line);
+					}
+					else
+					{
+						msgs = new MessageBox(shell);
+						msgs.setText("NOTICE");
+						msgs.setMessage("Can't solve if no maze");
+						msgs.open();
+					}
 			}
 		});
 
@@ -540,7 +568,7 @@ public class MyGUIView extends BasicWindow implements Closeable
 	{
 		this.myViewMaze = maze;
 		this.verifyData2 = true;
-		compute.setEnabled(verifyData2);
+		reqSolution.setEnabled(verifyData2);
 	}
 
 	public Solution getMySolution() 
@@ -558,5 +586,12 @@ public class MyGUIView extends BasicWindow implements Closeable
 		this.verifyData1 = false;	
 		hint.setEnabled(verifyData1);
 		goToPresent.setEnabled(verifyData1);
+	}
+
+	@Override
+	public void enableSolve()
+	{
+		this.compute.setEnabled(true);
+		
 	}
 }
