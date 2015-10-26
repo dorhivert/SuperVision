@@ -1,43 +1,43 @@
 package model;
 
-import java.io.BufferedReader;
+import heuristics.MazeEuclideanDistance;
+import heuristics.MazeManhattanDistance;
+import io.MyCompressorOutputStream;
+import io.MyDecompressorInputStream;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Observable;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import io.MyCompressorOutputStream;
-import io.MyDecompressorInputStream;
 import mazeGenerators.Maze3d;
+import mazeGenerators.Maze3dGenerator;
+import mazeGenerators.MyMaze3dGenerator;
+import mazeGenerators.SimpleMaze3dGenerator;
 import presenter.Properties;
 import solution.Solution;
+import algorithms.search.AStar;
+import algorithms.search.BFS;
+import algorithms.search.CommonSearcher;
+import algorithms.search.SearchableMaze;
 
 public class MyModel extends Observable implements Model
 {
 
-	PrintWriter out;
-	
-	ObjectInputStream in;
-	
-	Thread ioThread;
-	
-	Socket mySocket;
-	
 	ExecutorService threadPool;
 
 	/** The maze collection. */
@@ -54,13 +54,6 @@ public class MyModel extends Observable implements Model
 	{
 		super();
 		this.setProp(_prop);
-		try {
-			mySocket = new Socket("localhost", 5400);
-		} catch (UnknownHostException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
 		threadPool = Executors.newFixedThreadPool(this.getProp().getNumOfThreads());
 		try 
 		{
@@ -71,7 +64,6 @@ public class MyModel extends Observable implements Model
 		{
 			e.printStackTrace();
 		}
-
 	}
 
 	public Properties getProp()
@@ -87,31 +79,30 @@ public class MyModel extends Observable implements Model
 	@Override
 	public void generate3dMaze(String name, int size)
 	{
-//		Future<Maze3d> myMaze = threadPool.submit(new Callable<Maze3d>()
-//				{
-//			@Override
-//			public Maze3d call() throws Exception
-//			{
-//				Maze3dGenerator mg = new MyMaze3dGenerator();
-//				if (getProp().getGenerationAlgo().equalsIgnoreCase("simple"))
-//				{
-//					mg = new SimpleMaze3dGenerator();
-//				}
-//				Maze3d myMaze = mg.generate(size, size, size);
-//				return myMaze;
-//			}
-//				});
-//		try 
-//		{
-//			getMazeCollection().put(name, myMaze.get());
-//		}
-//		catch (InterruptedException | ExecutionException e) 
-//		{
-//
-//			e.printStackTrace();
-//		}
-//		changeAndNotify("generated", name);
-		out.write("generate 3d maze " + name + " " + size);
+		Future<Maze3d> myMaze = threadPool.submit(new Callable<Maze3d>()
+				{
+			@Override
+			public Maze3d call() throws Exception
+			{
+				Maze3dGenerator mg = new MyMaze3dGenerator();
+				if (getProp().getGenerationAlgo().equalsIgnoreCase("simple"))
+				{
+					mg = new SimpleMaze3dGenerator();
+				}
+				Maze3d myMaze = mg.generate(size, size, size);
+				return myMaze;
+			}
+				});
+		try 
+		{
+			getMazeCollection().put(name, myMaze.get());
+		}
+		catch (InterruptedException | ExecutionException e) 
+		{
+
+			e.printStackTrace();
+		}
+		changeAndNotify("generated", name);
 	}
 
 
@@ -136,52 +127,51 @@ public class MyModel extends Observable implements Model
 	@Override
 	public void solve(String name) 
 	{
-		out.write("solve " + name);
-//		if (getMazeCollection().containsKey(name))
-//		{
-//			Future<Solution> mySolution = threadPool.submit(new Callable<Solution>()
-//					{
-//				@Override
-//				public Solution call() throws Exception 
-//				{
-//					Maze3d myMaze = new Maze3d(getMazeCollection().get(name));
-//					SearchableMaze sMaze = new SearchableMaze(myMaze);
-//					CommonSearcher searcher;
-//					Solution sol = new Solution();
-//
-//
-//					if (prop.getSolveAlgo().equalsIgnoreCase("astarman"))
-//					{
-//						searcher = new AStar(new MazeManhattanDistance());
-//						sol = searcher.search(sMaze);
-//					}
-//					if (prop.getSolveAlgo().equalsIgnoreCase("astarair"))
-//					{
-//						searcher = new AStar(new MazeEuclideanDistance());
-//						sol = searcher.search(sMaze);
-//					}
-//					if (prop.getSolveAlgo().equalsIgnoreCase("bfs"))
-//					{
-//						searcher = new BFS();
-//						sol = searcher.search(sMaze);
-//					}
-//					return sol;
-//				}
-//					});
-//			try
-//			{
-//				getSolutionCollection().put(getMazeCollection().get(name), mySolution.get());
-//			} 
-//			catch (InterruptedException | ExecutionException e)
-//			{
-//				e.printStackTrace();
-//			}
-//			changeAndNotify("solved", name);
-//		}
-//		else 
-//		{
-//			changeAndNotify("notify", "Bad Maze Name (m.solve)");
-//		}
+		if (getMazeCollection().containsKey(name))
+		{
+			Future<Solution> mySolution = threadPool.submit(new Callable<Solution>()
+					{
+				@Override
+				public Solution call() throws Exception 
+				{
+					Maze3d myMaze = new Maze3d(getMazeCollection().get(name));
+					SearchableMaze sMaze = new SearchableMaze(myMaze);
+					CommonSearcher searcher;
+					Solution sol = new Solution();
+
+
+					if (prop.getSolveAlgo().equalsIgnoreCase("astarman"))
+					{
+						searcher = new AStar(new MazeManhattanDistance());
+						sol = searcher.search(sMaze);
+					}
+					if (prop.getSolveAlgo().equalsIgnoreCase("astarair"))
+					{
+						searcher = new AStar(new MazeEuclideanDistance());
+						sol = searcher.search(sMaze);
+					}
+					if (prop.getSolveAlgo().equalsIgnoreCase("bfs"))
+					{
+						searcher = new BFS();
+						sol = searcher.search(sMaze);
+					}
+					return sol;
+				}
+					});
+			try
+			{
+				getSolutionCollection().put(getMazeCollection().get(name), mySolution.get());
+			} 
+			catch (InterruptedException | ExecutionException e)
+			{
+				e.printStackTrace();
+			}
+			changeAndNotify("solved", name);
+		}
+		else 
+		{
+			changeAndNotify("notify", "Bad Maze Name (m.solve)");
+		}
 	}
 
 	@Override
