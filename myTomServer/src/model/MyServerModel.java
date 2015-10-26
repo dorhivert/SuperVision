@@ -1,13 +1,17 @@
 package model;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.HashMap;
-import java.util.Observable;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -22,6 +26,7 @@ import algorithms.search.BFS;
 import algorithms.search.CommonSearcher;
 import algorithms.search.SearchableMaze;
 import controller.Controller;
+import controller.MyController;
 import controller.Properties;
 import heuristics.MazeEuclideanDistance;
 import heuristics.MazeManhattanDistance;
@@ -30,9 +35,10 @@ import mazeGenerators.Maze3dGenerator;
 import mazeGenerators.MyMaze3dGenerator;
 import mazeGenerators.SimpleMaze3dGenerator;
 import solution.Solution;
+import view.MyView;
+import view.View;
 
-public class MyModel extends Observable implements Model
-{
+public class MyServerModel implements Model{
 
 	Controller controller;
 	
@@ -47,22 +53,86 @@ public class MyModel extends Observable implements Model
 	private HashMap<String, Object> commandData = new HashMap<String, Object>();
 	
 	private Properties prop;
+	
+	int port;
+	ServerSocket server;
+	
+	ClinetHandler clinetHandler;
+	int numOfClients;
+	ExecutorService threadpool;
+	
+	volatile boolean stop;
+	
+	Thread mainServerThread;
+	
+	int clientsHandled=0;
+	
+	public MyServerModel(int port,ClinetHandler clinetHandler,int numOfClients,Properties _prop,Controller controller) {
+		this.port=port;
+		this.clinetHandler=clinetHandler;
+		this.numOfClients=numOfClients;
+	}
+	
+	
+	public void start() throws Exception{
+		server=new ServerSocket(port);
+		server.setSoTimeout(10*1000);
+		threadpool=Executors.newFixedThreadPool(numOfClients);
+		
+		mainServerThread=new Thread(new Runnable() {			
+			@Override
+			public void run() {
+				while(!stop){
+					try {
+						final Socket someClient=server.accept();
+						if(someClient!=null){
+							threadpool.execute(new Runnable() {									
+								@Override
+								public void run() {
+									try{										
+										clientsHandled++;
+										System.out.println("\thandling client "+clientsHandled);
+										clinetHandler.handleClient(someClient.getInputStream(), someClient.getOutputStream());
+										someClient.close();
+										System.out.println("\tdone handling client "+clientsHandled);										
+									}catch(IOException e){
+										e.printStackTrace();
+									}									
+								}
+							});								
+						}
+					}
+					catch (SocketTimeoutException e){
+						System.out.println("no clinet connected...");
+					} 
+					catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				System.out.println("done accepting new clients.");
+			} // end of the mainServerThread task
+		});
+		
+		mainServerThread.start();
 
-	public MyModel(Properties _prop,Controller controller)
-	{
-		super();
-		this.setProp(_prop);
-		this.controller = controller;
-		threadPool = Executors.newFixedThreadPool(this.getProp().getNumOfThreads());
-		try 
-		{
-			loadFromZip();
-			changeAndNotify("loadZip", "Mazes has been loaded from file");
-		}
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-		}
+	}
+	
+	public void close() throws Exception{
+		stop=true;	
+		// do not execute jobs in queue, continue to execute running threads
+		System.out.println("shutting down");
+		threadpool.shutdown();
+		// wait 10 seconds over and over again until all running jobs have finished
+		boolean allTasksCompleted=false;
+		while(!(allTasksCompleted=threadpool.awaitTermination(10, TimeUnit.SECONDS)));
+		
+		System.out.println("all the tasks have finished");
+
+		mainServerThread.join();		
+		System.out.println("main server thread is done");
+		
+		server.close();
+		System.out.println("server is safely closed");
 	}
 
 	public Properties getProp()
@@ -101,7 +171,8 @@ public class MyModel extends Observable implements Model
 
 			e.printStackTrace();
 		}
-		changeAndNotify("generated", name);
+//		changeAndNotify("generated", name);
+		controller.notifyView("generated");
 	}
 
 
@@ -194,15 +265,15 @@ public class MyModel extends Observable implements Model
 		changeAndNotify("quit", "Official Exit");
 	}
 
-	private void changeAndNotify(String command, Object obj)
-	{
-		if (obj != null) 
-		{
-			this.commandData.put(command, obj);
-		}
-		setChanged();
-		notifyObservers(command);
-	}
+//	private void changeAndNotify(String command, Object obj)
+//	{
+//		if (obj != null) 
+//		{
+//			this.commandData.put(command, obj);
+//		}
+//		setChanged();
+//		notifyObservers(command);
+//	}
 
 	private void saveToZip()
 	{
@@ -250,5 +321,28 @@ public class MyModel extends Observable implements Model
 	public void loadNewProperties(String[] args)
 	{
 		new PropManager().loadNewPropsFromFile(args);
+	}
+	
+	
+	public static void main(String[] args) throws Exception{
+		System.out.println("Server Side");
+		System.out.println("type \"close the server\" to stop it");
+		PropManager pm = new PropManager();
+		Properties prop = pm.loadProp();
+		Controller controller = new MyController();
+		
+		ClinetHandler ch = new MyClientHandler();
+		MyServerModel server=new MyServerModel(5400,ch,10,prop,controller);
+		controller.setModel(server);
+		View view = new MyView(controller);
+		controller.setView(view);
+		server.start();
+		
+		BufferedReader in=new BufferedReader(new InputStreamReader(System.in));
+		
+		while(!(in.readLine()).equals("close the server"));
+		
+		server.close();		
+		
 	}
 }

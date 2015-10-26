@@ -37,7 +37,6 @@ public abstract class CommonController implements Controller
 	public void setView(View view) 
 	{
 		this.view = view;
-
 	}
 
 	/* (non-Javadoc)
