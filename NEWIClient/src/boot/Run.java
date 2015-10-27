@@ -19,6 +19,7 @@ public class Run
 	
 	public static void main(String[] args) 
 	{
+		
 		boolean flag = false;
 		Properties prop = new PropManager().loadProp();
 		MyModel model = new MyModel(prop);
