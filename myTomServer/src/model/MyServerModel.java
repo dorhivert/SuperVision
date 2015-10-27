@@ -3,6 +3,7 @@ package model;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -59,7 +60,7 @@ public class MyServerModel implements Model{
 	
 	ClinetHandler clinetHandler;
 	int numOfClients;
-	ExecutorService threadpool;
+	
 	
 	volatile boolean stop;
 	
@@ -71,13 +72,28 @@ public class MyServerModel implements Model{
 		this.port=port;
 		this.clinetHandler=clinetHandler;
 		this.numOfClients=numOfClients;
+		PropManager pm = new PropManager();
+		prop = pm.loadProp();
+
+//		threadPool = Executors.newCachedThreadPool();
+		threadPool = Executors.newFixedThreadPool(this.getProp().getNumOfThreads());
+//		try 
+//		{
+//			loadFromZip();
+////			changeAndNotify("loadZip", "Mazes has been loaded from file");
+//			controller.notifyView("mazes have been loaded from file");//TODO
+//		}
+//		catch (Exception e) 
+//		{
+//			e.printStackTrace();
+//		}
 	}
 	
 	
 	public void start() throws Exception{
 		server=new ServerSocket(port);
 		server.setSoTimeout(10*1000);
-		threadpool=Executors.newFixedThreadPool(numOfClients);
+		threadPool=Executors.newFixedThreadPool(numOfClients);
 		
 		mainServerThread=new Thread(new Runnable() {			
 			@Override
@@ -86,7 +102,7 @@ public class MyServerModel implements Model{
 					try {
 						final Socket someClient=server.accept();
 						if(someClient!=null){
-							threadpool.execute(new Runnable() {									
+							threadPool.execute(new Runnable() {									
 								@Override
 								public void run() {
 									try{										
@@ -117,14 +133,15 @@ public class MyServerModel implements Model{
 
 	}
 	
+	@SuppressWarnings("unused")
 	public void close() throws Exception{
 		stop=true;	
 		// do not execute jobs in queue, continue to execute running threads
 		System.out.println("shutting down");
-		threadpool.shutdown();
+		threadPool.shutdown();
 		// wait 10 seconds over and over again until all running jobs have finished
 		boolean allTasksCompleted=false;
-		while(!(allTasksCompleted=threadpool.awaitTermination(10, TimeUnit.SECONDS)));
+		while(!(allTasksCompleted=threadPool.awaitTermination(10, TimeUnit.SECONDS)));
 		
 		System.out.println("all the tasks have finished");
 
@@ -171,8 +188,9 @@ public class MyServerModel implements Model{
 
 			e.printStackTrace();
 		}
-//		changeAndNotify("generated", name);
-		controller.notifyView("generated");
+//		changeAndNotify("generated", name); 
+//		controller.notifyView("generated");// TODO
+		System.out.println("generating");
 	}
 
 
@@ -220,11 +238,14 @@ public class MyServerModel implements Model{
 			{
 				e.printStackTrace();
 			}
-			changeAndNotify("solved", name);
+//			changeAndNotify("solved", name);
+//			controller.notifyView("solved");//TODO
+			System.out.println("solving");
 		}
 		else 
 		{
-			changeAndNotify("notify", "Bad Maze Name (m.solve)");
+//			changeAndNotify("notify", "Bad Maze Name (m.solve)");
+			controller.notifyView("bad maze name");//TODO
 		}
 	}
 
@@ -254,7 +275,8 @@ public class MyServerModel implements Model{
 		try 
 		{
 			saveToZip();
-			changeAndNotify("saveZip", "File has been saved");
+//			changeAndNotify("saveZip", "File has been saved");//TODO
+			controller.notifyView("file has been saved");
 			threadPool.awaitTermination(59, TimeUnit.SECONDS);
 		} 
 		catch (InterruptedException e)
@@ -262,7 +284,8 @@ public class MyServerModel implements Model{
 			e.printStackTrace();
 		}
 		threadPool.shutdownNow();
-		changeAndNotify("quit", "Official Exit");
+//		changeAndNotify("quit", "Official Exit");
+		controller.notifyView("quit, official exit");//TODO
 	}
 
 //	private void changeAndNotify(String command, Object obj)
@@ -339,10 +362,17 @@ public class MyServerModel implements Model{
 		server.start();
 		
 		BufferedReader in=new BufferedReader(new InputStreamReader(System.in));
+		String line;
+		view.start();
+//		while(!(line = in.readLine()).equals("close the server"))
+//		{
+//			if(line.equals("generate 3d maze tom 15"))
+//			{
+//				server.generate3dMaze("tom",15);
+//			}
+//		}
 		
-		while(!(in.readLine()).equals("close the server"));
-		
-		server.close();		
+//		server.close();		
 		
 	}
 }
