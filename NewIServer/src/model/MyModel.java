@@ -1,20 +1,6 @@
 package model;
 
-import java.beans.XMLDecoder;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketTimeoutException;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
-import presenter.CommunicationProperties;
+import controller.Controller;
 
 public class MyModel implements Model{
 

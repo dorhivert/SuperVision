@@ -78,8 +78,7 @@ public interface Model
 	 */
 	public void solve(String name);
 	
-	public HashMap<String,Maze3d> getMazeCollection();
-	public HashMap<Maze3d,Solution> getSolutionCollection();
+
 	public HashMap<String,Object> getCommandData();
 
 	public void officialExit();
@@ -87,4 +86,6 @@ public interface Model
 	public void creatNewProperties(String[] args);
 
 	public void loadNewProperties(String[] args);
+
+	Maze3d getMaze(String name);
 }

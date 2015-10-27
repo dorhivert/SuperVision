@@ -5,6 +5,7 @@ import heuristics.MazeManhattanDistance;
 import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,6 +14,10 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.concurrent.Callable;
@@ -25,9 +30,6 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import mazeGenerators.Maze3d;
-import mazeGenerators.Maze3dGenerator;
-import mazeGenerators.MyMaze3dGenerator;
-import mazeGenerators.SimpleMaze3dGenerator;
 import presenter.Properties;
 import solution.Solution;
 import algorithms.search.AStar;
@@ -35,20 +37,38 @@ import algorithms.search.BFS;
 import algorithms.search.CommonSearcher;
 import algorithms.search.SearchableMaze;
 
-public class MyModel extends Observable implements Model
+public class ClientModel extends Observable implements Model
 {
 
 	ExecutorService threadPool;
 
-	/** The maze collection. */
-	private HashMap<String, Maze3d> mazeCollection = new HashMap<String, Maze3d>();
-
-	/** The solution collection. */
-	private HashMap<Maze3d, Solution> solutionCollection = new HashMap<Maze3d, Solution>();
 
 	private HashMap<String, Object> commandData = new HashMap<String, Object>();
-	
+
 	private Properties prop;
+
+	private Maze3d myMaze;
+
+	private Solution mySolution;
+
+
+	/** The Socket representing the server. */
+	Socket myServer;
+
+	/** The ois. */
+	ObjectInputStream ois;
+
+	/** The out to server. */
+	PrintWriter outToServer;
+
+	/** The connected. */
+	boolean connected;
+
+	/** The port. */
+	int port;
+
+	/** The address. */
+	String address;
 
 	public MyModel(Properties _prop)
 	{
@@ -79,32 +99,44 @@ public class MyModel extends Observable implements Model
 	@Override
 	public void generate3dMaze(String name, int size)
 	{
-		Future<Maze3d> myMaze = threadPool.submit(new Callable<Maze3d>()
-				{
-			@Override
-			public Maze3d call() throws Exception
-			{
-				Maze3dGenerator mg = new MyMaze3dGenerator();
-				if (getProp().getGenerationAlgo().equalsIgnoreCase("simple"))
-				{
-					mg = new SimpleMaze3dGenerator();
-				}
-				Maze3d myMaze = mg.generate(size, size, size);
-				return myMaze;
-			}
-				});
-		try 
-		{
-			getMazeCollection().put(name, myMaze.get());
-		}
-		catch (InterruptedException | ExecutionException e) 
-		{
+		if(!connected)
+			connect();
 
-			e.printStackTrace();
+		if(connected)
+		{
+			outToServer.println("generate 3d maze "+ name + " " + size);
+			outToServer.flush();
+			boolean flag = false;
+			try 
+			{
+				flag = ois.readBoolean();
+			}
+			catch (IOException e) 
+			{
+				e.printStackTrace();
+			}
+			if(flag)
+				changeAndNotify("generated", name);
+			else 
+				notifyObservers("already exists");
 		}
-		changeAndNotify("generated", name);
+		else
+			notifyObservers("not connected");
 	}
 
+
+	private void connect() 
+	{
+		try {
+			myServer = new Socket(this.address, this.port);
+
+			ois = new ObjectInputStream(myServer.getInputStream());
+			outToServer = new PrintWriter(new OutputStreamWriter(myServer.getOutputStream()));
+
+			connected = true;
+		} catch (IOException e) {connected = false;}
+
+	}
 
 	@Override
 	public void saveMaze(String mazeName, String fileName) 
@@ -174,17 +206,6 @@ public class MyModel extends Observable implements Model
 		}
 	}
 
-	@Override
-	public HashMap<String, Maze3d> getMazeCollection()
-	{
-		return this.mazeCollection;
-	}
-
-	@Override
-	public HashMap<Maze3d, Solution> getSolutionCollection() 
-	{
-		return this.solutionCollection;
-	}
 
 
 	@Override
@@ -359,7 +380,7 @@ public class MyModel extends Observable implements Model
 
 				this.mazeCollection = (HashMap<String, Maze3d>) mazeZip.readObject();
 				this.solutionCollection = (HashMap<Maze3d, Solution>) mazeZip.readObject();
-				
+
 				mazeZip.close();
 			} 
 		}
@@ -380,4 +401,64 @@ public class MyModel extends Observable implements Model
 	{
 		new PropManager().loadNewPropsFromFile(args);
 	}
+
+	//	@Override
+	//	public Maze3d getMaze() 
+	//	{
+	//		if(!connected)
+	//			connect();
+	//
+	//		if(connected)
+	//		{
+	//			outToServer.println("generate 3d maze "+ name + " " + size);
+	//			outToServer.flush();
+	//			boolean flag = false;
+	//			try 
+	//			{
+	//				flag = ois.readBoolean();
+	//			}
+	//			catch (IOException e) 
+	//			{
+	//				e.printStackTrace();
+	//			}
+	//			if(flag)
+	//				changeAndNotify("generated", name);
+	//			else 
+	//				notifyObservers("already exists");
+	//		}
+	//		else
+	//			notifyObservers("not connected");
+
+	@Override
+	public Maze3d getMaze(String name) {
+		if(!connected)
+			connect();
+
+		Maze3d m = null;
+		if(connected){
+			try {
+				outToServer.println("display maze " + name);
+				outToServer.flush();
+
+				boolean flag = false;
+				flag = ois.readBoolean();
+				if(flag)
+				{
+
+					ByteArrayInputStream bais = new ByteArrayInputStream(((String) ois.readObject()).getBytes());
+					ObjectInputStream objIn = new ObjectInputStream(bais);
+					objIn.close();
+
+					m = (Maze3d) objIn.readObject();
+				}
+				else
+					notifyObservers("doesn't exists");
+			} catch (ClassNotFoundException | IOException e) {e.printStackTrace();}
+		}
+		else
+			notifyObservers("not connected");
+		return m;
+	}
+
+
 }
