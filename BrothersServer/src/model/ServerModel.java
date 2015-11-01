@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import presenter.ServerPropManager;
 import presenter.ServerProperties;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ServerModel.
  */
@@ -171,6 +172,11 @@ public class ServerModel extends CommonServerModel
 		}
 	}
 
+	/**
+	 * Sets the changed and notify.
+	 *
+	 * @param msg the new changed and notify
+	 */
 	private void setChangedAndNotify(String msg)
 	{
 		setChanged();

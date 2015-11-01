@@ -11,6 +11,7 @@ import java.util.HashSet;
 import solution.Solution;
 import states.State;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class AStar.
  */

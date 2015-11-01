@@ -7,6 +7,7 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class CommonMazeDisplayWidget.
  */

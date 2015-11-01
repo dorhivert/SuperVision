@@ -5,6 +5,7 @@ import org.eclipse.swt.graphics.Image;
 
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class GameCharacter.
  */

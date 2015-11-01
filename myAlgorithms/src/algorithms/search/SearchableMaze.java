@@ -52,6 +52,9 @@ public class SearchableMaze implements Searchable
 		return this.startState;
 	}
 	
+	/* (non-Javadoc)
+	 * @see algorithms.search.Searchable#getCurrentState()
+	 */
 	public State getCurrentState()
 	{
 		return this.currentState;

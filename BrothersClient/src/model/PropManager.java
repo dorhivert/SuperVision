@@ -13,6 +13,7 @@ import java.io.IOException;
 import presenter.Properties;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class PropManager.
  */

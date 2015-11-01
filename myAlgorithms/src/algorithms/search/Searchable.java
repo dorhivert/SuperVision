@@ -31,7 +31,6 @@ public interface Searchable
 	/**
 	 * Gets CurrentState.
 	 *
-	 * @param s the s
 	 * @return the all possible states
 	 */
 	

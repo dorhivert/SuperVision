@@ -8,6 +8,7 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.widgets.Composite;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class MyMazeDisplayWidget.
  */

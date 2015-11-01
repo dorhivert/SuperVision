@@ -6,6 +6,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class BasicWindow.
  */

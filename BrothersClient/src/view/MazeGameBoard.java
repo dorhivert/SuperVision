@@ -16,6 +16,7 @@ import algorithms.search.SearchableMaze;
 import algorithms.search.Searcher;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class MazeGameBoard.
  */

@@ -10,14 +10,14 @@ import java.util.Iterator;
 import states.State;
 import states.MazeState;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class Maze3d.
  */
 public class Maze3d implements Serializable
 {
-	/**
-	 * 
-	 */
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -6574099449190001613L;
 
 	/** The maze. */
@@ -973,6 +973,9 @@ public class Maze3d implements Serializable
 		  return flag;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object IsEqual)
 	{

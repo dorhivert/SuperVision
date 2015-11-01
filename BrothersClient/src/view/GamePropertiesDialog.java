@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Text;
 
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class GamePropertiesDialog.
  */
@@ -35,8 +36,10 @@ public class GamePropertiesDialog extends Dialog
 	/** The number of thread stringi. */
 	private String numberOfThreadStringi;
 	
+	/** The number of port in string. */
 	private String numberOfPortInString;
 	
+	/** The server i paddrs. */
 	private String serverIPaddrs;
 	
 	/** The my interface. */

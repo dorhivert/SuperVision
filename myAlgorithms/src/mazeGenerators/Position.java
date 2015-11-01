@@ -5,14 +5,14 @@ package mazeGenerators;
 
 import java.io.Serializable;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class Position.
  */
 public class Position implements Serializable
 {
-	/**
-	 * 
-	 */
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -1607482662205262265L;
 
 	/** The x. */
@@ -175,6 +175,9 @@ public class Position implements Serializable
 		return false;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object p) 
 	{

@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class MazeSettingsDialog.
  */

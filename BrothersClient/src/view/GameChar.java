@@ -3,6 +3,7 @@ package view;
 import org.eclipse.swt.events.PaintEvent;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface GameChar.
  */

@@ -3,6 +3,7 @@ package presenter;
 import java.io.Serializable;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class Properties.
  */
@@ -85,9 +86,9 @@ public class Properties implements Serializable
 	 * Instantiates a new properties.
 	 *
 	 * @param _num the _num
+	 * @param _interface the _interface
 	 * @param _gen the _gen
 	 * @param _solve the _solve
-	 * @param _interface the _interface
 	 * @param _port the _port
 	 * @param _ip the _ip
 	 */
@@ -106,9 +107,9 @@ public class Properties implements Serializable
 	 * Instantiates a new properties.
 	 *
 	 * @param _num the _num
+	 * @param _interface the _interface
 	 * @param _gen the _gen
 	 * @param _solve the _solve
-	 * @param _interface the _interface
 	 * @param _port the _port
 	 * @param _ip the _ip
 	 */
